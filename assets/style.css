@@ -159,8 +159,10 @@ a:hover { color: var(--green-dark); }
 .verbs { list-style: none; margin: 0 0 var(--space-10); padding: 0; }
 .verbs li { display: grid; gap: var(--space-1) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--line); align-items: center; }
 .verbs li:last-child { border-bottom: 1px solid var(--line); }
-@media (min-width: 720px) { .verbs li { grid-template-columns: 220px 1fr; } }
-.verbs .verb { font-family: var(--mincho); font-weight: 500; font-size: clamp(40px, 9vw, 64px); line-height: 1.1; }
+@media (min-width: 720px) { .verbs li { grid-template-columns: 260px 1fr; } }
+.verbs .verb { font-family: var(--mincho); font-weight: 500; font-size: clamp(40px, 9vw, 64px); line-height: 1.1; white-space: nowrap; }
+/* 動詞の右に、名前の Walk, Talk, Fork. の語を半分ほどの大きさで添えて対応を見せる（見本の案1） */
+.verbs .en { font-size: .5em; color: var(--green); margin-left: var(--space-3); letter-spacing: .02em; }
 .verbs .time { display: block; font-family: var(--gothic); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; margin-top: var(--space-2); font-variant-numeric: tabular-nums; }
 .verbs h3 { margin-bottom: var(--space-1); }
 .verbs p { margin: 0; }

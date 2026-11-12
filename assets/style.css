@@ -345,13 +345,15 @@ details.stations p { margin: var(--space-1) 0 0; }
   .hero-photo { min-height: 82vh; }
 }
 
-/* なぜ歩くのか：横幅いっぱいの水彩の地図を背景に敷き、文章のカードを重ねる。ルートはカードの右に来る */
+/* なぜ歩くのか：OpenStreetMap の神保町の道から描いた水彩の地図を横幅いっぱいに敷き、文章のカードを重ねる。ルートはカードの右に来る */
 .why-map { position: relative; overflow: hidden; padding-block: var(--space-26); }
 .why-map .bgmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .why-map .wrap { position: relative; }
 .why-card { max-width: 30em; padding: var(--space-10); background: rgba(244, 240, 230, .88); border-radius: var(--radius-card); }
 .why-card h2 { margin-bottom: var(--space-6); }
 .why-card p { margin: 0; }
+.map-credit { position: absolute; right: var(--space-3); bottom: var(--space-1); margin: 0; font-size: 11px; color: var(--ink-soft); }
+.map-credit a { color: inherit; }
 @media (max-width: 899px) {
   /* 狭い画面では、カードの下にルートのまわりを切り出して見せる */
   .why-map { display: flex; flex-direction: column; padding-block: var(--space-18) 0; }
@@ -359,4 +361,5 @@ details.stations p { margin: var(--space-1) 0 0; }
   .why-map .bgmap { order: 2; position: relative; inset: auto; height: auto; aspect-ratio: 4 / 3; margin-top: var(--space-6); }
   .why-map .bgmap { -webkit-mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent); }
   .why-card { padding: 0; background: none; max-width: none; }
+  .why-map .map-credit { order: 3; position: static; text-align: right; padding: 0 var(--space-4) var(--space-2); }
 }

@@ -254,10 +254,13 @@ a:hover { color: var(--green-dark); }
 .faq .a { padding: 0 0 var(--space-5); }
 .faq .a p { margin: 0 0 0.8em; }
 
-/* 最後の予約 */
-.closing { text-align: center; }
-.closing h2 { margin-bottom: var(--space-8); }
+/* 最後の予約：深い緑の帯に生成りの文字。ボタンは白い地に深い緑の文字で浮かせる */
+.closing { text-align: center; background: var(--green); color: var(--white); border-top: 0; }
+.closing h2 { margin-bottom: var(--space-8); color: var(--white); }
 .closing p { margin: 0 auto var(--space-8); max-width: 26em; }
+.closing .btn { background: #FFFFFF; color: var(--green-dark); min-height: 56px; padding: 0 var(--space-8); font-size: 17px; box-shadow: 0 6px 18px rgba(16, 32, 24, .28); }
+.closing .btn:hover { background: var(--paper); color: var(--green-dark); }
+.closing .btn:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
 
 /* フッター */
 .site-footer { padding: var(--space-10) 0 120px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }

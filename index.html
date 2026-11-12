@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=21">
+<link rel="stylesheet" href="assets/style.css?v=24">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -83,11 +83,11 @@
   <div class="wrap hero-rest split">
     <p class="hero-lead">これからの<wbr>キャリアや<wbr>人生に<wbr>ついて、<wbr>いつもと<wbr>違う<wbr>モードに<wbr>なる<wbr>ために<wbr>歩きながら<wbr>対話を<wbr>する<wbr>セッションです。<wbr>街を<wbr>一緒に<wbr>歩いたり<wbr>一休みしたりしながら<wbr>話し、<wbr>今後の<wbr>分かれ道<wbr>（fork）を<wbr>どちらに<wbr>進みたいかを<wbr>考え、<wbr>あしたから<wbr>できる<wbr>小さな<wbr>実験の<wbr>方針を<wbr>立てていきます。</p>
 
-    <ul class="hero-facts">
-      <li>3時間</li>
-      <li>50,000円<small>税込、<wbr>カフェ代等込み</small></li>
-      <li>対面・<wbr>おひとり</li>
-    </ul>
+    <div class="hero-facts" role="group" aria-label="3時間、50,000円（税込、カフェ代等込み）、対面で1対1">
+      <div><span class="big">3</span><span class="unit">時間</span><span class="cap">歩いて、<wbr>話して、<wbr>選ぶ</span></div>
+      <div><span class="big">5</span><span class="unit">万円</span><span class="cap">税込、<wbr>カフェ代等込み</span></div>
+      <div><span class="big">1</span><span class="unit">対</span><span class="big">1</span><span class="cap">対面で、<wbr>おひとり</span></div>
+    </div>
   </div>
 </section>
 
@@ -113,35 +113,58 @@
       <p>AIに<wbr>聞けば、<wbr>それらしい<wbr>答えは<wbr>すぐに<wbr>返ってくるようになりました。<wbr>そういう<wbr>時代だから<wbr>こそ、<wbr>体を<wbr>動かす体験が<wbr>必要だと<wbr>私は<wbr>考えています。<wbr>人と<wbr>話し、<wbr>話しながら<wbr>自分を<wbr>振り返り、<wbr>振り返った<wbr>ことを<wbr>自分なりの<wbr>言葉に<wbr>する。<wbr>わざわざ会って、<wbr>わざわざ歩いて<wbr>話すから<wbr>こそ、<wbr>ようやく<wbr>出てくる<wbr>言葉が<wbr>あります。</p>
       </div>
       <figure class="walk-map" aria-hidden="true">
-        <svg viewBox="0 0 400 300">
+        <svg viewBox="0 0 480 360">
           <defs>
             <filter id="wash" x="-20%" y="-20%" width="140%" height="140%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="3" seed="11" result="n"/>
-              <feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G" result="d"/>
-              <feGaussianBlur in="d" stdDeviation="2.5"/>
+              <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="3" seed="11" result="n"/>
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="30" xChannelSelector="R" yChannelSelector="G" result="d"/>
+              <feGaussianBlur in="d" stdDeviation="2"/>
             </filter>
-            <clipPath id="map-clip"><rect width="400" height="300" rx="12"/></clipPath>
+            <radialGradient id="fade" cx="50%" cy="50%" r="50%">
+              <stop offset="55%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#000"/>
+            </radialGradient>
+            <mask id="fade-mask"><rect width="480" height="360" fill="url(#fade)"/></mask>
           </defs>
-          <g clip-path="url(#map-clip)">
-            <rect width="400" height="300" fill="var(--white)"/>
+          <g mask="url(#fade-mask)">
+            <!-- 水彩の地 -->
             <g filter="url(#wash)">
-              <path d="M40 70 C110 20 250 30 330 70 C390 100 380 200 330 240 C270 285 140 280 80 240 C30 205 0 120 40 70Z" fill="var(--wash-3)"/>
-              <path d="M110 110 C170 80 270 95 300 140 C325 180 290 220 230 225 C170 230 110 205 100 165 C95 140 92 120 110 110Z" fill="var(--wash-1)"/>
+              <path d="M20 60 C120 10 330 0 440 50 C500 90 490 270 430 320 C340 370 120 365 50 310 C0 270 -20 120 20 60Z" fill="var(--wash-3)"/>
+              <path d="M110 100 C190 70 320 80 370 130 C410 175 380 250 300 262 C220 274 130 250 105 200 C90 165 85 115 110 100Z" fill="var(--wash-1)"/>
+              <!-- 公園 -->
+              <path d="M300 200 C330 190 372 196 382 222 C390 246 362 262 334 258 C306 254 288 236 290 218 C291 208 294 203 300 200Z" fill="var(--map-park)"/>
             </g>
-            <g fill="none" stroke="var(--white)" stroke-linecap="round">
-              <path d="M-10 150 L410 138" stroke-width="12"/>
-              <path d="M150 -10 L162 310" stroke-width="10"/>
-              <path d="M-10 230 L410 216" stroke-width="6"/>
-              <path d="M290 -10 L298 310" stroke-width="6"/>
-              <path d="M-10 70 L410 62" stroke-width="5"/>
-              <path d="M70 -10 L78 310" stroke-width="4"/>
-              <path d="M222 140 L226 225" stroke-width="4"/>
+            <!-- 川 -->
+            <path d="M-10 300 C70 280 120 300 180 318 C240 336 300 330 360 340 C410 348 450 360 500 356" fill="none" stroke="var(--map-water)" stroke-width="18" stroke-linecap="round"/>
+            <!-- 道 -->
+            <g fill="none" stroke="var(--white)" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M-10 168 C80 160 160 150 240 146 C320 142 400 134 490 120" stroke-width="11"/>
+              <path d="M170 -10 C176 80 182 160 176 230 C172 280 166 320 160 370" stroke-width="9"/>
+              <path d="M330 -10 C320 60 316 120 322 180 C326 230 336 280 344 370" stroke-width="6"/>
+              <path d="M-10 92 C70 88 140 86 210 82 C270 79 330 70 400 54" stroke-width="4"/>
+              <path d="M40 -10 C46 60 52 140 60 220 C64 260 70 300 76 330" stroke-width="4"/>
+              <path d="M70 236 C140 228 210 224 262 226 C300 228 330 240 380 238 C420 236 450 230 490 226" stroke-width="5"/>
+              <path d="M240 146 C248 180 252 200 262 226" stroke-width="3"/>
+              <path d="M410 40 C412 110 418 170 430 230" stroke-width="3"/>
+              <path d="M100 160 C104 190 108 210 112 232" stroke-width="2.5"/>
+              <path d="M210 82 C214 110 220 128 228 147" stroke-width="2.5"/>
             </g>
-            <path d="M60 208 C100 206 120 190 150 182 C180 175 200 168 226 160 C250 152 268 150 294 148" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round"/>
-            <path d="M294 148 C318 146 330 120 356 104" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round"/>
-            <path d="M294 148 C318 152 332 176 356 194" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 8"/>
-            <circle cx="60" cy="208" r="6" fill="var(--green)"/>
-            <circle cx="294" cy="148" r="6" fill="var(--white)" stroke="var(--green)" stroke-width="3"/>
+            <!-- 線路 -->
+            <path d="M-10 40 C120 30 260 22 490 10" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" opacity=".55"/>
+            <path d="M-10 40 C120 30 260 22 490 10" fill="none" stroke="var(--ink-soft)" stroke-width="6" stroke-dasharray="1.5 9" opacity=".45"/>
+            <!-- 建物の小さなかたまり -->
+            <g fill="var(--map-block)" opacity=".7">
+              <rect x="190" y="100" width="14" height="10" rx="1.5"/><rect x="208" y="98" width="10" height="12" rx="1.5"/>
+              <rect x="260" y="160" width="16" height="11" rx="1.5"/><rect x="280" y="163" width="10" height="9" rx="1.5"/>
+              <rect x="80" y="190" width="12" height="14" rx="1.5"/><rect x="120" y="120" width="14" height="10" rx="1.5"/>
+              <rect x="350" y="150" width="12" height="12" rx="1.5"/><rect x="200" y="250" width="16" height="10" rx="1.5"/>
+            </g>
+            <!-- ルート：最後に2つに分かれる -->
+            <path d="M70 236 C110 232 140 230 176 226 C178 200 178 176 178 150 C200 148 220 146 240 146 C280 144 300 142 322 140" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M322 140 C350 136 372 112 392 92" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M322 140 C352 146 374 170 396 196" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 9"/>
+            <circle cx="70" cy="236" r="6.5" fill="var(--green)"/>
+            <circle cx="322" cy="140" r="7" fill="var(--paper)" stroke="var(--green)" stroke-width="3"/>
           </g>
         </svg>
       </figure>

@@ -9,7 +9,7 @@
   --green-dark: #234838;
   --white: #FFFDF8;
   /* 地図のイラストの水彩 */
-  --wash-1: #C9D8CF; --wash-3: #D9E2D6;
+  --wash-1: #C9D8CF; --wash-3: #D9E2D6; --map-park: #B9CFBC; --map-water: #C3D5D6; --map-block: #CFC7B6;
   --on-photo: #FFFDF8;
   /* 文字 */
   --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
@@ -114,10 +114,12 @@ a:hover { color: var(--green-dark); }
 }
 .hero-sub { margin: var(--space-4) 0 0; font-family: var(--mincho); font-size: clamp(20px, 4.8vw, 26px); line-height: 1.6; font-weight: 500; }
 .hero-lead { margin: 0; max-width: 30em; font-size: 17px; }
-.hero-facts { display: flex; flex-wrap: wrap; gap: var(--space-2) 0; margin: 0; padding: 0; list-style: none; align-self: center; }
-.hero-facts li { font-family: var(--mincho); font-size: 22px; font-weight: 500; line-height: 1.5; padding-right: var(--space-5); margin-right: var(--space-5); border-right: 1px solid var(--line); white-space: nowrap; }
-.hero-facts li:last-child { border-right: 0; padding-right: 0; margin-right: 0; }
-.hero-facts small { font-family: var(--gothic); font-size: 13px; font-weight: 400; color: var(--ink-soft); margin-left: var(--space-1); }
+.hero-facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; align-self: center; }
+.hero-facts > div { padding: 0 var(--space-6); border-left: 1px solid var(--line); white-space: nowrap; }
+.hero-facts > div:first-child { padding-left: 0; border-left: 0; }
+.hero-facts .big { font-family: var(--mincho); font-weight: 500; font-size: clamp(44px, 5.4vw, 64px); line-height: 1; font-variant-numeric: tabular-nums; }
+.hero-facts .unit { font-family: var(--mincho); font-weight: 500; font-size: 20px; margin-left: var(--space-1); }
+.hero-facts .cap { display: block; margin-top: var(--space-3); font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
 
 /* セクション共通 */
 .section { padding: var(--space-18) 0; border-top: 1px solid var(--line); }
@@ -139,7 +141,7 @@ a:hover { color: var(--green-dark); }
 
 /* なぜ歩くのか：本文の横に地図のイラスト */
 .walk-map { margin: 0; }
-.walk-map svg { display: block; width: 100%; height: auto; max-width: 100%; border-radius: var(--radius-card); border: 1px solid var(--line); }
+.walk-map svg { display: block; width: 100%; height: auto; max-width: 100%; }
 
 
 
@@ -308,10 +310,12 @@ details.stations p { margin: var(--space-1) 0 0; }
   .header-nav a:hover { color: var(--green); text-decoration: underline; }
 }
 
-/* 狭い画面では、ファーストビューの要点を区切り線なしで縦に並べる */
-@media (max-width: 639px) {
-  .hero-facts { flex-direction: column; gap: 0; }
-  .hero-facts li { border-right: 0; padding-right: 0; margin-right: 0; }
+/* 狭い画面では、ファーストビューの要点の数字を少し小さくし、区切りを詰める */
+@media (max-width: 520px) {
+  .hero-facts > div { padding: 0 var(--space-4); }
+  .hero-facts .big { font-size: 44px; }
+  .hero-facts .unit { font-size: 16px; }
+  .hero-facts .cap { white-space: normal; font-size: 12px; }
 }
 
 .section .profile-link { margin: var(--space-6) 0 0; font-size: 15px; }

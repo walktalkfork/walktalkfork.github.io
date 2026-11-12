@@ -167,8 +167,6 @@ a:hover { color: var(--green-dark); }
 .route h4 { margin: 0 0 var(--space-3); font-family: var(--mincho); font-weight: 500; font-size: 18px; }
 .route ol { margin: 0; padding-left: 1.4em; }
 .route li { padding: var(--space-1) 0; }
-.route li span { display: block; font-size: 14px; color: var(--ink-soft); }
-.route .note { margin: var(--space-4) 0 0; font-size: 14px; color: var(--ink-soft); }
 
 /* 持ち帰るもの */
 .takeaways { display: grid; gap: var(--space-4); margin: 0 0 var(--space-12); padding: 0; list-style: none; }

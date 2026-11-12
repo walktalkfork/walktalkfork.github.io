@@ -13,7 +13,7 @@ https://walktalkfork.github.io/ （GitHub 組織 walktalkfork。黒田さんの 
 | assets/walk.jpg・walk-1000.jpg | TOPの写真（黒田さんが撮ったもの。2000px と 1000px） |
 | tokushoho.html・cancel.html・privacy.html | 特定商取引法に基づく表記・キャンセルポリシー・プライバシーポリシー |
 | assets/style.css | 見た目。先頭の :root に色・余白（4pxの刻み）・角丸の名前つきの値。CSS を変えたら HTML の `style.css?v=N` の番号を上げる |
-| assets/count.js | GoatCounter（コミュニティ図鑑の count.js の写し）。予約ボタン・著書・お問い合わせに data-goatcounter-click |
+| assets/count.js | GoatCounter（コミュニティ図鑑の count.js の写し。2026-11-12 に黒田さんが walktalkfork を登録済み。管理画面 https://walktalkfork.goatcounter.com/ ）。予約ボタン・著書・お問い合わせに data-goatcounter-click |
 | assets/ogp.png | 共有画像。`tools/make_og.py` で作る（Pillow。書体は tools/fonts/ に置く。gitignore 済み） |
 | tools/phrase.py | 本文に BudouX で文節ごとの `<wbr>` を入れる。**HTML の文章を直したら必ず実行する**。BudouX が語の途中で切る語は KEEP に足す |
 
@@ -48,5 +48,4 @@ https://walktalkfork.github.io/ （GitHub 組織 walktalkfork。黒田さんの 
 
 ## 次にやること
 
-- GoatCounter で walktalkfork のサイトを登録する（黒田さんの作業）
 - 公開前の確認が残っているもの：モデルルートの店の営業、30分圏の駅の例、特商法でのメールアドレスの扱い、コーチングとの違いのFAQ

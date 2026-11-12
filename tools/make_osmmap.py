@@ -172,9 +172,9 @@ def build(name):
             rails.append(simplify(pts))
 
 
-    route_pts = simplify(despike([xy(p) for p in ll]), 2.5)
+    route_pts = simplify(despike([xy(p) for p in ll]), 0.8)
     start, goal = route_pts[0], route_pts[-1]
-    route_d = smooth_d(route_pts)
+    route_d = d_of(route_pts)   # ルートは道の点をそのまま通る線で描く（曲線にすると点の少ない区間が膨らんで道から外れる）
 
     rx0 = min(x for x, _ in route_pts)
     rx1 = max(x for x, _ in route_pts)

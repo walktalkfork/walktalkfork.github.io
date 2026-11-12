@@ -312,3 +312,5 @@ details.stations p { margin: var(--space-1) 0 0; }
   .hero-facts { flex-direction: column; gap: 0; }
   .hero-facts li { border-right: 0; padding-right: 0; margin-right: 0; }
 }
+
+.section .profile-link { margin: var(--space-6) 0 0; font-size: 15px; }

@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=11">
+<link rel="stylesheet" href="assets/style.css?v=12">
 <script data-goatcounter="https://walktalkfork.goatcounter.com/count" async src="assets/count.js"></script>
 </head>
 <body>
@@ -113,45 +113,41 @@
 
   <div class="wrap">
     <p class="flow-note">時間の<wbr>区切りは<wbr>目安です。<wbr>決まった<wbr>場所には<wbr>縛られず、<wbr>その<wbr>日の<wbr>話に<wbr>合わせて<wbr>場所を<wbr>変えていきます。</p>
-    <div class="split">
-      <div class="routes">
+    <div class="routes">
       <h3>モデルルート</h3>
       <p>スタート地点は、<wbr>中野駅から<wbr>公共交通機関で<wbr>30分以内の<wbr>駅で<wbr>あれば<wbr>自由に<wbr>選べます。<wbr>下の<wbr>2本は、<wbr>こんな<wbr>歩き方が<wbr>できると<wbr>いう<wbr>例です。</p>
-
-      <div class="tabs" role="tablist" aria-label="モデルルート">
-        <button class="tab" role="tab" id="tab-sunny" aria-controls="route-sunny" aria-selected="true">晴天ルート：神保町</button>
-        <button class="tab" role="tab" id="tab-rainy" aria-controls="route-rainy" aria-selected="false" tabindex="-1">雨天ルート：丸の<wbr>内</button>
-      </div>
-
-      <div class="route" role="tabpanel" id="route-sunny" aria-labelledby="tab-sunny">
-        <ol>
-          <li>地下鉄<wbr>「神保町」駅の<wbr>A7出口に<wbr>集合</li>
-          <li>ギャラリー珈琲店・古瀬戸で<wbr>棚卸し<span>満席の<wbr>ときは<wbr>ラドリオへ</span></li>
-          <li>三省堂書店 神田神保町本店や<wbr>古書店街を<wbr>歩く</li>
-          <li>神田伯剌西爾で<wbr>方向を<wbr>決める<span>地下1階の<wbr>喫茶店。<wbr>満席の<wbr>ときは<wbr>三省堂書店3階の<wbr>喫茶 ちそう<wbr>へ</span></li>
-        </ol>
-      </div>
-
-      <div class="route" role="tabpanel" id="route-rainy" aria-labelledby="tab-rainy" hidden>
-        <ol>
-          <li>丸の<wbr>内オアゾ1階の<wbr>「○○<wbr>広場<wbr>（おおひろば）」に<wbr>集合<span>東京メトロ丸ノ内線の<wbr>東京駅と、<wbr>東西線の<wbr>大手町駅に<wbr>直結しています</span></li>
-          <li>丸善3階の<wbr>時間制ラウンジ<wbr>「丸善の<wbr>三階」か<wbr>カフェで<wbr>棚卸し</li>
-          <li>丸善の<wbr>1〜4階や<wbr>地下通路を<wbr>歩く</li>
-          <li>丸善4階の<wbr>「M&amp;C Café」で<wbr>方向を<wbr>決める<span>窓際の<wbr>席からは<wbr>線路の<wbr>分かれ目が<wbr>見えます</span></li>
-        </ol>
-        <p class="note">傘を<wbr>ささずに<wbr>過ごせる<wbr>ルートです。</p>
+      <div class="route-pair">
+        <div class="route">
+          <h4>晴天ルート：神保町</h4>
+          <ol>
+            <li>地下鉄<wbr>「神保町」駅の<wbr>A7出口に<wbr>集合</li>
+            <li>ギャラリー珈琲店・古瀬戸で<wbr>棚卸し<span>満席の<wbr>ときは<wbr>ラドリオへ</span></li>
+            <li>三省堂書店 神田神保町本店や<wbr>古書店街を<wbr>歩く</li>
+            <li>神田伯剌西爾で<wbr>方向を<wbr>決める<span>地下1階の<wbr>喫茶店。<wbr>満席の<wbr>ときは<wbr>三省堂書店3階の<wbr>喫茶 ちそう<wbr>へ</span></li>
+          </ol>
+        </div>
+        <div class="route">
+          <h4>雨天ルート：丸の<wbr>内</h4>
+          <ol>
+            <li>丸の<wbr>内オアゾ1階の<wbr>「○○<wbr>広場<wbr>（おおひろば）」に<wbr>集合<span>東京メトロ丸ノ内線の<wbr>東京駅と、<wbr>東西線の<wbr>大手町駅に<wbr>直結しています</span></li>
+            <li>丸善3階の<wbr>時間制ラウンジ<wbr>「丸善の<wbr>三階」か<wbr>カフェで<wbr>棚卸し</li>
+            <li>丸善の<wbr>1〜4階や<wbr>地下通路を<wbr>歩く</li>
+            <li>丸善4階の<wbr>「M&amp;C Café」で<wbr>方向を<wbr>決める<span>窓際の<wbr>席からは<wbr>線路の<wbr>分かれ目が<wbr>見えます</span></li>
+          </ol>
+          <p class="note">傘を<wbr>ささずに<wbr>過ごせる<wbr>ルートです。</p>
+        </div>
       </div>
     </div>
-      <div class="questions">
-        <h3>当日の<wbr>問いの<wbr>例</h3>
-        <ul>
-          <li>この<wbr>1年で、<wbr>時間を<wbr>忘れたのは<wbr>どんな<wbr>ときですか</li>
-          <li>やめたいのに、<wbr>やめられていない<wbr>ことは<wbr>何ですか</li>
-          <li>足が<wbr>止まったのは<wbr>どこですか。<wbr>なぜ<wbr>そこで<wbr>止まったと<wbr>思いますか</li>
-          <li>10年前の<wbr>自分が<wbr>今の<wbr>自分を<wbr>見たら、<wbr>何と<wbr>言いそうですか</li>
-          <li>決めた<wbr>実験の<wbr>ことを、<wbr>最初に<wbr>誰に<wbr>話しますか</li>
-        </ul>
-      </div>
+
+    <div class="questions">
+      <h3>当日の<wbr>問いの<wbr>例</h3>
+      <ul>
+        <li>この<wbr>1年で、<wbr>時間を<wbr>忘れたのは<wbr>どんな<wbr>ときですか</li>
+        <li>やめたいのに、<wbr>やめられていない<wbr>ことは<wbr>何ですか</li>
+        <li>足が<wbr>止まったのは<wbr>どこですか。<wbr>なぜ<wbr>そこで<wbr>止まったと<wbr>思いますか</li>
+        <li>10年前の<wbr>自分が<wbr>今の<wbr>自分を<wbr>見たら、<wbr>何と<wbr>言いそうですか</li>
+        <li>決めた<wbr>実験の<wbr>ことを、<wbr>最初に<wbr>誰に<wbr>話しますか</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -364,27 +360,6 @@
 </div>
 
 <script>
-// モデルルートのタブ
-(function () {
-  var tabs = document.querySelectorAll('[role="tab"]');
-  function select(tab) {
-    tabs.forEach(function (t) {
-      var on = t === tab;
-      t.setAttribute('aria-selected', on);
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
-  }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { select(t); });
-    t.addEventListener('keydown', function (e) {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-      select(next); next.focus();
-    });
-  });
-})();
-
 // スマホの固定ボタン：最初の予約ボタンと最後の予約欄が見えていないときだけ出す
 (function () {
   var bar = document.getElementById('sticky-cta');

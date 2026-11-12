@@ -146,27 +146,24 @@ a:hover { color: var(--green-dark); }
 .verbs h3 { margin-bottom: var(--space-1); }
 .verbs p { margin: 0; }
 
-.questions { margin: 0; padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
+.questions { margin: var(--space-10) 0 0; padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
 .questions h3 { font-size: 17px; margin-bottom: var(--space-3); }
 .questions ul { margin: 0; padding: 0; list-style: none; }
 .questions li { padding: var(--space-2) 0; border-top: 1px dashed var(--line); font-family: var(--mincho); font-size: 17px; line-height: 1.7; }
 .questions li:first-child { border-top: none; }
+@media (min-width: 720px) {
+  .questions ul { columns: 2; column-gap: var(--space-10); }
+  .questions li { break-inside: avoid; }
+  .questions li:nth-child(4) { border-top: none; }
+}
 
-/* モデルルート */
-.section .flow-note { color: var(--ink-soft); font-size: 15px; margin: 0 0 var(--space-10); }
+/* モデルルート：晴天と雨天を左右に並べる */
 .routes h3 { margin-bottom: var(--space-2); }
 .routes > p { color: var(--ink-soft); font-size: 15px; }
-.tabs { display: flex; margin: var(--space-5) 0 0; border-bottom: 1px solid var(--ink); }
-.tab {
-  flex: 1; min-height: 48px; padding: 0 var(--space-3);
-  background: transparent; border: 1px solid transparent; border-bottom: none;
-  border-radius: var(--radius-md) var(--radius-md) 0 0; margin-bottom: -1px;
-  font-family: var(--gothic); font-size: 15px; color: var(--ink-soft); cursor: pointer; white-space: nowrap;
-}
-.tab[aria-selected="true"] { background: var(--white); border-color: var(--ink); color: var(--ink); font-weight: 500; }
-@media (min-width: 640px) { .tab { flex: 0 0 auto; padding: 0 var(--space-6); } }
-.route { padding: var(--space-6); background: var(--white); border: 1px solid var(--ink); border-top: none; border-radius: 0 0 var(--radius-card) var(--radius-card); }
-.route[hidden] { display: none; }
+.route-pair { display: grid; gap: var(--space-4); margin-top: var(--space-5); }
+@media (min-width: 720px) { .route-pair { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
+.route { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); min-width: 0; }
+.route h4 { margin: 0 0 var(--space-3); font-family: var(--mincho); font-weight: 500; font-size: 18px; }
 .route ol { margin: 0; padding-left: 1.4em; }
 .route li { padding: var(--space-1) 0; }
 .route li span { display: block; font-size: 14px; color: var(--ink-soft); }

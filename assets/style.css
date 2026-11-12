@@ -178,9 +178,11 @@ a:hover { color: var(--green-dark); }
 .route li { padding: var(--space-1) 0; }
 
 /* 持ち帰るもの */
-.takeaways { display: grid; gap: var(--space-4); margin: 0 0 var(--space-12); padding: 0; list-style: none; }
-@media (min-width: 768px) { .takeaways { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); } }
-.takeaways li { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
+.takeaways { display: grid; gap: var(--space-8); margin: 0 0 var(--space-12); padding: 0; list-style: none; }
+@media (min-width: 768px) { .takeaways { grid-template-columns: repeat(3, 1fr); gap: var(--space-8); } }
+.takeaways li { min-width: 0; }
+.take-pic { width: 96px; height: 96px; border-radius: 50%; background: var(--wash-3); display: grid; place-items: center; margin-bottom: var(--space-4); }
+.take-pic svg { width: 56px; height: 56px; color: var(--green); }
 .takeaways p { font-size: 15px; color: var(--ink-soft); margin: 0; }
 
 .promise { display: grid; gap: var(--space-8); margin-top: var(--space-12); padding-top: var(--space-10); border-top: 1px solid var(--line); }

@@ -138,7 +138,7 @@ a:hover { color: var(--green-dark); }
 
 /* 3時間の流れ：「話す」「歩く」「決める」の3つの動詞を大きな明朝で置き、横に説明を添える */
 .verbs { list-style: none; margin: 0 0 var(--space-10); padding: 0; }
-.verbs li { display: grid; gap: var(--space-1) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--line); align-items: baseline; }
+.verbs li { display: grid; gap: var(--space-1) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--line); align-items: center; }
 .verbs li:last-child { border-bottom: 1px solid var(--line); }
 @media (min-width: 720px) { .verbs li { grid-template-columns: 220px 1fr; } }
 .verbs .verb { font-family: var(--mincho); font-weight: 500; font-size: clamp(40px, 9vw, 64px); line-height: 1.1; }

@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=7">
+<link rel="stylesheet" href="assets/style.css?v=8">
 <script data-goatcounter="https://walktalkfork.goatcounter.com/count" async src="assets/count.js"></script>
 </head>
 <body>
@@ -97,71 +97,29 @@
 <section class="section" id="flow">
   <div class="wrap">
     <h2>3時間の<wbr>流れ</h2>
-    <p class="flow-note">晴天ルートで<wbr>神保町を<wbr>歩く<wbr>場合の<wbr>例です。<wbr>地図は<wbr>イメージです。</p>
-  </div>
-
-  <div class="walkmap" data-walkmap>
-    <div class="walkmap-map">
-      <svg viewBox="0 0 600 640" preserveAspectRatio="xMidYMid slice" role="img" aria-label="神保町の地図のイメージ。神保町駅A7出口から古瀬戸、古書店街を歩き、神田伯剌西爾で方向を決めるルート">
-        <defs>
-          <filter id="wash" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7" result="n"/>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale="46" xChannelSelector="R" yChannelSelector="G" result="d"/>
-            <feGaussianBlur in="d" stdDeviation="3"/>
-          </filter>
-          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .05 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>
-        </defs>
-        <g filter="url(#wash)" opacity=".95">
-          <path d="M70 120 C160 60 330 70 450 110 C560 150 590 260 560 380 C530 500 430 590 300 580 C170 570 80 500 60 380 C45 280 20 170 70 120Z" fill="var(--wash-3)"/>
-          <path d="M140 190 C240 140 420 160 500 230 C560 290 540 420 470 480 C390 545 250 530 180 460 C120 400 90 250 140 190Z" fill="var(--wash-1)"/>
-          <path d="M300 250 C380 240 470 280 480 350 C490 420 420 450 350 440 C290 430 250 390 260 330 C265 290 270 255 300 250Z" fill="var(--wash-2)"/>
-        </g>
-        <rect x="-100" y="-300" width="800" height="1300" filter="url(#grain)" fill="var(--paper)" opacity=".6"/>
-        <g fill="none" stroke-linecap="round">
-          <g stroke="var(--road-edge)" stroke-width="22"><path d="M-110 303 L960 272"/><path d="M239 -300 L282 940"/></g>
-          <g stroke="var(--road)" stroke-width="18"><path d="M-110 303 L960 272"/><path d="M239 -300 L282 940"/></g>
-          <g stroke="var(--road)" stroke-width="9"><path d="M262 384 L960 352"/><path d="M266 478 L960 446"/><path d="M426 -300 L444 940"/><path d="M116 -300 L138 940"/></g>
-          <g stroke="var(--road)" stroke-width="5"><path d="M340 300 L344 470"/><path d="M520 290 L524 465"/><path d="M-10 420 L262 410"/><path d="M380 296 L386 380"/></g>
-        </g>
-        <text class="road-name" x="440" y="270">靖国通り</text>
-        <text class="road-name" x="282" y="150" transform="rotate(88 282 150)">白山通り</text>
-        <text class="road-name" x="452" y="358">すずらん通り</text>
-        <text class="map-label" x="150" y="270">神保町交差点</text>
-        <path class="route" data-route d="M276 318 L300 316 C320 315 340 318 360 322 L430 302 L516 296 C524 310 526 340 526 372 L400 377 L338 380 C334 388 334 394 336 402"/>
-        <path class="branch" data-branch d="M336 402 C350 440 380 470 440 520"/>
-        <path class="branch branch-2" data-branch d="M336 402 C320 440 290 480 230 530"/>
-        <g class="stop" data-stop><circle cx="276" cy="318" r="9"/><text x="160" y="342">神保町駅 A7</text></g>
-        <g class="stop" data-stop><circle cx="360" cy="322" r="9"/><text x="372" y="342">古瀬戸</text></g>
-        <g class="stop" data-stop><circle cx="516" cy="296" r="7"/><text x="452" y="250">古書店街</text></g>
-        <g class="stop" data-stop><circle cx="336" cy="402" r="9"/><text x="350" y="420">神田伯剌西爾</text></g>
-      </svg>
-    </div>
-    <div class="walkmap-steps wrap">
-      <div class="walkmap-step">
-        <div class="walkmap-card">
-          <span class="time">0:00〜0:50</span>
+    <ol class="verbs">
+      <li>
+        <div class="verb">話す<span class="time">0:00〜0:50</span></div>
+        <div>
           <h3>これまでを<wbr>棚卸しする</h3>
-          <p class="place">落ち着いて<wbr>話せる<wbr>カフェや<wbr>喫茶店で</p>
-          <p>最近<wbr>気に<wbr>なっている<wbr>こと、<wbr>続けたい<wbr>こと、<wbr>手放したい<wbr>ことを<wbr>話して<wbr>もらいます。</p>
+          <p>落ち着いて<wbr>話せる<wbr>カフェや<wbr>喫茶店で、<wbr>最近<wbr>気に<wbr>なっている<wbr>こと、<wbr>続けたい<wbr>こと、<wbr>手放したい<wbr>ことを<wbr>話して<wbr>もらいます。</p>
         </div>
-      </div>
-      <div class="walkmap-step">
-        <div class="walkmap-card">
-          <span class="time">0:50〜2:00</span>
+      </li>
+      <li>
+        <div class="verb">歩く<span class="time">0:50〜2:00</span></div>
+        <div>
           <h3>街を<wbr>歩く</h3>
-          <p class="place">気になる<wbr>場所や<wbr>店に<wbr>寄り道しながら</p>
-          <p>歩きながらの<wbr>内省と<wbr>いう、<wbr>いつもと<wbr>違う<wbr>モードでの<wbr>思考を<wbr>深めます。</p>
+          <p>気になる<wbr>場所や<wbr>店に<wbr>寄り道しながら、<wbr>歩きながらの<wbr>内省と<wbr>いう、<wbr>いつもと<wbr>違う<wbr>モードでの<wbr>思考を<wbr>深めます。</p>
         </div>
-      </div>
-      <div class="walkmap-step">
-        <div class="walkmap-card">
-          <span class="time">2:00〜3:00</span>
+      </li>
+      <li>
+        <div class="verb">決める<span class="time">2:00〜3:00</span></div>
+        <div>
           <h3>進む方向を<wbr>決める</h3>
-          <p class="place">落ち着いた<wbr>場所で</p>
-          <p>進みたい方向を<wbr>決め、<wbr>後日試してみる<wbr>小さな<wbr>実験の<wbr>プランを<wbr>立てます。</p>
+          <p>落ち着いた<wbr>場所で、<wbr>進みたい方向を<wbr>決め、<wbr>後日試してみる<wbr>小さな<wbr>実験の<wbr>プランを<wbr>立てます。</p>
         </div>
-      </div>
-    </div>
+      </li>
+    </ol>
   </div>
 
   <div class="wrap">
@@ -436,55 +394,6 @@
       select(next); next.focus();
     });
   });
-})();
-
-// 3時間の流れ：読み進めると地図の上のルートが伸び、最後に道が2本に分かれる
-(function () {
-  var box = document.querySelector('[data-walkmap]');
-  if (!box) return;
-  var route = box.querySelector('[data-route]');
-  var branches = box.querySelectorAll('[data-branch]');
-  var stops = box.querySelectorAll('[data-stop]');
-  var reached = [0, 0.18, 0.55, 0.96];
-  var len = route.getTotalLength();
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  route.style.strokeDasharray = len;
-  function draw(p) {
-    p = Math.max(0, Math.min(1, p));
-    route.style.strokeDashoffset = len * (1 - p);
-    stops.forEach(function (s, i) { s.classList.toggle('on', p >= reached[i]); });
-    branches.forEach(function (b) { b.classList.toggle('on', p >= 0.99); });
-  }
-  // 縦長の画面では、ルートのある範囲が左右に収まるように表示範囲を変える
-  var svg = box.querySelector('svg');
-  function fit() {
-    var r = svg.getBoundingClientRect();
-    var x0, w, h;
-    if (r.width / r.height < 0.8) {
-      // 縦長：ルートのある範囲を左右いっぱいに
-      x0 = 150; w = 420;
-    } else if (r.width >= 900) {
-      // 広い画面：右に説明のカードが来るので、ルートを左の6割に寄せる
-      w = 672; x0 = 123;
-    } else {
-      x0 = 0; w = 600;
-    }
-    h = w * r.height / r.width;
-    svg.setAttribute('viewBox', x0 + ' ' + Math.round(400 - h / 2) + ' ' + w + ' ' + Math.round(h));
-  }
-  fit();
-  window.addEventListener('resize', fit);
-  if (reduce) { draw(1); return; }
-  var ticking = false;
-  function update() {
-    ticking = false;
-    var r = box.getBoundingClientRect(), vh = window.innerHeight;
-    draw((vh * 0.6 - r.top) / (r.height - vh * 1.3));
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-  update();
 })();
 
 // スマホの固定ボタン：最初の予約ボタンと最後の予約欄が見えていないときだけ出す

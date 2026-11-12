@@ -8,8 +8,6 @@
   --green: #2F5D4A;
   --green-dark: #234838;
   --white: #FFFDF8;
-  /* 水彩の地図 */
-  --wash-1: #C9D8CF; --wash-2: #B7CBC0; --wash-3: #D9E2D6; --road: #FFFDF8; --road-edge: #BFCFC5;
   --on-photo: #FFFDF8;
   /* 文字 */
   --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
@@ -134,29 +132,15 @@ a:hover { color: var(--green-dark); }
 .three > div { padding-top: var(--space-4); border-top: 1px solid var(--ink); }
 .three p { font-size: 15px; color: var(--ink-soft); }
 
-/* 3時間の流れ：水彩の地図を全面に敷き、段階のカードが上を流れる。読み進めるとルートが伸びる */
-.section .flow-note { color: var(--ink-soft); font-size: 15px; margin: calc(-1 * var(--space-6)) 0 0; }
-.walkmap { position: relative; margin: var(--space-8) 0 var(--space-10); }
-.walkmap-map { position: sticky; top: var(--header-h); height: calc(100vh - var(--header-h)); height: calc(100svh - var(--header-h)); overflow: hidden; border-block: 1px solid var(--line); }
-.walkmap-map svg { display: block; width: 100%; height: 100%; }
-.walkmap-steps { position: relative; margin-top: calc(-100vh + var(--header-h)); margin-top: calc(-100svh + var(--header-h)); padding-block: 40vh 24vh; pointer-events: none; }
-.walkmap-step { min-height: 90vh; display: flex; align-items: flex-end; padding-bottom: 6vh; }
-@media (min-width: 900px) { .walkmap-step { justify-content: flex-end; align-items: center; padding-bottom: 0; } }
-.walkmap-card { pointer-events: auto; background: rgba(255, 253, 248, .95); border: 1px solid var(--line); border-radius: var(--radius-card); padding: var(--space-5) var(--space-6); max-width: 400px; box-shadow: 0 6px 20px rgba(34, 32, 28, .08); }
-.walkmap-card .time { display: block; font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; font-variant-numeric: tabular-nums; }
-.walkmap-card .place { font-size: 14px; color: var(--green); margin: 0 0 var(--space-1); }
-.walkmap-card p { margin: 0; }
-.walkmap .road-name { font-family: var(--gothic); font-size: 12px; fill: var(--ink-soft); letter-spacing: .1em; }
-.walkmap .map-label { font-family: var(--gothic); font-size: 13px; fill: var(--ink-soft); }
-.walkmap .map-note { font-family: var(--gothic); font-size: 11px; fill: var(--ink-soft); }
-.walkmap .route { fill: none; stroke: var(--green); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-.walkmap .branch { fill: none; stroke: var(--green); stroke-width: 3; stroke-linecap: round; opacity: 0; transition: opacity 400ms ease; }
-.walkmap .branch-2 { stroke-dasharray: 2 9; }
-.walkmap .branch.on { opacity: 1; }
-.walkmap .stop circle { fill: var(--paper); stroke: var(--green); stroke-width: 3; transition: fill 200ms ease; }
-.walkmap .stop.on circle { fill: var(--green); }
-.walkmap .stop text { font-family: var(--gothic); font-size: 14px; font-weight: 500; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
-@media (prefers-reduced-motion: reduce) { .walkmap .branch, .walkmap .stop circle { transition: none; } }
+/* 3時間の流れ：「話す」「歩く」「決める」の3つの動詞を大きな明朝で置き、横に説明を添える */
+.verbs { list-style: none; margin: 0 0 var(--space-10); padding: 0; }
+.verbs li { display: grid; gap: var(--space-1) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--line); align-items: baseline; }
+.verbs li:last-child { border-bottom: 1px solid var(--line); }
+@media (min-width: 720px) { .verbs li { grid-template-columns: 220px 1fr; } }
+.verbs .verb { font-family: var(--mincho); font-weight: 500; font-size: clamp(40px, 9vw, 64px); line-height: 1.1; }
+.verbs .time { display: block; font-family: var(--gothic); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; margin-top: var(--space-2); font-variant-numeric: tabular-nums; }
+.verbs h3 { margin-bottom: var(--space-1); }
+.verbs p { margin: 0; }
 
 .questions { margin: var(--space-12) 0 0; padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
 .questions h3 { font-size: 17px; margin-bottom: var(--space-3); }

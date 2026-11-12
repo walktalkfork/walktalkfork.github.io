@@ -119,6 +119,7 @@ a:hover { color: var(--green-dark); }
 .hero-facts > div:first-child { padding-left: 0; border-left: 0; }
 .hero-facts .big { font-family: var(--mincho); font-weight: 500; font-size: clamp(44px, 5.4vw, 64px); line-height: 1; font-variant-numeric: tabular-nums; }
 .hero-facts .unit { font-family: var(--mincho); font-weight: 500; font-size: 20px; margin-left: var(--space-1); }
+.hero-facts .mid { margin: 0 var(--space-2); }
 .hero-facts .cap { display: block; margin-top: var(--space-3); font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
 
 /* セクション共通 */

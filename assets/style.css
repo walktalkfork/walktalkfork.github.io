@@ -199,12 +199,24 @@ a:hover { color: var(--green-dark); }
 .profile img { width: 100%; max-width: 320px; border-radius: var(--radius-card); background: var(--paper-deep); }
 .profile .name { margin: 0; font-family: var(--mincho); font-size: 28px; font-weight: 500; letter-spacing: 0.08em; }
 .profile .titles { margin: var(--space-1) 0 var(--space-6); font-size: 14px; color: var(--ink-soft); }
-.profile ul.career { margin: var(--space-6) 0; padding-left: 1.2em; }
-.profile ul.career li { padding: var(--space-1) 0; }
-.books { margin: var(--space-6) 0 0; padding: var(--space-5) 0 0; border-top: 1px solid var(--line); }
-.books h3 { font-size: 16px; }
+/* ともに歩くひと：地を一段濃い生成りにして、前後の生成りのセクションと分ける（見本の案1） */
+.about-band { background: var(--paper-deep); border-top: 0; }
+.about-band + .section { border-top: 0; }
+.profile-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 26em; margin: var(--space-8) 0; }
+.profile-facts > div { padding: 0 var(--space-5); border-left: 1px solid var(--line); }
+.profile-facts > div:first-child { padding-left: 0; border-left: 0; }
+.profile-facts .num { font-family: var(--mincho); font-weight: 500; font-size: clamp(30px, 5vw, 44px); line-height: 1.1; white-space: nowrap; }
+.profile-facts .num small { font-size: .45em; margin-left: 2px; }
+.profile-facts .cap { display: block; margin-top: var(--space-2); font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+.books { margin: var(--space-8) 0 0; }
+.books h3 { font-size: 18px; }
 .books ul { margin: 0; padding: 0; list-style: none; }
-.books li { padding: var(--space-1) 0; font-size: 15px; }
+.books li { display: flex; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.books li:last-child { border-bottom: 1px solid var(--line); }
+.books li a { font-family: var(--mincho); font-weight: 500; text-decoration: none; }
+.books li a:hover { text-decoration: underline; }
+.books li span { color: var(--ink-soft); font-size: 14px; white-space: nowrap; }
+@media (max-width: 479px) { .books li { flex-direction: column; gap: 0; } }
 
 /* 料金と約束：料金を1枚の切符のようなカードにする。左に金額と予約ボタン、点線の切り取り線をはさんで右に条件（見本の案A） */
 .ticket { position: relative; display: grid; background: var(--white); border-radius: 16px; box-shadow: 0 1px 0 rgba(34, 32, 28, .04), 0 12px 32px rgba(34, 32, 28, .08); }

@@ -8,6 +8,8 @@
   --green: #2F5D4A;
   --green-dark: #234838;
   --white: #FFFDF8;
+  /* 地図のイラストの水彩 */
+  --wash-1: #C9D8CF; --wash-3: #D9E2D6;
   --on-photo: #FFFDF8;
   /* 文字 */
   --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
@@ -61,8 +63,6 @@ a:hover { color: var(--green-dark); }
 .split { display: grid; gap: var(--space-10); align-items: start; }
 @media (min-width: 900px) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-14); } }
 .split > * { min-width: 0; }
-.side-box { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
-.side-box h3 { font-size: 17px; margin-bottom: var(--space-3); }
 
 /* ヘッダー：どの画面幅でも上に固定し、後ろを少し透かす */
 .site-header {
@@ -99,6 +99,7 @@ a:hover { color: var(--green-dark); }
 .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 60%; }
 .hero-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(22, 20, 16, .42) 0%, rgba(22, 20, 16, .18) 55%, rgba(22, 20, 16, 0) 75%); }
 .hero-over { position: relative; z-index: 1; width: 100%; padding-block: var(--space-12); color: var(--on-photo); }
+.hero-over .btn { margin-top: var(--space-6); }
 @media (max-width: 640px) {
   .hero-photo { min-height: 72vh; }
   .hero-photo img { object-position: 70% 60%; }
@@ -111,13 +112,11 @@ a:hover { color: var(--green-dark); }
   font-size: clamp(44px, 11vw, 88px); line-height: 1.1; letter-spacing: 0.01em;
 }
 .hero-sub { margin: var(--space-4) 0 0; font-family: var(--mincho); font-size: clamp(20px, 4.8vw, 26px); line-height: 1.6; font-weight: 500; }
-.hero-act .hero-facts { margin-top: 0; }
 .hero-lead { margin: 0; max-width: 30em; font-size: 17px; }
-.hero-facts { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-8); margin: var(--space-8) 0; padding: 0; list-style: none; }
-.hero-facts li { display: flex; flex-direction: column; }
-.hero-facts .k { font-size: 12px; color: var(--ink-soft); letter-spacing: 0.08em; }
-.hero-facts .v { font-family: var(--mincho); font-size: 22px; font-weight: 500; line-height: 1.5; }
-.hero-facts .v small { font-family: var(--gothic); font-size: 13px; font-weight: 400; color: var(--ink-soft); margin-left: var(--space-1); }
+.hero-facts { display: flex; flex-wrap: wrap; gap: var(--space-2) 0; margin: 0; padding: 0; list-style: none; align-self: center; }
+.hero-facts li { font-family: var(--mincho); font-size: 22px; font-weight: 500; line-height: 1.5; padding-right: var(--space-5); margin-right: var(--space-5); border-right: 1px solid var(--line); white-space: nowrap; }
+.hero-facts li:last-child { border-right: 0; padding-right: 0; margin-right: 0; }
+.hero-facts small { font-family: var(--gothic); font-size: 13px; font-weight: 400; color: var(--ink-soft); margin-left: var(--space-1); }
 
 /* セクション共通 */
 .section { padding: var(--space-18) 0; border-top: 1px solid var(--line); }
@@ -130,10 +129,17 @@ a:hover { color: var(--green-dark); }
 .section p { margin: 0 0 1.2em; }
 .section p:last-child { margin-bottom: 0; }
 
-/* こんなときに */
-.situations { margin: 0; padding: 0; list-style: none; }
-.situations li { padding: var(--space-1) 0 var(--space-1) 1.2em; text-indent: -1.2em; font-family: var(--mincho); font-size: 19px; line-height: 1.7; }
-.situations li::before { content: "・"; display: inline-block; width: 1.2em; text-indent: 0; color: var(--green); }
+/* こんなときに：ファーストビューのすぐ下に3つ並べる */
+.for-whom { padding-block: var(--space-14); }
+.for-whom h2 { font-size: clamp(22px, 5vw, 28px); margin-bottom: var(--space-6); }
+.whom { display: grid; gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 768px) { .whom { grid-template-columns: repeat(3, 1fr); gap: var(--space-8); } }
+.whom li { padding-top: var(--space-3); border-top: 1px solid var(--ink); font-family: var(--mincho); font-size: 19px; line-height: 1.7; }
+
+/* なぜ歩くのか：本文の横に地図のイラスト */
+.walk-map { margin: 0; }
+.walk-map svg { display: block; width: 100%; height: auto; max-width: 100%; border-radius: var(--radius-card); border: 1px solid var(--line); }
+
 
 
 .section .flow-note { color: var(--ink-soft); font-size: 15px; margin: calc(-1 * var(--space-4)) 0 var(--space-6); }
@@ -174,12 +180,12 @@ a:hover { color: var(--green-dark); }
 .takeaways li { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
 .takeaways p { font-size: 15px; color: var(--ink-soft); margin: 0; }
 
-.promise { display: grid; gap: var(--space-8); }
+.promise { display: grid; gap: var(--space-8); margin-top: var(--space-12); padding-top: var(--space-10); border-top: 1px solid var(--line); }
 @media (min-width: 768px) { .promise { grid-template-columns: 1fr 1fr; gap: var(--space-12); } }
 .promise ul { margin: 0; padding-left: 1.2em; }
 .promise li { padding: var(--space-1) 0; }
 /* 申し込みの前の注意：※で始まる行を横幅いっぱいに */
-.aside { margin: var(--space-10) 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--ink-soft); }
+.aside { margin: var(--space-8) 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--ink-soft); }
 .aside li { padding-left: 1em; text-indent: -1em; }
 .aside li::before { content: "※"; }
 
@@ -286,4 +292,23 @@ a:hover { color: var(--green-dark); }
   .price-table th, .price-table td { display: block; width: auto; }
   .price-table th { padding: var(--space-4) 0 0; border-bottom: none; }
   .price-table td { padding-top: var(--space-1); }
+}
+
+.section .cancel-note { margin: var(--space-6) 0 0; font-size: 15px; }
+details.stations { margin-top: var(--space-2); font-size: 14px; color: var(--ink-soft); }
+details.stations summary { cursor: pointer; color: var(--green); width: fit-content; }
+details.stations p { margin: var(--space-1) 0 0; }
+
+/* ヘッダーの目次：PCだけ */
+.header-nav { display: none; }
+@media (min-width: 960px) {
+  .header-nav { display: flex; gap: var(--space-5); margin-left: auto; margin-right: var(--space-6); }
+  .header-nav a { font-size: 13px; color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
+  .header-nav a:hover { color: var(--green); text-decoration: underline; }
+}
+
+/* 狭い画面では、ファーストビューの要点を区切り線なしで縦に並べる */
+@media (max-width: 639px) {
+  .hero-facts { flex-direction: column; gap: 0; }
+  .hero-facts li { border-right: 0; padding-right: 0; margin-right: 0; }
 }

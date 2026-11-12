@@ -136,6 +136,7 @@ a:hover { color: var(--green-dark); }
 .situations li::before { content: "・"; display: inline-block; width: 1.2em; text-indent: 0; color: var(--green); }
 
 
+.section .flow-note { color: var(--ink-soft); font-size: 15px; margin: calc(-1 * var(--space-4)) 0 var(--space-6); }
 /* 3時間の流れ：「話す」「歩く」「決める」の3つの動詞を大きな明朝で置き、横に説明を添える */
 .verbs { list-style: none; margin: 0 0 var(--space-10); padding: 0; }
 .verbs li { display: grid; gap: var(--space-1) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--line); align-items: center; }

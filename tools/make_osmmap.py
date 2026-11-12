@@ -15,13 +15,16 @@ data = json.loads(src.read_text())["elements"]
 
 W, H = 1440, 600
 PXM = 1.25                                  # 1m あたりのピクセル
-LON0, LAT0, X0, Y0 = 139.7578, 35.6957, 980, 280   # A7出口のあたりを (X0, Y0) に置く。ルートの東の端が右端の少し手前に来る
+LAT0 = 35.6957
 KX = PXM * 111320 * math.cos(math.radians(LAT0))
 KY = PXM * 110950
+RIGHT, MIDY, MAXW = 1370, 300, 380      # ルートの東の端を x=RIGHT に、上下のまん中を y=MIDY に置く（右端の少し手前。xMaxYMid で切り出すので狭い画面でも切れない）
+ORIGIN = [139.7578, LAT0, 980, 280]
 
 
 def xy(p):
-    return (X0 + (p["lon"] - LON0) * KX, Y0 - (p["lat"] - LAT0) * KY)
+    lon0, lat0, x0, y0 = ORIGIN
+    return (x0 + (p["lon"] - lon0) * KX, y0 - (p["lat"] - lat0) * KY)
 
 
 def simplify(pts, tol=1.2):
@@ -63,61 +66,132 @@ def visible(pts, m=80):
 
 WIDTH = {"primary": 12, "secondary": 9, "tertiary": 6, "unclassified": 3.5, "residential": 3.5,
          "living_street": 2.5, "pedestrian": 2.5, "service": 1.4}
-roads, rivers, waters, parks, rails = [], [], [], [], []
-for e in data:
-    t = e["tags"]
-    pts = [xy(p) for p in e["geometry"]]
-    if not visible(pts):
-        continue
-    if "highway" in t:
-        roads.append((t["highway"], t.get("name", ""), simplify(pts, 2)))
-    elif t.get("waterway") == "river":
-        rivers.append(simplify(pts))
-    elif t.get("natural") == "water":
-        waters.append(simplify(pts))
-    elif t.get("leisure") == "park":
-        parks.append(simplify(pts))
-    elif "railway" in t:
-        rails.append(simplify(pts))
+# 歩く道筋。道のつながり（OpenStreetMap の道の点）をたどった最短の道で、経由点を順につなぐ
+ROUTES = {
+    # 古書店街をまっすぐ：A7出口から靖国通りを東へ、駿河台下（三省堂書店）まで
+    "yasukuni": [(139.7579, 35.6959), (139.7606, 35.69593)],
+    # すずらん通りを抜ける：A7出口から白山通りを少し南へ、すずらん通りを東へ、駿河台下まで
+    "suzuran": [(139.7577, 35.6957), (139.75824, 35.69531), (139.7600, 35.69537), (139.76132, 35.69546)],
+    # お茶の水から下る：明治大学のあたりから明大通りの坂を下り、駿河台下からすずらん通りを西へ、神田伯剌西爾のあたりまで
+    "meidai": [(139.7620, 35.6978), (139.76132, 35.69546), (139.7600, 35.69537)],
+}
+ROUTE = "suzuran"   # 2026-11-12 黒田さんが見本の案2を選んだ
+
+WALKABLE = {"primary", "secondary", "tertiary", "unclassified", "residential", "living_street", "pedestrian"}
 
 
-def nodes_of(name, lo, hi):
-    """名前の道の点を経度 lo〜hi で集め、上下線のずれをならして西から東へ並べる。"""
-    pts = [p for e in data if e["tags"].get("name") == name and "highway" in e["tags"] for p in e["geometry"] if lo <= p["lon"] <= hi]
-    buckets = {}
-    for p in pts:
-        buckets.setdefault(round(p["lon"] / 0.0003), []).append(p)
+def graph():
+    g = {}
+    for e in data:
+        if e["tags"].get("highway") not in WALKABLE:
+            continue
+        pts = [(round(p["lon"], 6), round(p["lat"], 6)) for p in e["geometry"]]
+        for a_, b_ in zip(pts, pts[1:]):
+            d = math.hypot((a_[0] - b_[0]) * 90400, (a_[1] - b_[1]) * 110950)
+            g.setdefault(a_, []).append((b_, d))
+            g.setdefault(b_, []).append((a_, d))
+    return g
+
+
+def shortest(g, a_, b_):
+    import heapq
+    near = lambda q: min(g, key=lambda n: (n[0] - q[0]) ** 2 * 0.66 + (n[1] - q[1]) ** 2)
+    s0, t0 = near(a_), near(b_)
+    dist, prev, pq = {s0: 0}, {}, [(0, s0)]
+    while pq:
+        d, n = heapq.heappop(pq)
+        if n == t0:
+            break
+        if d > dist.get(n, 1e18):
+            continue
+        for m, w in g[n]:
+            if d + w < dist.get(m, 1e18):
+                dist[m], prev[m] = d + w, n
+                heapq.heappush(pq, (d + w, m))
+    path = [t0]
+    while path[-1] != s0:
+        path.append(prev[path[-1]])
+    return path[::-1]
+
+
+def despike(pts, limit=100):
+    """上下線を乗り換えたときにできる、行って戻る小さな折り返しを取りのぞく。"""
+    pts = list(pts)
+    changed = True
+    while changed and len(pts) > 2:
+        changed = False
+        for i in range(1, len(pts) - 1):
+            (x0, y0), (x1, y1), (x2, y2) = pts[i - 1], pts[i], pts[i + 1]
+            a1, a2 = math.atan2(y1 - y0, x1 - x0), math.atan2(y2 - y1, x2 - x1)
+            turn = abs((math.degrees(a2 - a1) + 180) % 360 - 180)
+            if turn > limit or math.hypot(x1 - x0, y1 - y0) < 4:
+                del pts[i]
+                changed = True
+                break
+    return pts
+
+
+def route_lonlat(name):
+    g = graph()
+    wp = ROUTES[name]
     out_ = []
-    for k in sorted(buckets):
-        b = buckets[k]
-        south = min(b, key=lambda p: p["lat"])          # 南側の車線（A7出口と古書店の側）にそろえる
-        out_.append(south)
-    return out_
+    for a_, b_ in zip(wp, wp[1:]):
+        seg = shortest(g, a_, b_)
+        out_ += seg if not out_ else seg[1:]
+    return [{"lon": x, "lat": y} for x, y in out_]
 
 
-# ルート：A7出口 → 靖国通りを東へ（古書店街）→ 駿河台下（三省堂）で南へ → すずらん通りを西へ → 神田伯剌西爾
-# 靖国通りの南側の車線（駿河台下 → 神保町の向き）を、点の並びのまま逆にたどる
-yasu_way = next(e for e in data if e["tags"].get("name") == "靖国通り" and e["geometry"][0]["lon"] > 139.7613 and e["geometry"][-1]["lon"] < 139.7582)
-yasu = [{"lon": 139.7579, "lat": 35.6959}] + [p for p in yasu_way["geometry"][::-1] if p["lon"] > 139.7580]
-suzu = [p for p in next(e for e in data if e["tags"].get("name") == "神田すずらん通り")["geometry"] if p["lon"] >= 139.7600]
-route_pts = simplify([xy(p) for p in yasu] + [xy(p) for p in suzu[1:]], 0.8)
-start, goal = route_pts[0], route_pts[-1]
-route_d = smooth_d(route_pts)
+def build(name):
+    """ルートを決め、ルートが右寄りに来るように地図の位置を合わせてから、道・川・公園を描く位置に直す。"""
+    global roads, rivers, waters, parks, rails, route_pts, start, goal, route_d, crop, WASH
+    global KX, KY
+    ll = route_lonlat(name)
+    # 長いルートは縮めて、幅が MAXW に収まるようにする（狭い画面でスタートが文章のカードに隠れないように）
+    span = (max(p["lon"] for p in ll) - min(p["lon"] for p in ll)) * 111320 * math.cos(math.radians(LAT0))
+    pxm = min(PXM, MAXW / span)
+    KX, KY = pxm * 111320 * math.cos(math.radians(LAT0)), pxm * 110950
+    ORIGIN[:] = [139.7578, LAT0, 0, 0]
+    pts0 = [xy(p) for p in ll]
+    ORIGIN[2] = RIGHT - max(x for x, _ in pts0)
+    ORIGIN[3] = MIDY - (min(y for _, y in pts0) + max(y for _, y in pts0)) / 2
+    roads, rivers, waters, parks, rails = [], [], [], [], []
+    for e in data:
+        t = e["tags"]
+        pts = [xy(p) for p in e["geometry"]]
+        if not visible(pts):
+            continue
+        if "highway" in t:
+            roads.append((t["highway"], t.get("name", ""), simplify(pts, 2)))
+        elif t.get("waterway") == "river":
+            rivers.append(simplify(pts))
+        elif t.get("natural") == "water":
+            waters.append(simplify(pts))
+        elif t.get("leisure") == "park":
+            parks.append(simplify(pts))
+        elif "railway" in t:
+            rails.append(simplify(pts))
 
-rx0 = min(x for x, _ in route_pts)
-rx1 = max(x for x, _ in route_pts)
-ry0 = min(y for _, y in route_pts)
-ry1 = max(y for _, y in route_pts)
-crop = (rx0 - 90, ry0 - 150, rx1 - rx0 + 180, (rx1 - rx0 + 180) * 3 / 4)
 
-WASH = [
-    ("M-60 -40 L1500 -40 L1500 640 L-60 640Z", "var(--wash-3)"),
-    (f"M{rx0 - 160:.0f} {ry0 - 120:.0f} C{rx0 + 40:.0f} {ry0 - 200:.0f} {rx1 + 60:.0f} {ry0 - 180:.0f} {rx1 + 150:.0f} {ry0 - 60:.0f} "
-     f"C{rx1 + 230:.0f} {ry0 + 40:.0f} {rx1 + 120:.0f} {ry1 + 170:.0f} {rx1 - 60:.0f} {ry1 + 190:.0f} "
-     f"C{rx0 + 100:.0f} {ry1 + 220:.0f} {rx0 - 200:.0f} {ry1 + 160:.0f} {rx0 - 200:.0f} {ry1 + 40:.0f} "
-     f"C{rx0 - 210:.0f} {ry0 - 20:.0f} {rx0 - 190:.0f} {ry0 - 100:.0f} {rx0 - 160:.0f} {ry0 - 120:.0f}Z", "var(--wash-1)"),
-    ("M-40 60 C120 20 360 40 520 110 C640 170 620 330 500 400 C360 470 120 470 0 420 C-80 380 -100 120 -40 60Z", "var(--wash-1)"),
-]
+    route_pts = simplify(despike([xy(p) for p in ll]), 2.5)
+    start, goal = route_pts[0], route_pts[-1]
+    route_d = smooth_d(route_pts)
+
+    rx0 = min(x for x, _ in route_pts)
+    rx1 = max(x for x, _ in route_pts)
+    ry0 = min(y for _, y in route_pts)
+    ry1 = max(y for _, y in route_pts)
+    crop = (rx0 - 90, ry0 - 150, rx1 - rx0 + 180, (rx1 - rx0 + 180) * 3 / 4)
+
+    WASH = [
+        ("M-60 -40 L1500 -40 L1500 640 L-60 640Z", "var(--wash-3)"),
+        (f"M{rx0 - 160:.0f} {ry0 - 120:.0f} C{rx0 + 40:.0f} {ry0 - 200:.0f} {rx1 + 60:.0f} {ry0 - 180:.0f} {rx1 + 150:.0f} {ry0 - 60:.0f} "
+         f"C{rx1 + 230:.0f} {ry0 + 40:.0f} {rx1 + 120:.0f} {ry1 + 170:.0f} {rx1 - 60:.0f} {ry1 + 190:.0f} "
+         f"C{rx0 + 100:.0f} {ry1 + 220:.0f} {rx0 - 200:.0f} {ry1 + 160:.0f} {rx0 - 200:.0f} {ry1 + 40:.0f} "
+         f"C{rx0 - 210:.0f} {ry0 - 20:.0f} {rx0 - 190:.0f} {ry0 - 100:.0f} {rx0 - 160:.0f} {ry0 - 120:.0f}Z", "var(--wash-1)"),
+        ("M-40 60 C120 20 360 40 520 110 C640 170 620 330 500 400 C360 470 120 470 0 420 C-80 380 -100 120 -40 60Z", "var(--wash-1)"),
+    ]
+
+
 
 
 def svg(uid=""):
@@ -146,10 +220,11 @@ def svg(uid=""):
     return "\n".join(parts)
 
 
-index = ROOT / "index.html"
-html = index.read_text()
-new = re.sub(r'<svg class="bgmap".*?</svg>', lambda m: svg(), html, flags=re.S)
-if 'class="bgmap"' not in html:
-    raise SystemExit('index.html に背景の地図の置き場（class="bgmap" の svg）がありません')
-index.write_text(new)
-print("roads", len(roads), "start", start, "goal", goal, "crop", crop)
+if __name__ == "__main__":
+    build(sys.argv[1] if len(sys.argv) > 1 else ROUTE)
+    index = ROOT / "index.html"
+    html = index.read_text()
+    if 'class="bgmap"' not in html:
+        raise SystemExit('index.html に背景の地図の置き場（class="bgmap" の svg）がありません')
+    index.write_text(re.sub(r'<svg class="bgmap".*?</svg>', lambda m: svg(), html, flags=re.S))
+    print("route", sys.argv[1] if len(sys.argv) > 1 else ROUTE, "roads", len(roads), "start", start, "goal", goal, "crop", crop)

@@ -15,7 +15,7 @@ https://walktalkfork.github.io/ （GitHub 組織 walktalkfork。黒田さんの 
 | assets/style.css | 見た目。先頭の :root に色・余白（4pxの刻み）・角丸の名前つきの値。CSS を変えたら HTML の `style.css?v=N` の番号を上げる |
 | assets/count.js | GoatCounter（コミュニティ図鑑の count.js の写し。2026-11-12 に黒田さんが walktalkfork を登録済み。管理画面 https://walktalkfork.goatcounter.com/ ）。予約ボタン・著書・お問い合わせに data-goatcounter-click |
 | assets/ogp.png | 共有画像。`tools/make_og.py` で作る（Pillow。書体は tools/fonts/ に置く。gitignore 済み） |
-| tools/make_osmmap.py | 「なぜ歩くのか」の背景の地図。OpenStreetMap の神保町のデータ（tools/data/jimbocho-osm.json）から、名前のある通りと住宅街の道を水彩の地の上になめらかな白い線で描き、晴天ルート（A7出口→靖国通り→駿河台下→すずらん通り→神田伯剌西爾）を緑の線で重ね、index.html の svg.bgmap を書き換える。右端にそろえて切り出す（xMaxYMid）。スマホはルートのまわりだけ（data-route）。出典「© OpenStreetMap contributors」を地図の右下に必ず出す |
+| tools/make_osmmap.py | 「なぜ歩くのか」の背景の地図。OpenStreetMap の神保町のデータ（tools/data/jimbocho-osm.json）から、名前のある通りと住宅街の道を水彩の地の上になめらかな白い線で描き、緑のルートを重ね（ROUTES の経由点を道のつながりの最短の道でつなぐ。今は「すずらん通り」：A7出口→白山通り側からすずらん通りを東へ→駿河台下。2026-11-12 見本の案2）、index.html の svg.bgmap を書き換える。右端にそろえて切り出す（xMaxYMid）。スマホはルートのまわりだけ（data-route）。出典「© OpenStreetMap contributors」を地図の右下に必ず出す |
 | tools/phrase.py | 本文に BudouX で文節ごとの `<wbr>` を入れる。**HTML の文章を直したら必ず実行する**。BudouX が語の途中で切る語は KEEP に足す |
 
 手元では budoux と Pillow が入った Python を使う（例：`~/Documents/kotoba-kenkyujo.github.io/.venv/bin/python -I tools/phrase.py *.html`）。

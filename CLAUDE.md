@@ -16,7 +16,6 @@ https://walktalkfork.github.io/ （GitHub 組織 walktalkfork。黒田さんの 
 | assets/count.js | GoatCounter（コミュニティ図鑑の count.js の写し。2026-11-12 に黒田さんが walktalkfork を登録済み。管理画面 https://walktalkfork.goatcounter.com/ ）。予約ボタン・著書・お問い合わせに data-goatcounter-click |
 | assets/ogp.png | 共有画像。`tools/make_og.py` で作る（Pillow。書体は tools/fonts/ に置く。gitignore 済み） |
 | tools/make_osmmap.py | 「なぜ歩くのか」の背景の地図。OpenStreetMap の神保町のデータ（tools/data/jimbocho-osm.json）から、名前のある通りと住宅街の道を水彩の地の上になめらかな白い線で描き、晴天ルート（A7出口→靖国通り→駿河台下→すずらん通り→神田伯剌西爾）を緑の線で重ね、index.html の svg.bgmap を書き換える。右端にそろえて切り出す（xMaxYMid）。スマホはルートのまわりだけ（data-route）。出典「© OpenStreetMap contributors」を地図の右下に必ず出す |
-| assets/fork.jpg・fork-1000.jpg | 最後の予約欄に敷く分かれ道の写真（白黒。CSS で深い緑に染める。見本の案2） |
 | tools/phrase.py | 本文に BudouX で文節ごとの `<wbr>` を入れる。**HTML の文章を直したら必ず実行する**。BudouX が語の途中で切る語は KEEP に足す |
 
 手元では budoux と Pillow が入った Python を使う（例：`~/Documents/kotoba-kenkyujo.github.io/.venv/bin/python -I tools/phrase.py *.html`）。
@@ -47,6 +46,7 @@ https://walktalkfork.github.io/ （GitHub 組織 walktalkfork。黒田さんの 
 - 30分圏の駅は 2026-11-12 に Yahoo!路線情報（平日13時発）で16駅すべて30分以内を確認（最長は神保町26分）
 - PCでは、本文の横に関係のある要素を置いて右側を空けない（.split。黒田さんが見本の案Cを選んだ）。ファーストビューの下は説明｜料金と予約、なぜ歩くのかは本文｜こんなときに、料金表｜予約までの流れ
 - 「なぜ歩くのか」の地図は、OpenStreetMap の実際の神保町の道にした（2026-11-12 見本の案2「通りだけ」。道はガタつかせずなめらかに）
+- 最後の予約欄は緑の帯のまま（分かれ道の写真を敷く案は試したが、2026-11-12 に黒田さんの判断で緑に戻した）
 - 予約までの流れの1番の下に、枠だけの小さなボタン「予約ページを開く ↗」（見本の案2）
 - 「3時間の流れ」は地図をやめた（具体的すぎて、どこを歩いても同じ流れだと伝わらないため）。見本の案4「大きな動詞」を黒田さんが選んだ
 - 見せ場の決定（2026-11-12、のちに地図はやめた）：参考にしたのは Codrops の地図のデモ（読み進めるとルートが伸びる）と、水彩の地区地図（House at Khlebny）。地図の見本は案2「地図を全面」、TOPの写真の見本は案1「全面」を黒田さんが選んだ

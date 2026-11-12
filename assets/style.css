@@ -241,8 +241,8 @@ a:hover { color: var(--green-dark); }
 @media (min-width: 860px) { .price-lower { grid-template-columns: 1fr 1fr; gap: var(--space-14); } }
 .promise { display: grid; gap: var(--space-4); align-content: start; }
 .promise > div { border-radius: var(--radius-card); padding: var(--space-8) var(--space-8) var(--space-6); }
-.promise .yes { background: var(--green); color: var(--white); }
-.promise .yes h3 { color: var(--white); }
+.promise .yes { background: var(--wash-3); }
+.promise .yes h3 { color: var(--green-dark); }
 .promise .no { background: var(--paper-deep); }
 .promise ul { margin: 0; padding-left: 1.2em; }
 .promise li { padding: var(--space-1) 0; }

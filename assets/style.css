@@ -188,10 +188,6 @@ a:hover { color: var(--green-dark); }
 .route ol { margin: 0; padding-left: 1.4em; }
 .route li { padding: var(--space-1) 0; }
 
-.promise { display: grid; gap: var(--space-8); margin-top: var(--space-12); padding-top: var(--space-10); border-top: 1px solid var(--line); }
-@media (min-width: 768px) { .promise { grid-template-columns: 1fr 1fr; gap: var(--space-12); } }
-.promise ul { margin: 0; padding-left: 1.2em; }
-.promise li { padding: var(--space-1) 0; }
 /* 申し込みの前の注意：※で始まる行を横幅いっぱいに */
 .aside { margin: var(--space-8) 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--ink-soft); }
 .aside li { padding-left: 1em; text-indent: -1em; }
@@ -210,17 +206,54 @@ a:hover { color: var(--green-dark); }
 .books ul { margin: 0; padding: 0; list-style: none; }
 .books li { padding: var(--space-1) 0; font-size: 15px; }
 
-/* 料金・エリア */
-.price-table { width: 100%; border-collapse: collapse; margin: 0 0 var(--space-8); }
-.price-table th, .price-table td { text-align: left; vertical-align: top; padding: var(--space-4) 0; border-bottom: 1px solid var(--line); }
-.price-table th { width: 6em; font-weight: 500; color: var(--ink-soft); font-size: 14px; padding-right: var(--space-4); white-space: nowrap; }
-.price-table .big { font-family: var(--mincho); font-size: 24px; font-weight: 500; }
+/* 料金と約束：料金を1枚の切符のようなカードにする。左に金額と予約ボタン、点線の切り取り線をはさんで右に条件（見本の案A） */
+.ticket { position: relative; display: grid; background: var(--white); border-radius: 16px; box-shadow: 0 1px 0 rgba(34, 32, 28, .04), 0 12px 32px rgba(34, 32, 28, .08); }
+.ticket .stub { padding: var(--space-10); display: flex; flex-direction: column; justify-content: center; }
+.ticket .yen { margin: 0; font-family: var(--mincho); font-weight: 500; font-size: clamp(52px, 9vw, 76px); line-height: 1; letter-spacing: .02em; white-space: nowrap; }
+.ticket .yen small { font-size: .38em; margin-left: var(--space-1); }
+.ticket .yen-cap { margin: var(--space-4) 0 0; color: var(--ink-soft); }
+.ticket .stub .btn { margin-top: var(--space-8); align-self: flex-start; }
+.ticket .detail { position: relative; margin: 0; padding: var(--space-10); display: grid; grid-template-columns: 5em 1fr; align-content: center; }
+.ticket .detail::before { content: ""; position: absolute; left: 0; top: var(--space-6); bottom: var(--space-6); border-left: 2px dashed var(--line); }
+.ticket dt { font-size: 14px; color: var(--ink-soft); padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.ticket dd { margin: 0; padding: var(--space-3) 0; border-bottom: 1px solid var(--line); }
+.ticket dt:last-of-type, .ticket dd:last-of-type { border-bottom: 0; }
+.ticket dd:last-of-type { font-size: 15px; }
+.ticket .area-list { font-size: 15px; }
+.ticket .notch { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: var(--paper); }
+@media (min-width: 860px) {
+  .ticket { grid-template-columns: 0.9fr 1.1fr; }
+  .ticket .n1, .ticket .n2 { left: calc(45% - 14px); }
+  .ticket .n1 { top: -14px; }
+  .ticket .n2 { bottom: -14px; }
+}
+@media (max-width: 859px) {
+  .ticket .detail::before { left: var(--space-6); right: var(--space-6); top: 0; bottom: auto; border-left: 0; border-top: 2px dashed var(--line); }
+  .ticket .notch { display: none; }
+  .ticket .stub, .ticket .detail { padding: var(--space-8) var(--space-6); }
+}
+@media (max-width: 479px) {
+  .ticket .detail { grid-template-columns: 1fr; }
+  .ticket dt { border-bottom: 0; padding-bottom: 0; }
+  .ticket dd { padding-top: var(--space-1); }
+}
+.price-lower { display: grid; gap: var(--space-12); margin-top: var(--space-16); }
+@media (min-width: 860px) { .price-lower { grid-template-columns: 1fr 1fr; gap: var(--space-14); } }
+.promise { display: grid; gap: var(--space-4); align-content: start; }
+.promise > div { border-radius: var(--radius-card); padding: var(--space-8) var(--space-8) var(--space-6); }
+.promise .yes { background: var(--green); color: var(--white); }
+.promise .yes h3 { color: var(--white); }
+.promise .no { background: var(--paper-deep); }
+.promise ul { margin: 0; padding-left: 1.2em; }
+.promise li { padding: var(--space-1) 0; }
+@media (max-width: 479px) { .promise > div { padding: var(--space-6) var(--space-5) var(--space-5); } }
 .area-list { margin: 0; padding-left: 1.2em; }
 .area-list li { padding: var(--space-1) 0; }
 .stations { font-size: 14px; color: var(--ink-soft); margin-top: var(--space-2); }
 
-/* 予約までの流れ：番号の丸を縦の線でつなぎ、どの項目も同じ高さにして丸を等間隔に並べる */
-.steps { display: grid; grid-auto-rows: 1fr; margin: var(--space-6) 0 var(--space-8); padding: 0; list-style: none; counter-reset: s; }
+/* 予約までの流れ：番号の丸を縦の線でつなぎ、広い画面ではどの項目も同じ高さにして丸を等間隔に並べる */
+@media (min-width: 860px) { .steps { grid-auto-rows: 1fr; } }
+.steps { display: grid; margin: var(--space-6) 0 0; padding: 0; list-style: none; counter-reset: s; }
 .steps li { counter-increment: s; position: relative; min-height: 56px; padding: 2px 0 var(--space-6) var(--space-12); line-height: 1.7; }
 .steps li::before {
   content: counter(s); position: absolute; left: 0; top: 0; z-index: 1;
@@ -229,8 +262,6 @@ a:hover { color: var(--green-dark); }
 }
 .steps li::after { content: ""; position: absolute; left: 13.5px; top: 28px; bottom: 0; width: 1px; background: var(--green); opacity: .5; }
 .steps li:last-child::after { display: none; }
-.steps .step-link { display: inline-flex; align-items: center; margin-top: var(--space-2); min-height: 36px; padding: 0 14px; border: 1px solid var(--green); border-radius: var(--radius-md); font-size: 14px; font-weight: 500; color: var(--green); text-decoration: none; white-space: nowrap; }
-.steps .step-link:hover { background: var(--green); color: var(--white); }
 .steps span { display: block; margin-top: var(--space-1); font-size: 14px; color: var(--ink-soft); }
 
 /* FAQ */
@@ -302,12 +333,6 @@ a:hover { color: var(--green-dark); }
 .legal .updated { margin-top: var(--space-10); font-size: 14px; color: var(--ink-soft); }
 .back { display: inline-block; margin-bottom: var(--space-6); font-size: 14px; }
 
-/* 狭い画面では、料金表の項目名を上・内容を下に並べる */
-@media (max-width: 639px) {
-  .price-table th, .price-table td { display: block; width: auto; }
-  .price-table th { padding: var(--space-4) 0 0; border-bottom: none; }
-  .price-table td { padding-top: var(--space-1); }
-}
 
 .section .cancel-note { margin: var(--space-6) 0 0; font-size: 15px; }
 details.stations { margin-top: var(--space-2); font-size: 14px; color: var(--ink-soft); }

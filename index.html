@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=43">
+<link rel="stylesheet" href="assets/style.css?v=44">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -233,65 +233,58 @@
   <div class="wrap">
     <h2>料金と<wbr>約束</h2>
 
-    <div class="split">
-      <table class="price-table">
-        <tr>
-          <th scope="row">料金</th>
-          <td><span class="big">50,000円</span><br>税込。<wbr>当日の<wbr>カフェ代等を<wbr>含みます。</td>
-        </tr>
-        <tr>
-          <th scope="row">時間</th>
-          <td>3時間</td>
-        </tr>
-        <tr>
-          <th scope="row">人数</th>
-          <td>おひとりで<wbr>受けています。<wbr>2人での<wbr>参加は<wbr>ご相談ください。</td>
-        </tr>
-        <tr>
-          <th scope="row">場所</th>
-          <td>
-            <ul class="area-list">
-              <li>中野駅から<wbr>公共交通機関で<wbr>30分以内の<wbr>駅周辺：追加費用なし</li>
-              <li>それより<wbr>遠い<wbr>場所：往復の<wbr>公共交通機関の<wbr>実費。<wbr>予約の<wbr>後に<wbr>メールで<wbr>やり取りを<wbr>する<wbr>際に<wbr>金額を<wbr>お伝えします</li>
-              <li>宿泊が<wbr>必要な<wbr>場所：個別に<wbr>ご相談ください</li>
-            </ul>
-            <details class="stations"><summary>30分以内の<wbr>駅の<wbr>目安</summary><p>新宿、<wbr>四ツ谷、<wbr>御茶ノ水、<wbr>神保町、<wbr>東京・丸の<wbr>内、<wbr>大手町、<wbr>日本橋、<wbr>高田馬場、<wbr>池袋、<wbr>渋谷、<wbr>恵比寿、<wbr>表参道、<wbr>下北沢、<wbr>吉祥寺、<wbr>三鷹、<wbr>国分寺など。</p></details>
-          </td>
-        </tr>
-        <tr>
-          <th scope="row">支払い</th>
-          <td>予約時に<wbr>クレジットカードで<wbr>事前に<wbr>お支払いいただきます。<wbr>交通費の<wbr>実費は、<wbr>当日に<wbr>現金か<wbr>PayPayで<wbr>お支払いください。</td>
-        </tr>
-      </table>
-
-      <div>
-      <h3>予約までの<wbr>流れ</h3>
-      <ol class="steps">
-        <li>予約ページで<wbr>日時を<wbr>選ぶ<br><a class="step-link" href="https://calendar.app.google/J7niy7XXtRiKJ6Gh8" target="_blank" rel="noopener" data-goatcounter-click="reserve/steps" data-goatcounter-title="予約（予約までの流れ）">予約ページを開く ↗</a></li>
-        <li>クレジットカードで<wbr>支払う</li>
-        <li>メールで<wbr>待ち合わせ場所を<wbr>決める<span>スタートしたい<wbr>駅と、<wbr>録音の<wbr>希望を<wbr>お知らせください</span></li>
-        <li>当日、<wbr>3時間を<wbr>一緒に<wbr>過ごす<span>前日の<wbr>夕方に<wbr>天気を<wbr>見て、<wbr>晴天ルートと<wbr>雨天ルートの<wbr>どちらに<wbr>するか<wbr>ご連絡します</span></li>
-        <li>7日以内に<wbr>言語化レポートを<wbr>受け取る</li>
-      </ol>
-
+    <div class="ticket">
+      <span class="notch n1" aria-hidden="true"></span><span class="notch n2" aria-hidden="true"></span>
+      <div class="stub">
+        <p class="yen">50,000<small>円</small></p>
+        <p class="yen-cap">税込。<wbr>当日の<wbr>カフェ代等を<wbr>含みます。</p>
+        <a class="btn" id="price-cta" href="https://calendar.app.google/J7niy7XXtRiKJ6Gh8" target="_blank" rel="noopener" data-goatcounter-click="reserve/price" data-goatcounter-title="予約（料金）">日時を<wbr>選んで<wbr>予約する<wbr>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8"/></svg>
+        </a>
       </div>
+      <dl class="detail">
+        <dt>時間</dt><dd>3時間</dd>
+        <dt>人数</dt><dd>おひとりで<wbr>受けています。<wbr>2人での<wbr>参加は<wbr>ご相談ください。</dd>
+        <dt>場所</dt>
+        <dd>
+          <ul class="area-list">
+            <li>中野駅から<wbr>公共交通機関で<wbr>30分以内の<wbr>駅周辺：追加費用なし</li>
+            <li>それより<wbr>遠い<wbr>場所：往復の<wbr>公共交通機関の<wbr>実費。<wbr>予約の<wbr>後に<wbr>メールで<wbr>やり取りを<wbr>する<wbr>際に<wbr>金額を<wbr>お伝えします</li>
+            <li>宿泊が<wbr>必要な<wbr>場所：個別に<wbr>ご相談ください</li>
+          </ul>
+          <details class="stations"><summary>30分以内の<wbr>駅の<wbr>目安</summary><p>新宿、<wbr>四ツ谷、<wbr>御茶ノ水、<wbr>神保町、<wbr>東京・丸の<wbr>内、<wbr>大手町、<wbr>日本橋、<wbr>高田馬場、<wbr>池袋、<wbr>渋谷、<wbr>恵比寿、<wbr>表参道、<wbr>下北沢、<wbr>吉祥寺、<wbr>三鷹、<wbr>国分寺など。</p></details>
+        </dd>
+        <dt>支払い</dt><dd>予約時に<wbr>クレジットカードで<wbr>事前に<wbr>お支払いいただきます。<wbr>交通費の<wbr>実費は、<wbr>当日に<wbr>現金か<wbr>PayPayで<wbr>お支払いください。</dd>
+      </dl>
     </div>
 
-    <div class="promise">
+    <div class="price-lower">
       <div>
-        <h3>約束できる<wbr>こと</h3>
-        <ul>
-          <li><span class="mincho">進みたい方向</span>と<span class="mincho">小さな<wbr>実験の<wbr>方針</span>が、<wbr>3時間の<wbr>終わりに<wbr>決まっている<wbr>こと</li>
-          <li><span class="mincho">言語化レポート</span>を、<wbr>7日以内に<wbr>お渡しする<wbr>こと</li>
-        </ul>
+        <h3>予約までの<wbr>流れ</h3>
+        <ol class="steps">
+          <li>予約ページで<wbr>日時を<wbr>選ぶ</li>
+          <li>クレジットカードで<wbr>支払う</li>
+          <li>メールで<wbr>待ち合わせ場所を<wbr>決める<span>スタートしたい<wbr>駅と、<wbr>録音の<wbr>希望を<wbr>お知らせください</span></li>
+          <li>当日、<wbr>3時間を<wbr>一緒に<wbr>過ごす<span>前日の<wbr>夕方に<wbr>天気を<wbr>見て、<wbr>晴天ルートと<wbr>雨天ルートの<wbr>どちらに<wbr>するか<wbr>ご連絡します</span></li>
+          <li>7日以内に<wbr>言語化レポートを<wbr>受け取る</li>
+        </ol>
       </div>
-      <div>
-        <h3>約束できない<wbr>こと</h3>
-        <ul>
-          <li>転職、<wbr>独立、<wbr>収入などの<wbr>結果は<wbr>保証しません</li>
-          <li>「こう<wbr>すべきです」と<wbr>いう<wbr>正解は<wbr>お伝えしません。<wbr>決めるのは<wbr>ご本人です</li>
-          <li>転職先や<wbr>仕事の<wbr>紹介は<wbr>しません</li>
-        </ul>
+      <div class="promise">
+        <div class="yes">
+          <h3>約束できる<wbr>こと</h3>
+          <ul>
+            <li><span class="mincho">進みたい方向</span>と<span class="mincho">小さな<wbr>実験の<wbr>方針</span>が、<wbr>3時間の<wbr>終わりに<wbr>決まっている<wbr>こと</li>
+            <li><span class="mincho">言語化レポート</span>を、<wbr>7日以内に<wbr>お渡しする<wbr>こと</li>
+          </ul>
+        </div>
+        <div class="no">
+          <h3>約束できない<wbr>こと</h3>
+          <ul>
+            <li>転職、<wbr>独立、<wbr>収入などの<wbr>結果は<wbr>保証しません</li>
+            <li>「こう<wbr>すべきです」と<wbr>いう<wbr>正解は<wbr>お伝えしません。<wbr>決めるのは<wbr>ご本人です</li>
+            <li>転職先や<wbr>仕事の<wbr>紹介は<wbr>しません</li>
+          </ul>
+        </div>
       </div>
     </div>
     <ul class="aside">
@@ -394,10 +387,10 @@
   window.addEventListener('resize', fit);
 })();
 
-// スマホの固定ボタン：最初の予約ボタンと最後の予約欄が見えていないときだけ出す
+// スマホの固定ボタン：最初の予約ボタン・料金の予約ボタン・最後の予約欄が見えていないときだけ出す
 (function () {
   var bar = document.getElementById('sticky-cta');
-  var targets = [document.getElementById('hero-cta'), document.getElementById('reserve')];
+  var targets = [document.getElementById('hero-cta'), document.getElementById('price-cta'), document.getElementById('reserve')];
   if (!('IntersectionObserver' in window)) { bar.classList.add('is-visible'); return; }
   var visible = new Set();
   var io = new IntersectionObserver(function (entries) {

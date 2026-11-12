@@ -331,3 +331,10 @@ details.stations p { margin: var(--space-1) 0 0; }
 .section .profile-link { margin: var(--space-6) 0 0; font-size: 15px; }
 
 .promise .mincho { font-family: var(--mincho); font-weight: 500; }
+
+/* スマホでは、写真の上の名前を Walk, / Talk, / Fork. の3行に分けて大きく置く */
+@media (max-width: 639px) {
+  .hero h1 span { display: block; }
+  .hero h1 { font-size: clamp(64px, 21vw, 96px); line-height: 1.02; }
+  .hero-photo { min-height: 82vh; }
+}

@@ -187,15 +187,16 @@ a:hover { color: var(--green-dark); }
 .takeaways { display: grid; gap: var(--space-4); margin: 0 0 var(--space-12); padding: 0; list-style: none; }
 @media (min-width: 768px) { .takeaways { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); } }
 .takeaways li { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
-.takeaways .when { display: block; font-size: 13px; letter-spacing: 0.06em; color: var(--green); margin-bottom: var(--space-1); white-space: nowrap; }
 .takeaways p { font-size: 15px; color: var(--ink-soft); margin: 0; }
 
 .promise { display: grid; gap: var(--space-8); }
 @media (min-width: 768px) { .promise { grid-template-columns: 1fr 1fr; gap: var(--space-12); } }
 .promise ul { margin: 0; padding-left: 1.2em; }
 .promise li { padding: var(--space-1) 0; }
-.aside { margin-top: var(--space-10); font-size: 15px; color: var(--ink-soft); }
-.aside ul { margin: 0; padding-left: 1.2em; }
+/* 申し込みの前の注意：※で始まる行を横幅いっぱいに */
+.aside { margin: var(--space-10) 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--ink-soft); }
+.aside li { padding-left: 1em; text-indent: -1em; }
+.aside li::before { content: "※"; }
 
 /* 黒田悠介 */
 .profile { display: grid; gap: var(--space-8); align-items: start; }
@@ -219,14 +220,18 @@ a:hover { color: var(--green-dark); }
 .area-list li { padding: var(--space-1) 0; }
 .stations { font-size: 14px; color: var(--ink-soft); margin-top: var(--space-2); }
 
+/* 予約までの流れ：番号の丸を縦の線でつなぎ、補足の有無で間隔が揺れて見えないようにする */
 .steps { margin: var(--space-6) 0 var(--space-8); padding: 0; list-style: none; counter-reset: s; }
-.steps li { counter-increment: s; position: relative; padding: 0 0 var(--space-5) var(--space-12); }
+.steps li { counter-increment: s; position: relative; min-height: 56px; padding: 2px 0 var(--space-6) var(--space-12); line-height: 1.7; }
 .steps li::before {
-  content: counter(s); position: absolute; left: 0; top: 2px;
-  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--green);
+  content: counter(s); position: absolute; left: 0; top: 0; z-index: 1;
+  width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--green); background: var(--paper);
   color: var(--green); font-size: 14px; line-height: 26px; text-align: center; font-weight: 500;
 }
-.steps span { display: block; font-size: 14px; color: var(--ink-soft); }
+.steps li::after { content: ""; position: absolute; left: 13.5px; top: 28px; bottom: 0; width: 1px; background: var(--green); opacity: .5; }
+.steps li:last-child { padding-bottom: 0; min-height: 0; }
+.steps li:last-child::after { display: none; }
+.steps span { display: block; margin-top: var(--space-1); font-size: 14px; color: var(--ink-soft); }
 
 /* FAQ */
 .faq details { border-bottom: 1px solid var(--line); }
@@ -247,7 +252,7 @@ a:hover { color: var(--green-dark); }
 
 /* 最後の予約 */
 .closing { text-align: center; }
-.closing h2 { margin-bottom: var(--space-4); }
+.closing h2 { margin-bottom: var(--space-8); }
 .closing p { margin: 0 auto var(--space-8); max-width: 26em; }
 
 /* フッター */

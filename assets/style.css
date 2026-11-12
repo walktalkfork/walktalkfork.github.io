@@ -149,6 +149,12 @@ a:hover { color: var(--green-dark); }
 
 /* なぜ歩くのか：本文の横に地図のイラスト */
 .walk-map { margin: 0; }
+/* 見出しの高さまで地図を大きくし、列の中で上下中央に置く */
+.why-split { align-items: center; }
+@media (min-width: 900px) {
+  .why-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+  .why-split .walk-map { margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-8)) calc(-1 * var(--space-10)) 0; }
+}
 .walk-map svg { display: block; width: 100%; height: auto; max-width: 100%; }
 
 

@@ -57,6 +57,13 @@ a:hover { color: var(--green-dark); }
 
 .narrow { max-width: var(--measure); }
 
+/* 横に並べる組み方：PCでは本文の横に関係のある要素を置き、右側を空けない */
+.split { display: grid; gap: var(--space-10); align-items: start; }
+@media (min-width: 900px) { .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-14); } }
+.split > * { min-width: 0; }
+.side-box { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
+.side-box h3 { font-size: 17px; margin-bottom: var(--space-3); }
+
 /* ヘッダー：どの画面幅でも上に固定し、後ろを少し透かす */
 .site-header {
   position: sticky; top: 0; z-index: 20;
@@ -104,6 +111,7 @@ a:hover { color: var(--green-dark); }
   font-size: clamp(44px, 11vw, 88px); line-height: 1.1; letter-spacing: 0.01em;
 }
 .hero-sub { margin: var(--space-4) 0 0; font-family: var(--mincho); font-size: clamp(20px, 4.8vw, 26px); line-height: 1.6; font-weight: 500; }
+.hero-act .hero-facts { margin-top: 0; }
 .hero-lead { margin: 0; max-width: 30em; font-size: 17px; }
 .hero-facts { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-8); margin: var(--space-8) 0; padding: 0; list-style: none; }
 .hero-facts li { display: flex; flex-direction: column; }
@@ -123,7 +131,7 @@ a:hover { color: var(--green-dark); }
 .section p:last-child { margin-bottom: 0; }
 
 /* こんなときに */
-.situations { margin: 0 0 var(--space-10); padding: 0; list-style: none; }
+.situations { margin: 0; padding: 0; list-style: none; }
 .situations li { padding: var(--space-1) 0 var(--space-1) 1.2em; text-indent: -1.2em; font-family: var(--mincho); font-size: 19px; line-height: 1.7; }
 .situations li::before { content: "・"; display: inline-block; width: 1.2em; text-indent: 0; color: var(--green); }
 
@@ -142,14 +150,15 @@ a:hover { color: var(--green-dark); }
 .verbs h3 { margin-bottom: var(--space-1); }
 .verbs p { margin: 0; }
 
-.questions { margin: var(--space-12) 0 0; padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
+.questions { margin: 0; padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); }
 .questions h3 { font-size: 17px; margin-bottom: var(--space-3); }
 .questions ul { margin: 0; padding: 0; list-style: none; }
 .questions li { padding: var(--space-2) 0; border-top: 1px dashed var(--line); font-family: var(--mincho); font-size: 17px; line-height: 1.7; }
 .questions li:first-child { border-top: none; }
 
 /* モデルルート */
-.routes { margin-top: var(--space-14); }
+.section .flow-note { color: var(--ink-soft); font-size: 15px; margin: 0 0 var(--space-10); }
+.routes h3 { margin-bottom: var(--space-2); }
 .routes > p { color: var(--ink-soft); font-size: 15px; }
 .tabs { display: flex; margin: var(--space-5) 0 0; border-bottom: 1px solid var(--ink); }
 .tab {

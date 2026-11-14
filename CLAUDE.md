@@ -1,6 +1,6 @@
 # Walk, Talk, Fork.：Claude Code 向けの引き継ぎ
 
-黒田悠介さんの対面の対話セッション「Walk, Talk, Fork.（歩いて、話して、分かれ道を選ぶ3時間）」の公式サイトです。
+黒田悠介さんの対面の対話セッション「Walk, Talk, Fork.（歩いて、話して、これからの道を選ぶ3時間。2026-11-15 に「分かれ道を選ぶ」から変更）」の公式サイトです。
 https://walktalkfork.github.io/ （GitHub 組織 walktalkfork。黒田さんの GitHub アカウントは ashitano-tenki。独自ドメインはまだ決めていない）
 
 最終更新：2026-11-15（改善の見本 https://claude.ai/artifact/DbgM1b2nSMDDMnNdfHNj1c で黒田さんが採用した14件を反映）

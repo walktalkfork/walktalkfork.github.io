@@ -198,10 +198,9 @@ a:hover { color: var(--green-dark); }
 }
 /* 動詞の右に、名前の Walk, Talk, Fork. の語を半分ほどの大きさで添えて対応を見せる（見本の案1） */
 .verbs .en { display: inline-block; font-size: .5em; color: var(--green); margin-left: var(--space-3); letter-spacing: .02em; }
-/* PCでは、大きな動詞を画面の真ん中より少し上にとどめ、右の説明だけが流れるようにする */
+/* PCでは、大きな動詞と右の説明の上の端をそろえる。動詞を画面に止める（sticky）と説明とずれるのでやめた（2026-11-15 見本の案B） */
 @media (min-width: 720px) {
-  .verbs li { align-items: start; min-height: 264px; padding: var(--space-10) 0; }
-  .verbs .verb { position: sticky; top: calc(50vh - 110px); }
+  .verbs li { align-items: start; padding: var(--space-10) 0; }
   .verbs li > div:last-child { padding-top: calc(var(--verb-size) * .12); }
 }
 .verbs .time { display: block; font-family: var(--gothic); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; margin-top: var(--space-2); font-variant-numeric: tabular-nums; }
@@ -279,7 +278,9 @@ a:hover { color: var(--green-dark); }
 @media (max-width: 479px) { .books li { flex-direction: column; gap: 0; } }
 
 /* 料金と約束：料金を1枚の切符のようなカードにする。左に金額と予約ボタン、点線の切り取り線をはさんで右に条件（見本の案A） */
-.ticket { position: relative; display: grid; background: var(--white); border-radius: 16px; box-shadow: 0 1px 0 rgba(34, 32, 28, .04), 0 12px 32px rgba(34, 32, 28, .08); }
+/* 影は外の箱（.ticket-wrap）に drop-shadow で付ける。切符そのものを mask でくり抜くので、影もくぼみの丸に沿って落ちる */
+.ticket-wrap { filter: drop-shadow(0 1px 0 rgba(34, 32, 28, .04)) drop-shadow(0 12px 32px rgba(34, 32, 28, .08)); }
+.ticket { position: relative; display: grid; background: var(--white); border-radius: 16px; }
 .ticket .stub { padding: var(--space-10); display: flex; flex-direction: column; justify-content: center; }
 .ticket .yen { margin: 0; font-family: var(--mincho); font-weight: 500; font-size: clamp(52px, 9vw, 76px); line-height: 1; letter-spacing: .02em; white-space: nowrap; }
 .ticket .yen small { font-size: .38em; margin-left: var(--space-1); }
@@ -292,16 +293,17 @@ a:hover { color: var(--green-dark); }
 .ticket dt:last-of-type, .ticket dd:last-of-type { border-bottom: 0; }
 .ticket dd:last-of-type { font-size: 15px; }
 .ticket .area-list { font-size: 15px; }
-.ticket .notch { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: var(--paper); }
 @media (min-width: 860px) {
   .ticket { grid-template-columns: 0.9fr 1.1fr; }
-  .ticket .n1, .ticket .n2 { left: calc(45% - 14px); }
-  .ticket .n1 { top: -14px; }
-  .ticket .n2 { bottom: -14px; }
+  /* 切り取り線の上下の端に、半径14pxの半円のくぼみをくり抜く（上半分と下半分に1枚ずつ。線の位置は左から45%） */
+  .ticket {
+    mask:
+      radial-gradient(circle at 45% 0, #0000 14px, #000 14.5px) top / 100% 51% no-repeat,
+      radial-gradient(circle at 45% 100%, #0000 14px, #000 14.5px) bottom / 100% 51% no-repeat;
+  }
 }
 @media (max-width: 859px) {
   .ticket .detail::before { left: var(--space-6); right: var(--space-6); top: 0; bottom: auto; border-left: 0; border-top: 2px dashed var(--line); }
-  .ticket .notch { display: none; }
   .ticket .stub, .ticket .detail { padding: var(--space-8) var(--space-6); }
 }
 @media (max-width: 479px) {
@@ -505,7 +507,7 @@ details.stations p { margin: var(--space-1) 0 0; }
       animation: reveal-rise linear both; animation-timeline: view();
       animation-range: cover 16px cover 136px;   /* 見出しの上端が、画面の下の端から16px〜136pxの間にある間に現れる */
     }
-    .section:not(.why-map, .closing, #flow) > .wrap > h2 ~ :not(.ticket),
+    .section:not(.why-map, .closing, #flow) > .wrap > h2 ~ :not(.ticket-wrap),
     #flow > .wrap > h2 + .flow-note {
       animation: reveal-rise linear both; animation-timeline: view();
       animation-range: cover 56px cover 176px;   /* 見出しより40px分あとから */

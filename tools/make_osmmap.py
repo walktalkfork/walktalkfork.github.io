@@ -211,10 +211,12 @@ def svg(uid=""):
         + "".join(f'<path d="{smooth_d(p)}" stroke-width="{WIDTH.get(h, 2)}"/>' for h, _, p in rs) + "</g>",
         "".join(f'<path d="{d_of(p)}" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" opacity=".5"/><path d="{d_of(p)}" fill="none" stroke="var(--ink-soft)" stroke-width="6" stroke-dasharray="1.5 9" opacity=".4"/>' for p in rails),
     ]
+    # ルートと出発点・ゴールには、スクロールに合わせて描くためのクラス名を付ける（style.css の map-route・map-start・map-goal。見本 m1）。
+    # pathLength="1" にしておくと、線の長さにかかわらず stroke-dasharray: 1 で全体を描ける
     parts += [
-        f'<path d="{route_d}" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>',
-        f'<circle cx="{start[0]:.1f}" cy="{start[1]:.1f}" r="6.5" fill="var(--green)"/>',
-        f'<circle cx="{goal[0]:.1f}" cy="{goal[1]:.1f}" r="7" fill="var(--paper)" stroke="var(--green)" stroke-width="3"/>',
+        f'<path class="map-route" d="{route_d}" pathLength="1" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>',
+        f'<circle class="map-start" cx="{start[0]:.1f}" cy="{start[1]:.1f}" r="6.5" fill="var(--green)"/>',
+        f'<circle class="map-goal" cx="{goal[0]:.1f}" cy="{goal[1]:.1f}" r="7" fill="var(--paper)" stroke="var(--green)" stroke-width="3"/>',
         "</svg>",
     ]
     return "\n".join(parts)

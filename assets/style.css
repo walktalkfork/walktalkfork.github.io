@@ -11,8 +11,22 @@
   /* 地図のイラストの水彩 */
   --wash-1: #C9D8CF; --wash-3: #D9E2D6; --map-park: #B9CFBC; --map-water: #C3D5D6; --map-block: #CFC7B6;
   --on-photo: #FFFDF8;
+  /* モデルルートの絵を手帳に貼った写真のように見せる（見本 t4）：写真の白い縁、紙に置いた影、
+     地図の水彩（--wash-1・--map-block）を半透明にしたマスキングテープと、その上のかすかな光沢 */
+  --photo-edge: #FFFFFF;
+  --shadow-page: 0 1px 0 rgba(34, 32, 28, .04), 0 10px 28px rgba(34, 32, 28, .07);
+  --shadow-photo: 0 1px 1px rgba(34, 32, 28, .08), 0 3px 6px -2px rgba(34, 32, 28, .14), 0 14px 22px -14px rgba(34, 32, 28, .38);
+  --tape-green: rgba(201, 216, 207, .78);
+  --tape-sand: rgba(207, 199, 182, .82);
+  --tape-sheen: linear-gradient(90deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, .14) 70%, rgba(255, 255, 255, 0));
+  /* 言語化レポートの見本（見本 c1）：机に置いた紙の影、全文を開く窓の影と、窓の後ろを暗くする墨の色 */
+  --shadow-sheet: 0 1px 2px rgba(34, 32, 28, .06), 0 14px 36px rgba(34, 32, 28, .10);
+  --shadow-dialog: 0 20px 60px rgba(34, 32, 28, .28);
+  --backdrop: rgba(34, 32, 28, .45);
   /* 文字 */
   --mincho: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  /* 明朝の見出し用：かなと約物だけ palt の入った切り出し（下の @font-face）を使い、漢字は Shippori Mincho のまま */
+  --mincho-palt: "Shippori Kana", var(--mincho);
   --gothic: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
   --measure: 36em;
   /* 余白（4pxの刻み） */
@@ -22,6 +36,17 @@
   /* 角丸（大きさで決める）：札 6・ボタン 8・カードと箱 12 */
   --radius-sm: 4px; --radius-tag: 6px; --radius-md: 8px; --radius-card: 12px;
   --header-h: 56px;
+}
+
+/* Google Fonts の Shippori Mincho には横書きの字詰め（palt）が入っていないので、
+   元のフォントからかな・約物・全角の記号だけを切り出して置く（tools/make_kana_font.py。ライセンスは assets/fonts/OFL.txt） */
+@font-face {
+  font-family: "Shippori Kana";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/shippori-kana.woff2") format("woff2");
+  unicode-range: U+2015, U+2025-2026, U+3000-3003, U+3005-3015, U+301C-301D, U+301F, U+3033-3035, U+303B, U+303D, U+3041-3096, U+3099-309E, U+30A1-30FE, U+FF01, U+FF03-FF06, U+FF08-FF0F, U+FF1A-FF1B, U+FF1D, U+FF1F, U+FF3B-FF3D, U+FF5B, U+FF5D-FF5E;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -115,6 +140,8 @@ a:hover { color: var(--green-dark); }
   margin: 0; font-family: var(--mincho); font-weight: 500;
   font-size: clamp(44px, 11vw, 88px); line-height: 1.1; letter-spacing: 0.01em;
 }
+/* 名前の3語は1つずつ動かせるよう inline-block にしておく（止まっているときの見た目は同じ。見本 m3） */
+.hero h1 span { display: inline-block; }
 .hero-sub { margin: var(--space-4) 0 0; font-family: var(--mincho); font-size: clamp(20px, 4.8vw, 26px); line-height: 1.6; font-weight: 500; }
 .hero-lead { margin: 0; max-width: 30em; font-size: 17px; }
 .hero-facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; align-self: center; }
@@ -155,14 +182,28 @@ a:hover { color: var(--green-dark); }
 
 
 .section .flow-note { color: var(--ink-soft); font-size: 15px; margin: calc(-1 * var(--space-4)) 0 var(--space-6); }
-/* 3時間の流れ：「話す」「歩く」「決める」の3つの動詞を大きな明朝で置き、横に説明を添える */
-.verbs { list-style: none; margin: 0 0 var(--space-10); padding: 0; }
+/* 3時間の流れ：「歩く」「話す」「選ぶ」の3つの動詞を大きな明朝で置き、横に説明を添える */
+/* 左に 0:00 から 3:00 までの細い時間の線を引き、各段の動詞の横に点を置く（見本 m2）。線は1本だけで、枝分かれはしない */
+.verbs { --verb-size: clamp(40px, 9vw, 64px); position: relative; list-style: none; margin: 0 0 var(--space-10); padding: 0 0 0 var(--space-8); }
+.verbs::before, .verbs::after { content: ""; position: absolute; top: 0; bottom: 0; pointer-events: none; }
+.verbs::before { left: 6px; width: 1px; background: var(--line); }
+.verbs::after { left: 5.5px; width: 2px; background: var(--green); transform-origin: 50% 0; }
 .verbs li { display: grid; gap: var(--space-1) var(--space-8); padding: var(--space-6) 0; border-top: 1px solid var(--line); align-items: center; }
 .verbs li:last-child { border-bottom: 1px solid var(--line); }
 @media (min-width: 720px) { .verbs li { grid-template-columns: 260px 1fr; } }
-.verbs .verb { font-family: var(--mincho); font-weight: 500; font-size: clamp(40px, 9vw, 64px); line-height: 1.1; white-space: nowrap; }
+.verbs .verb { position: relative; font-family: var(--mincho); font-weight: 500; font-size: var(--verb-size); line-height: 1.1; white-space: nowrap; }
+.verbs .verb::before {
+  content: ""; position: absolute; left: calc(-1 * var(--space-8) + 2px); top: calc(var(--verb-size) * .55 - 4.5px);
+  width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--green); background: var(--green);
+}
 /* 動詞の右に、名前の Walk, Talk, Fork. の語を半分ほどの大きさで添えて対応を見せる（見本の案1） */
-.verbs .en { font-size: .5em; color: var(--green); margin-left: var(--space-3); letter-spacing: .02em; }
+.verbs .en { display: inline-block; font-size: .5em; color: var(--green); margin-left: var(--space-3); letter-spacing: .02em; }
+/* PCでは、大きな動詞を画面の真ん中より少し上にとどめ、右の説明だけが流れるようにする */
+@media (min-width: 720px) {
+  .verbs li { align-items: start; min-height: 264px; padding: var(--space-10) 0; }
+  .verbs .verb { position: sticky; top: calc(50vh - 110px); }
+  .verbs li > div:last-child { padding-top: calc(var(--verb-size) * .12); }
+}
 .verbs .time { display: block; font-family: var(--gothic); font-size: 13px; color: var(--ink-soft); letter-spacing: 0.06em; margin-top: var(--space-2); font-variant-numeric: tabular-nums; }
 .verbs h3 { margin-bottom: var(--space-1); }
 .verbs p { margin: 0; }
@@ -183,9 +224,26 @@ a:hover { color: var(--green-dark); }
 .routes > p { color: var(--ink-soft); font-size: 15px; }
 .route-pair { display: grid; gap: var(--space-4); margin-top: var(--space-5); }
 @media (min-width: 720px) { .route-pair { grid-template-columns: 1fr 1fr; gap: var(--space-6); } }
-.route { padding: var(--space-6); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-card); min-width: 0; }
-.route { overflow: hidden; }
-.route-pic { display: block; width: calc(100% + 2 * var(--space-6)); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-5); }
+/* 白いカードを手帳のページにし、絵は白い縁の写真として少し傾けて貼る。文字は傾けない（見本 t4） */
+.route { padding: var(--space-6); background: var(--white); border-radius: var(--radius-card); box-shadow: var(--shadow-page); min-width: 0; }
+.route-photo {
+  position: relative; margin: var(--space-1) var(--space-1) var(--space-6);
+  padding: 6px;   /* 写真の白い縁の太さ */
+  background: var(--photo-edge); box-shadow: var(--shadow-photo);
+  transform: rotate(-1.1deg);
+}
+.route + .route .route-photo { transform: rotate(.8deg); }
+.route-pic { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+/* マスキングテープ：写真の上の辺に1枚。両端は手でちぎった形にする */
+.route-tape {
+  position: absolute; z-index: 1; top: -11px; left: 12%;
+  width: 30%; max-width: 112px; height: 24px; pointer-events: none;
+  background-color: var(--tape-green); background-image: var(--tape-sheen);
+  mix-blend-mode: multiply;
+  clip-path: polygon(2% 0, 98% 0, 100% 16%, 97% 34%, 100% 52%, 96% 70%, 99% 86%, 97% 100%, 3% 100%, 0 86%, 4% 68%, 1% 50%, 4% 32%, 0 14%);
+  transform: rotate(-4deg);
+}
+.route + .route .route-tape { top: -10px; left: auto; right: 9%; background-color: var(--tape-sand); transform: rotate(5deg); }
 .route h4 { margin: 0 0 var(--space-3); font-family: var(--mincho); font-weight: 500; font-size: 18px; }
 .route ol { margin: 0; padding-left: 1.4em; }
 .route li { padding: var(--space-1) 0; }
@@ -356,9 +414,18 @@ details.stations p { margin: var(--space-1) 0 0; }
 /* ヘッダーの目次：PCだけ */
 .header-nav { display: none; }
 @media (min-width: 960px) {
-  .header-nav { display: flex; gap: var(--space-5); margin-left: auto; margin-right: var(--space-6); }
+  .header-nav { position: relative; display: flex; gap: var(--space-5); margin-left: auto; margin-right: var(--space-6); padding: var(--space-2) 0; }
   .header-nav a { font-size: 13px; color: var(--ink-soft); text-decoration: none; white-space: nowrap; }
   .header-nav a:hover { color: var(--green); text-decoration: underline; }
+  /* 今読んでいるセクションの名前を墨の色にし、下に2pxの緑の線を置く。線は assets/site.js が作って動かす（見本 u3） */
+  .header-nav a[aria-current] { color: var(--ink); }
+  .header-nav a[aria-current]:hover { color: var(--green); }
+  .nav-mark { position: absolute; left: 0; bottom: var(--space-1); width: 1px; height: 2px; background: var(--green); transform-origin: 0 0; opacity: 0; pointer-events: none; }
+}
+@media (min-width: 960px) and (prefers-reduced-motion: no-preference) {
+  .header-nav a { transition: color 200ms ease; }
+  .nav-mark { transition: transform 320ms cubic-bezier(.3, .7, .2, 1), opacity 200ms ease; }
+  .nav-mark.is-jump { transition: none; }
 }
 
 /* 狭い画面では、ファーストビューの要点の数字を少し小さくし、区切りを詰める */
@@ -375,13 +442,14 @@ details.stations p { margin: var(--space-1) 0 0; }
 
 /* スマホでは、写真の上の名前を Walk, / Talk, / Fork. の3行に分けて大きく置く */
 @media (max-width: 639px) {
-  .hero h1 span { display: block; }
+  .hero h1 span { display: block; width: fit-content; }
   .hero h1 { font-size: clamp(64px, 21vw, 96px); line-height: 1.02; }
   .hero-photo { min-height: 82vh; }
 }
 
 /* なぜ歩くのか：OpenStreetMap の神保町の道から描いた水彩の地図を横幅いっぱいに敷き、文章のカードを重ねる。ルートはカードの右に来る */
-.why-map { position: relative; overflow: hidden; padding-block: var(--space-26); }
+/* はみ出しは overflow: clip で隠す（hidden にするとスクロールする箱とみなされ、下のルートを描く動き（view-timeline）が働かない） */
+.why-map { position: relative; overflow: clip; padding-block: var(--space-26); }
 .why-map .bgmap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .why-map .wrap { position: relative; }
 .why-card { max-width: 30em; padding: var(--space-10); background: rgba(244, 240, 230, .88); border-radius: var(--radius-card); }
@@ -389,8 +457,9 @@ details.stations p { margin: var(--space-1) 0 0; }
 .why-card p { margin: 0; }
 .map-credit { position: absolute; right: var(--space-3); bottom: var(--space-1); margin: 0; font-size: 11px; color: var(--ink-soft); }
 .map-credit a { color: inherit; }
-@media (max-width: 899px) {
-  /* 狭い画面では、カードの下にルートのまわりを切り出して見せる */
+@media (max-width: 959px) {
+  /* 狭い画面では、カードの下にルートのまわりを切り出して見せる。
+     900〜959px で地図を後ろに敷くと出発点の丸がカードの陰に隠れるので、境目は 960px にする（index.html の切り出しのスクリプトも同じ） */
   .why-map { display: flex; flex-direction: column; padding-block: var(--space-18) 0; }
   .why-map .wrap { order: 1; }
   .why-map .bgmap { order: 2; position: relative; inset: auto; height: auto; aspect-ratio: 4 / 3; margin-top: var(--space-6); }
@@ -398,3 +467,285 @@ details.stations p { margin: var(--space-1) 0 0; }
   .why-card { padding: 0; background: none; max-width: none; }
   .why-map .map-credit { order: 3; position: static; text-align: right; padding: 0 var(--space-4) var(--space-2); }
 }
+
+/* 明朝の見出しの字詰め：かなと「、」のまわりの空きを palt で詰め、詰めすぎないよう字間を少し広げる（見本 t1） */
+.hero-sub, .section h2, .voices li, .legal h1, .legal h2 { font-family: var(--mincho-palt); font-feature-settings: "palt"; }
+.hero-sub, .legal h1, .legal h2 { letter-spacing: .06em; }
+.section h2 { letter-spacing: .08em; }
+.voices li { letter-spacing: .05em; }
+/* 本文では、行の頭にくる「や（の前の空きをなくす（Chrome 123 以降。ほかのブラウザでは今と同じ） */
+@supports (text-spacing-trim: trim-start) { body { text-spacing-trim: trim-start; } }
+
+/* ページの移動：同じサイトの中でページを移るとき、前のページが薄れて次のページが重なって現れる（見本 u2。4つのページ共通） */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* ファーストビュー：開いたときに1回だけ、少し大きく映っていた写真がゆっくり元に戻り、
+   名前の3語が Walk, Talk, Fork. の順に1語ずつ現れ、サブタイトルと予約ボタンが続く。2秒ほどですべてそろう（見本 m3）。
+   動きを減らす設定の人と、アニメーションに対応しないブラウザでは、最初からすべて見えている */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo img { animation: hero-settle 2.4s cubic-bezier(.22, .61, .36, 1) both; }
+  .hero h1 span, .hero-sub, .hero-over .btn { animation: hero-rise .5s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero h1 span:nth-child(1) { animation-delay: .25s; }
+  .hero h1 span:nth-child(2) { animation-delay: .55s; }
+  .hero h1 span:nth-child(3) { animation-delay: .85s; }
+  .hero-sub { animation-delay: 1.2s; }
+  .hero-over .btn { animation-delay: 1.5s; }
+}
+@keyframes hero-settle { from { transform: scale(1.05); } to { transform: none; } }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* 見出しと本文：セクションの見出しが画面に入るときに下から12pxだけ上がりながら現れ、続く要素が少し遅れて同じように現れる（見本 m6）。
+   スクロールに合わせて動く（Chrome 115+、Safari・iOS 26+、Firefox 159+）。ほかのブラウザと動きを減らす設定の人には、最初からすべて見えている。
+   ほかの動きと重ねないよう、なぜ歩くのか（地図）・3時間の流れの動詞から下・料金の切符・最後の予約欄には当てない */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .section:not(.why-map, .closing) > .wrap > h2 {
+      animation: reveal-rise linear both; animation-timeline: view();
+      animation-range: cover 16px cover 136px;   /* 見出しの上端が、画面の下の端から16px〜136pxの間にある間に現れる */
+    }
+    .section:not(.why-map, .closing, #flow) > .wrap > h2 ~ :not(.ticket),
+    #flow > .wrap > h2 + .flow-note {
+      animation: reveal-rise linear both; animation-timeline: view();
+      animation-range: cover 56px cover 176px;   /* 見出しより40px分あとから */
+    }
+  }
+}
+@keyframes reveal-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* よくある質問：答えの欄の高さを0から本来の高さまで動かし、少し遅れて文字を濃くする（見本 u1）。
+   interpolate-size と ::details-content が使えるブラウザ（Chrome 131+）だけ。ほかと動きを減らす設定の人は、今と同じく一瞬で開閉する */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (interpolate-size: allow-keywords) {
+    .faq { interpolate-size: allow-keywords; }
+    .faq details::details-content {
+      block-size: 0; opacity: 0; overflow-y: clip;
+      transition:
+        block-size 320ms cubic-bezier(.2, .7, .2, 1),
+        opacity 260ms ease,
+        content-visibility 320ms allow-discrete;
+    }
+    .faq details[open]::details-content { block-size: auto; opacity: 1; }
+    .faq summary::after { transition-duration: 320ms; transition-timing-function: cubic-bezier(.2, .7, .2, 1); }
+  }
+}
+
+/* なぜ歩くのか：スクロールに合わせて、地図の緑のルートを出発点から描く（見本 m1）。
+   出発点の丸が現れ、線がゴールまで伸び（地図が画面の真ん中に来たときに描き終わる）、着いたところでゴールの輪が現れる。
+   クラス名と pathLength="1" は tools/make_osmmap.py が付ける。動くのは線と2つの丸だけで、文章のカードは動かない。
+   スクロールに合わせて動く（Chrome 115+、Safari・iOS 26+、Firefox 159+）。ほかのブラウザと動きを減らす設定の人には、最初からルートが全部見えている */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .why-map .bgmap { view-timeline: --why-map block; }
+    .map-start {
+      transform-box: fill-box; transform-origin: center;
+      animation: map-start linear both; animation-timeline: --why-map;
+      animation-range: entry 25% entry 40%;
+    }
+    .map-route {
+      stroke-dasharray: 1; stroke-dashoffset: 0;
+      animation: map-draw linear both; animation-timeline: --why-map;
+      animation-range: entry 40% cover 50%;
+    }
+    .map-goal {
+      transform-box: fill-box; transform-origin: center;
+      animation: map-goal linear both; animation-timeline: --why-map;
+      animation-range: cover 50% cover 56%;
+    }
+  }
+}
+@keyframes map-start { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+@keyframes map-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes map-goal { 0% { opacity: 0; transform: scale(.2); } 70% { opacity: 1; transform: scale(1.18); } 100% { opacity: 1; transform: none; } }
+
+/* 3時間の流れ：読み進めると、話す・選ぶの動詞が薄い色から1つずつ墨の色になり、Walk, Talk, Fork. の語と点が続く。
+   左の線は 0:00 から 3:00 まで伸びる（見本 m2）。最初の「歩く」は、はじめから墨の色。
+   位置はどれも画面の真ん中（50vh）から決める。一覧の上端が真ん中に来たとき 0:00、下端が真ん中に来たとき 3:00。
+   スクロールに合わせて動く（Chrome 115+、Safari・iOS 26+、Firefox 159+）。ほかのブラウザと動きを減らす設定の人には、3つとも墨の色で、線も 3:00 まで伸びている */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .verbs { view-timeline: --flow-list block; }
+    .verbs::after {
+      animation: flow-fill linear both; animation-timeline: --flow-list;
+      animation-range: cover 50vh cover calc(100% - 50vh);
+    }
+    /* 各段：上端が「真ん中より120px下」から「真ん中より20px上」へ進む間に墨になる */
+    .verbs li { view-timeline: --flow-step block; }
+    .verbs li:not(:first-child) .verb .jp { animation: flow-ink linear both; animation-timeline: --flow-step; animation-range: cover calc(50vh - 120px) cover calc(50vh + 20px); }
+    .verbs li:not(:first-child) .verb .en { animation: flow-en linear both; animation-timeline: --flow-step; animation-range: cover calc(50vh - 60px) cover calc(50vh + 40px); }
+    .verbs li:not(:first-child) .verb::before { animation: flow-dot linear both; animation-timeline: --flow-step; animation-range: cover calc(50vh - 30px) cover calc(50vh + 20px); }
+  }
+}
+@keyframes flow-fill { from { transform: scaleY(0); } to { transform: none; } }
+@keyframes flow-ink { from { opacity: .25; } to { opacity: 1; } }
+@keyframes flow-en { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+@keyframes flow-dot { from { background-color: var(--paper); } to { background-color: var(--green); } }
+
+/* 料金と約束：切符が画面に入ると、半券と本券の境の切り取り線をまたいで、緑のインクの丸い判子が押される（見本 m4）。
+   駅の記念スタンプのように、真ん中に「歩」、縁に Walk, Talk, Fork. と三時間。金額・ボタン・文字には重ならない。
+   広い画面（横並び）：縦の切り取り線の上で、ボタンと同じ高さ。印の中心は線より12px半券側で、本券側には30pxだけかかる（「場所」などの見出しは線から40px）。
+   狭い画面（縦積み）：横の切り取り線の右端。下は「3時間」の行の右の空き。
+   金額やボタンの文字の大きさを変えたときは、印の位置を見直す */
+.ticket .stub { position: relative; }
+.stub-act { position: relative; margin-top: var(--space-8); }
+.ticket .stub .stub-act .btn { margin-top: 0; }
+.seal {
+  position: absolute; z-index: 1; right: -70px; top: 50%; margin-top: -42px; width: 84px; height: 84px;
+  color: var(--green); opacity: .9; mix-blend-mode: multiply; transform: rotate(-8deg); pointer-events: none; overflow: visible;
+}
+.seal text { font-family: var(--mincho); font-weight: 500; fill: currentColor; }
+.seal .ring-en { font-size: 14.5px; letter-spacing: 0; }
+.seal .ring-ja { font-size: 14px; letter-spacing: 3px; }
+.seal .center { font-size: 44px; }
+@media (max-width: 859px) {
+  .stub-act { position: static; }
+  .seal { top: auto; bottom: -54px; right: var(--space-4); margin: 0; width: 74px; height: 74px; }
+}
+/* 動き：印が画面に入ると（assets/site.js が .play を付ける）、少し遅れて、大きく傾いた状態から縮みながら止まり、インクが濃くなる。
+   押した瞬間に切符がわずかに沈む（:has() が使えるブラウザだけ）。動きを減らす設定の人と JS が動かないときは、最初から押された状態 */
+@media (prefers-reduced-motion: no-preference) {
+  /* JS が動くときだけ（site.js が html に .js-play を付ける）、押す前の印を隠しておく。押された印が一度見えてから消えて押し直されるのを防ぐ */
+  .js-play .seal:not(.play) { opacity: 0; }
+  .seal.play { animation: seal-stamp .44s .45s both; }
+  .seal.play .ink { animation: seal-inking .7s .72s ease-out both; }
+  .ticket:has(.seal.play) { animation: ticket-press .32s .7s ease-out both; }
+}
+@keyframes seal-stamp {
+  0% { opacity: 0; transform: rotate(-14deg) scale(1.35); animation-timing-function: cubic-bezier(.55, 0, .85, .35); }
+  60% { opacity: .9; transform: rotate(-8deg) scale(.97); animation-timing-function: cubic-bezier(.2, .6, .3, 1); }
+  100% { opacity: .9; transform: rotate(-8deg) scale(1); }
+}
+@keyframes seal-inking { from { opacity: .55; } to { opacity: 1; } }
+@keyframes ticket-press { 0% { transform: none; } 35% { transform: translateY(1.5px); } 100% { transform: none; } }
+
+/* 料金と約束：「約束できること」の下に、言語化レポートの架空の見本を1枚置く（見本 c1）。
+   紙の上のほうだけを見せ、「見本の全文を読む」で全文を窓（dialog）に開く。切り詰めとボタンは assets/site.js が動くときだけ（.is-clipped） */
+.promise a.mincho { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
+.report-sample { display: grid; gap: var(--space-8); margin-top: var(--space-16); scroll-margin-top: var(--space-6); }
+@media (min-width: 860px) {
+  .report-sample { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-14); align-items: start; }
+}
+.report-intro p { max-width: 30em; }
+.report-items { list-style: none; margin: var(--space-6) 0 0; padding: 0; }
+.report-items li { padding: var(--space-2) 0; border-top: 1px solid var(--line); font-family: var(--mincho); font-weight: 500; font-size: 17px; line-height: 1.7; }
+.report-items li:last-child { border-bottom: 1px solid var(--line); }
+.report-figure { margin: 0; min-width: 0; }
+.report-sheet { position: relative; background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-sheet); padding: var(--space-8) var(--space-6) var(--space-6); }
+/* 広い画面だけ、机に置いた紙のように少し傾ける */
+@media (min-width: 860px) { .report-sheet { transform: rotate(-.8deg); padding: var(--space-10) var(--space-8) var(--space-6); margin-top: var(--space-2); } }
+.report-sheet.is-clipped .report-clip {
+  max-height: 640px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 0, #000 calc(100% - 200px), transparent calc(100% - 24px));
+  mask-image: linear-gradient(#000 0, #000 calc(100% - 200px), transparent calc(100% - 24px));
+}
+@media (min-width: 860px) { .report-sheet.is-clipped .report-clip { max-height: 620px; } }
+.report-more { position: relative; margin-top: calc(-1 * var(--space-14)); text-align: center; }
+.report-more-btn, .report-close {
+  appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: 44px; padding: 0 var(--space-5); border-radius: var(--radius-md);
+  border: 1px solid var(--green); background: var(--white); color: var(--green-dark);
+  font-family: var(--gothic); font-size: 15px; font-weight: 500; letter-spacing: .04em; white-space: nowrap; cursor: pointer;
+}
+.report-more-btn:hover, .report-close:hover { background: var(--wash-3); }
+.report-more-btn svg { flex: none; }
+.report-caption { margin: var(--space-5) 0 0; font-size: 14px; color: var(--ink-soft); }
+@media (min-width: 860px) { .report-caption { margin-top: var(--space-6); } }
+
+/* レポートの紙面（見本の紙と、全文の窓で共通） */
+.report-doc { font-size: 15px; line-height: 1.9; }
+.report-doc header { padding-bottom: var(--space-4); border-bottom: 1px solid var(--ink); }
+.report-doc p { margin: 0; }
+.report-doc .doc-title { font-family: var(--mincho); font-weight: 500; font-size: 24px; line-height: 1.4; letter-spacing: .08em; }
+.report-doc .doc-meta { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); margin: var(--space-2) 0 0; font-size: 13px; color: var(--ink-soft); letter-spacing: .04em; }
+.report-doc .doc-meta span { white-space: nowrap; }
+.report-doc .doc-to { margin: var(--space-3) 0 0; font-family: var(--mincho); font-weight: 500; font-size: 16px; }
+.report-doc section { margin-top: var(--space-6); }
+.report-doc h4 { margin: 0 0 var(--space-2); font-family: var(--mincho); font-weight: 500; font-size: 17px; line-height: 1.6; color: var(--green-dark); }
+.report-doc .doc-lead { color: var(--ink-soft); font-size: 14px; margin-bottom: var(--space-2); }
+.report-doc ul, .report-doc ol { margin: 0; padding-left: 1.2em; }
+.report-doc li { padding: 2px 0; }
+.report-doc .doc-quotes { list-style: none; padding: 0; }
+.report-doc .doc-quotes li { padding: var(--space-1) 0 var(--space-1) 1em; text-indent: -.6em; font-family: var(--mincho); font-weight: 500; font-size: 17px; line-height: 1.8; }
+.report-doc .doc-dir { font-family: var(--mincho); font-weight: 500; font-size: 18px; line-height: 1.8; }
+.report-doc .doc-exp { padding-left: 1.4em; }
+.report-doc .doc-exp li { padding: var(--space-2) 0; }
+.report-doc .doc-due { display: block; font-size: 13px; color: var(--green-dark); font-weight: 500; letter-spacing: .04em; }
+.report-doc .doc-q { font-family: var(--mincho); font-weight: 500; font-size: 19px; line-height: 1.7; }
+.report-doc .doc-note { padding-top: var(--space-5); border-top: 1px solid var(--line); }
+.report-doc .doc-sign { margin-top: var(--space-3); text-align: right; font-family: var(--mincho); font-weight: 500; }
+
+/* 全文を読む窓 */
+.report-dialog {
+  width: min(680px, calc(100vw - 32px)); max-height: min(90vh, 960px); padding: 0; border: 0;
+  background: var(--white); color: var(--ink); border-radius: var(--radius-card);
+  box-shadow: var(--shadow-dialog); overflow: auto; overscroll-behavior: contain;
+}
+.report-dialog::backdrop { background: var(--backdrop); }
+.report-dialog-bar {
+  position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4) var(--space-3) var(--space-8); background: var(--white); border-bottom: 1px solid var(--line);
+}
+.section .report-dialog-bar p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+.report-dialog-doc { padding: var(--space-8) var(--space-10) var(--space-6); }
+.report-dialog-foot { padding: 0 var(--space-10) var(--space-8); text-align: center; }
+@media (max-width: 520px) {
+  .report-dialog { width: calc(100vw - 16px); max-height: calc(100vh - 16px); max-height: calc(100dvh - 16px); }
+  .report-dialog-bar { padding-left: var(--space-5); }
+  .report-dialog-doc { padding: var(--space-6) var(--space-5) var(--space-5); }
+  .report-dialog-foot { padding: 0 var(--space-5) var(--space-6); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .report-dialog[open] { animation: dialog-in 260ms cubic-bezier(.2, .7, .2, 1) both; }
+  .report-dialog[open]::backdrop { animation: backdrop-in 260ms ease both; }
+}
+@keyframes dialog-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* 歩いた人の声（見本 c2）：受けた人の短い言葉を、紙のメモのように少しずらして並べる。
+   index.html では、実際の声が2〜3件集まり載せる許可をもらうまで、節ごとコメントにして出していない。
+   「こんなときに」の .voices とは別のもの */
+.testimonial-list { display: grid; gap: var(--space-6); max-width: 34em; margin: 0; padding: 0; list-style: none; }
+.testimonial { margin: 0; padding: var(--space-6) var(--space-6) var(--space-5); background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-page); }
+.testimonial-list > li:nth-child(1) .testimonial { transform: rotate(-.5deg); }
+.testimonial-list > li:nth-child(2) { margin-left: 6%; }
+.testimonial-list > li:nth-child(2) .testimonial { transform: rotate(.6deg); }
+.testimonial-list > li:nth-child(3) { margin-left: 2%; }
+.testimonial-list > li:nth-child(3) .testimonial { transform: rotate(-.3deg); }
+@media (min-width: 720px) {
+  .testimonial-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-8); max-width: none; align-items: start; }
+  .testimonial-list > li:nth-child(2) { margin-left: 0; margin-top: var(--space-8); }
+  .testimonial-list > li:nth-child(3) { margin-left: 0; margin-top: var(--space-3); }
+  .testimonial-list > li:nth-child(1) .testimonial { transform: rotate(-1deg); }
+  .testimonial-list > li:nth-child(2) .testimonial { transform: rotate(.8deg); }
+  .testimonial-list > li:nth-child(3) .testimonial { transform: rotate(-.4deg); }
+}
+.testimonial blockquote { margin: 0; }
+.testimonial blockquote p { margin: 0; font-family: var(--mincho); font-weight: 500; font-size: 17px; line-height: 1.85; }
+.testimonial figcaption { margin-top: var(--space-4); font-size: 13px; line-height: 1.7; color: var(--ink-soft); }
+
+/* 最後の予約欄：緑の帯の地に、地図の等高線のような細い線を薄く敷く（見本 m5）。線は tools/make_contours.py が作る。
+   線は帯の右上と左下に寄せ、中央の文字の後ろではマスクで消す。白い見出しと地の差は、いちばん濃い線の真上でも 4.5:1 以上。
+   帯が画面に入るにつれて外側の線から順に描き、帯が全部見えたときに描き終わって止まる。
+   スクロールに合わせて動く（Chrome 115+、Safari・iOS 26+、Firefox 159+）。ほかのブラウザと動きを減らす設定の人には、最初から線が全部見えている */
+.closing { position: relative; overflow: clip; }
+.closing .wrap { position: relative; }
+.contours {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 38%, rgba(0, 0, 0, .55) 68%, #000 100%);
+  mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 38%, rgba(0, 0, 0, .55) 68%, #000 100%);
+}
+/* 線の色：生成り（--white）を薄く重ね、地の緑より少し明るい緑に見せる。各山の内から4本目は、地図の計曲線のように少し濃く太くする */
+.contours path { stroke: var(--white); stroke-opacity: .13; stroke-width: 1.3; }
+.contours path.idx { stroke-opacity: .2; stroke-width: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .closing { view-timeline: --closing-band block; }
+    .contours path {
+      stroke-dasharray: 1; stroke-dashoffset: 0;
+      animation: contour-draw linear both; animation-timeline: --closing-band;
+      animation-range: entry calc(var(--contour-i) * 6.67%) entry calc(var(--contour-i) * 6.67% + 40%);
+    }
+  }
+}
+@keyframes contour-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }

@@ -37,7 +37,7 @@ d = ImageDraw.Draw(img)
 title = ImageFont.truetype(str(FONT), 104)
 sub = ImageFont.truetype(str(FONT), 38)
 d.text((72, 360), "Walk, Talk, Fork.", font=title, fill="#FFFDF8")
-d.text((76, 500), "歩いて、話して、これからの道を選ぶ3時間", font=sub, fill="#FFFDF8")
+d.text((76, 500), "歩いて、話して、これからの道を選ぶ3時間の散歩対話", font=sub, fill="#FFFDF8")
 out = ROOT / "assets/ogp.jpg"
 img.save(out, "JPEG", quality=86, subsampling=0, optimize=True, progressive=True)
 print("wrote assets/ogp.jpg", out.stat().st_size, "bytes")

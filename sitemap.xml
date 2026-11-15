@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 検索エンジン向けのページの一覧。規約ページ3つは noindex（検索に載せない）なので入れない。404.html も入れない。
+     トップページを直したら lastmod の日付を書き換える -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://walktalkfork.github.io/</loc><lastmod>2026-11-15</lastmod></url>
+</urlset>

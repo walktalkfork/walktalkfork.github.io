@@ -13,13 +13,17 @@ import sys
 import budoux
 
 parser = budoux.load_default_japanese_parser()
-SKIP = re.compile(r"(<(script|style|svg|title)\b.*?</\2>)", re.S | re.I)
+# ルビ（<ruby>…</ruby>）は、読み（<rt>・<rp>）にも親文字にも <wbr> を入れないよう丸ごと飛ばす
+SKIP_TAGS = ("script", "style", "svg", "title", "ruby", "rt", "rp")
+SKIP = re.compile(r"(<(" + "|".join(SKIP_TAGS) + r")\b.*?</\2>)", re.S | re.I)
+# ルビの前が日本語の文字か「、」「。」（「・」とかっこは除く）なら、ルビの前で改行できるよう <wbr> を入れる。ルビの後ろは助詞が続くので入れない
+BEFORE_RUBY = re.compile(r"(?<=[、。぀-ヺー-ヿ㐀-鿿])(?=<ruby\b)")
 TAG = re.compile(r"(<[^>]+>)")
 JA = re.compile(r"[぀-ヿ㐀-鿿]")
 
 
 # BudouX が語の途中で区切ってしまう語。ここに足すと、その語の中では改行しない
-KEEP = ["方向", "方法", "方針", "といった", "架空", "手がかり", "これからの道"]
+KEEP = ["方向", "方法", "方針", "といった", "架空", "手がかり", "これからの道", "言い換え"]
 
 
 def crosses(prev, nxt, word):
@@ -61,11 +65,11 @@ def process(src):
     for chunk in SKIP.split(body):
         if chunk is None:
             continue
-        if SKIP.fullmatch(chunk) or chunk.lower() in ("script", "style", "svg", "title"):
+        if SKIP.fullmatch(chunk) or chunk.lower() in SKIP_TAGS:
             out.append(chunk if SKIP.fullmatch(chunk) else "")
             continue
         out.append("".join(p if p.startswith("<") else phrase_text(p) for p in TAG.split(chunk)))
-    return head + sep + "".join(out)
+    return head + sep + BEFORE_RUBY.sub("<wbr>", "".join(out))
 
 
 for path in sys.argv[1:]:

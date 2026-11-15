@@ -1,12 +1,22 @@
 """「なぜ歩くのか」の背景の地図を、OpenStreetMap の神保町のデータから水彩の描き方で作り、index.html の svg.bgmap を書き換える。
 データは tools/data/jimbocho-osm.json（Overpass API で取った道・川・公園。© OpenStreetMap contributors、ODbL）。
 道は名前のある通りと住宅街の道だけ（建物の間の通路は外す）を、なめらかな曲線で描く。2026-11-12 に黒田さんが見本の案2を選んだ。
-使い方: python3 -I tools/make_osmmap.py
+
+水彩の地（にじんだ色の面）は、開くたびにブラウザがフィルターを計算しなくて済むよう、ここで一度だけ画像にして
+assets/map-ground.webp（3120×1360px。地図の枠より左右に60、上下に40はみ出させて描く）に書き出し、SVG の中に <image> で貼る（2026-11-15 見本 b2）。
+道・川・緑のルート・出発点とゴールの丸は SVG のまま（読み進めるとルートが描かれる動きと、スマホの切り出しはそのまま動く）。
+画像にするのに Google Chrome（ヘッドレス）を使う。場所が違うときは環境変数 CHROME で指定する。WebP に書き出すのに Pillow が要る。
+404.html に svg.lostmap があれば、同じ地図のルートのまわりを切り出したもの（道に迷ったときの地図。見本 b1）にも書き換える。
+使い方（Pillow が入った Python で）: python -I tools/make_osmmap.py
 """
+import hashlib
 import json
+import os
 import re
 import math
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -58,6 +68,11 @@ def smooth_d(pts, close=False):
         (x0, y0), (x1, y1), (x2, y2), (x3, y3) = p[i - 1], p[i], p[i + 1], p[i + 2]
         s += f" C{x1 + (x2 - x0) / 6:.1f} {y1 + (y2 - y0) / 6:.1f} {x2 - (x3 - x1) / 6:.1f} {y2 - (y3 - y1) / 6:.1f} {x2:.1f} {y2:.1f}"
     return s + ("Z" if close else "")
+
+
+def has_body(pts, n=2):
+    """描く位置に直したあとで、違う点が n 個以上あるか（線なら2、面なら3）。"""
+    return len({(round(x, 1), round(y, 1)) for x, y in pts}) >= n
 
 
 def visible(pts, m=80):
@@ -170,7 +185,12 @@ def build(name):
             parks.append(simplify(pts))
         elif "railway" in t:
             rails.append(simplify(pts))
-
+    # 縮めると1点だけになる道や、面積のない公園・水面は描かない（中身のない線を出さない。見本 b2）
+    roads = [r for r in roads if has_body(r[2])]
+    rivers = [p for p in rivers if has_body(p)]
+    rails = [p for p in rails if has_body(p)]
+    parks = [p for p in parks if has_body(p, 3)]
+    waters = [p for p in waters if has_body(p, 3)]
 
     route_pts = simplify(despike([xy(p) for p in ll]), 0.8)
     start, goal = route_pts[0], route_pts[-1]
@@ -194,21 +214,83 @@ def build(name):
 
 
 
-def svg(uid=""):
+GROUND = ROOT / "assets/map-ground.webp"
+GX, GY, GW, GH = -60, -40, W + 120, H + 80   # 水彩の地の画像を置く範囲（地図の枠より左右に60、上下に40はみ出す。スマホの切り出しは右に20はみ出すため）
+GSCALE = 2                                   # 高精細の画面向けに2倍で描く（3120×1360px）
+WEBP_QUALITY = 70
+PAPER = "#F4F0E6"
+
+
+def tokens():
+    """style.css の :root から、地図に使う色の値を読む（画像にするときは var() が使えないため）。"""
+    css = (ROOT / "assets/style.css").read_text()
+    root = css[css.index(":root"):css.index("}", css.index(":root"))]
+    return dict(re.findall(r"(--[\w-]+):\s*(#[0-9A-Fa-f]{3,8})", root))
+
+
+def ground_svg():
+    """水彩の地だけの SVG（ブラウザで画像にする）。色は style.css の値に置き換える。"""
+    tok = tokens()
+    col = lambda c: re.sub(r"var\((--[\w-]+)\)", lambda m: tok[m.group(1)], c)
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{GW}" height="{GH}" viewBox="{GX} {GY} {GW} {GH}">'
+        '<defs><filter id="wash" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7" result="n"/>'
+        '<feDisplacementMap in="SourceGraphic" in2="n" scale="40" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="3"/></filter></defs>'
+        '<g filter="url(#wash)">' + "".join(f'<path d="{d}" fill="{col(c)}"/>' for d, c in WASH)
+        + "".join(f'<path d="{smooth_d(p, True)}" fill="{col("var(--map-park)")}"/>' for p in parks)
+        + "".join(f'<path d="{smooth_d(p, True)}" fill="{col("var(--map-water)")}"/>' for p in waters) + "</g></svg>"
+    )
+
+
+def render_ground():
+    """水彩の地を Chrome で画像にし、生成りの地に重ねて assets/map-ground.webp に書き出す。"""
+    from PIL import Image
+    chrome = os.environ.get("CHROME", "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome")
+    with tempfile.TemporaryDirectory() as tmp:
+        page, shot = Path(tmp) / "ground.html", Path(tmp) / "ground.png"
+        page.write_text('<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:transparent;overflow:hidden}svg{display:block}</style>' + ground_svg())
+        subprocess.run([chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars", f"--user-data-dir={tmp}/profile",
+                        f"--force-device-scale-factor={GSCALE}", f"--window-size={GW},{GH}", "--default-background-color=00000000",
+                        f"--screenshot={shot}", page.as_uri()], check=True, capture_output=True, timeout=120)
+        img = Image.open(shot).convert("RGBA")
+    size = (GW * GSCALE, GH * GSCALE)
+    if img.size != size:
+        raise SystemExit(f"Chrome の画像の大きさが {img.size} で、{size} になっていません")
+    flat = Image.new("RGBA", size, PAPER)
+    flat.alpha_composite(img)
+    flat.convert("RGB").save(GROUND, "WEBP", quality=WEBP_QUALITY, method=6)
+    return hashlib.sha1(GROUND.read_bytes()).hexdigest()[:8]
+
+
+def roads_svg(rs, box=None):
+    """白い道の線。box（x0, y0, x1, y1）を渡すと、その範囲にかかる道だけを描く。"""
+    if box:
+        x0, y0, x1, y1 = box
+        rs = [r for r in rs if any(x0 < x < x1 and y0 < y < y1 for x, y in r[2])]
+    return (f'<g fill="none" stroke="var(--white)" stroke-linecap="round" stroke-linejoin="round" >'
+            + "".join(f'<path d="{smooth_d(p)}" stroke-width="{WIDTH.get(h, 2)}"/>' for h, _, p in rs) + "</g>")
+
+
+def drawn_roads():
     keep = lambda h: h != "service"
     order = ["service", "pedestrian", "living_street", "residential", "unclassified", "tertiary", "secondary", "primary"]
-    rs = sorted([r for r in roads if keep(r[0])], key=lambda r: order.index(r[0]) if r[0] in order else 0)
+    return sorted([r for r in roads if keep(r[0])], key=lambda r: order.index(r[0]) if r[0] in order else 0)
+
+
+def ground_image(ver):
+    return f'<image href="{{base}}assets/map-ground.webp?v={ver}" x="{GX}" y="{GY}" width="{GW}" height="{GH}" preserveAspectRatio="none"/>'
+
+
+def svg(ver):
+    rs = drawn_roads()
     parts = [
         f'<svg class="bgmap" viewBox="0 0 {W} {H}" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" data-route="{crop[0]:.0f} {crop[1]:.0f} {crop[2]:.0f} {crop[3]:.0f}">',
-        f'<defs><filter id="wash{uid}" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="3" seed="7" result="n"/>'
-        f'<feDisplacementMap in="SourceGraphic" in2="n" scale="40" xChannelSelector="R" yChannelSelector="G" result="d"/><feGaussianBlur in="d" stdDeviation="3"/></filter>'
-        '</defs>',
-        f'<g filter="url(#wash{uid})">' + "".join(f'<path d="{d}" fill="{c}"/>' for d, c in WASH)
-        + "".join(f'<path d="{smooth_d(p, True)}" fill="var(--map-park)"/>' for p in parks)
-        + "".join(f'<path d="{smooth_d(p, True)}" fill="var(--map-water)"/>' for p in waters) + "</g>",
-        '<g fill="none" stroke="var(--map-water)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">' + "".join(f'<path d="{smooth_d(p)}"/>' for p in rivers) + "</g>",
-        f'<g fill="none" stroke="var(--white)" stroke-linecap="round" stroke-linejoin="round" >'
-        + "".join(f'<path d="{smooth_d(p)}" stroke-width="{WIDTH.get(h, 2)}"/>' for h, _, p in rs) + "</g>",
+        ground_image(ver).format(base=""),
+    ]
+    if rivers:
+        parts.append('<g fill="none" stroke="var(--map-water)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">' + "".join(f'<path d="{smooth_d(p)}"/>' for p in rivers) + "</g>")
+    parts += [
+        roads_svg(rs),
         "".join(f'<path d="{d_of(p)}" fill="none" stroke="var(--ink-soft)" stroke-width="1.5" opacity=".5"/><path d="{d_of(p)}" fill="none" stroke="var(--ink-soft)" stroke-width="6" stroke-dasharray="1.5 9" opacity=".4"/>' for p in rails),
     ]
     # ルートと出発点・ゴールには、スクロールに合わせて描くためのクラス名を付ける（style.css の map-route・map-start・map-goal。見本 m1）。
@@ -219,14 +301,40 @@ def svg(uid=""):
         f'<circle class="map-goal" cx="{goal[0]:.1f}" cy="{goal[1]:.1f}" r="7" fill="var(--paper)" stroke="var(--green)" stroke-width="3"/>',
         "</svg>",
     ]
-    return "\n".join(parts)
+    return "\n".join(p for p in parts if p)
+
+
+def lost_svg(ver):
+    """404.html の地図：ルートのまわりを横2：縦1で切り出し、出発点から半分まで実線、その先をたどれなかった道として点線で描く（見本 b1）。
+    実線（lost-walked）と点線（lost-way）の見え方と動きは style.css。ゴールの丸は置かない。画像は頭に / を付けて読む（どの深さのアドレスでも出るため）"""
+    rx0, rx1 = min(x for x, _ in route_pts), max(x for x, _ in route_pts)
+    ry0, ry1 = min(y for _, y in route_pts), max(y for _, y in route_pts)
+    w = rx1 - rx0 + 50
+    h = w / 2
+    x0, y0 = rx0 - 25, (ry0 + ry1) / 2 - h / 2
+    rs = drawn_roads()
+    return "\n".join([
+        f'<svg class="lostmap" viewBox="{x0:.0f} {y0:.0f} {w:.0f} {h:.0f}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">',
+        ground_image(ver).format(base="/"),
+        roads_svg(rs, (x0 - 40, y0 - 40, x0 + w + 40, y0 + h + 40)),
+        f'<path class="lost-way" d="{route_d}" pathLength="1" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+        f'<path class="lost-walked" d="{route_d}" pathLength="1" fill="none" stroke="var(--green)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>',
+        f'<circle class="lost-start" cx="{start[0]:.1f}" cy="{start[1]:.1f}" r="6.5" fill="var(--green)"/>',
+        "</svg>",
+    ])
 
 
 if __name__ == "__main__":
     build(sys.argv[1] if len(sys.argv) > 1 else ROUTE)
+    ver = render_ground()
     index = ROOT / "index.html"
     html = index.read_text()
     if 'class="bgmap"' not in html:
         raise SystemExit('index.html に背景の地図の置き場（class="bgmap" の svg）がありません')
-    index.write_text(re.sub(r'<svg class="bgmap".*?</svg>', lambda m: svg(), html, flags=re.S))
-    print("route", sys.argv[1] if len(sys.argv) > 1 else ROUTE, "roads", len(roads), "start", start, "goal", goal, "crop", crop)
+    index.write_text(re.sub(r'<svg class="bgmap".*?</svg>', lambda m: svg(ver), html, flags=re.S))
+    lost = ROOT / "404.html"
+    if lost.exists() and 'class="lostmap"' in lost.read_text():
+        lost.write_text(re.sub(r'<svg class="lostmap".*?</svg>', lambda m: lost_svg(ver), lost.read_text(), flags=re.S))
+        print("404.html の地図も書き換えた")
+    print("route", sys.argv[1] if len(sys.argv) > 1 else ROUTE, "roads", len(roads), "start", start, "goal", goal, "crop", crop,
+          "ground", GROUND.stat().st_size, "bytes")

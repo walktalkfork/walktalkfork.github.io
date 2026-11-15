@@ -71,37 +71,60 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);
 })();
 
-// 料金と約束：言語化レポートの見本（見本 c1）。
-// JS が動くときだけ紙の上のほうに切り詰めて「見本の全文を読む」ボタンを出し、押すと全文を窓（dialog）に写して開く。
-// JS が動かないときは、ボタンを出さず全文をそのまま見せる。dialog が使えない古いブラウザでは、その場で全文を広げる。
-// 窓は Esc・「閉じる」・窓の外の暗い所を押すと閉じ、閉じるとボタンに戻る。
+// 言語化レポートの見本（2回目の見本 s2・s1）。
+// スマホの幅（767px以下）では、JS が動くときだけ「進みたい方向」までを見せ（.is-folded）、「続きを読む」でその場に広げる。
+// PCでは CSS が .is-folded を使わないので、いつも全文が見えている。JS が動かないときは、どの幅でも最初から全文。
+// 広げるときは、同じページの中の view transition で紙が下へ伸びるように広げる（s1「持ち上がる動きだけ」）。
+// 紙に名前（report-sheet）を付けてから広げ、終わったら名前を外す。html の .is-unfolding は、ページのほかの所を薄れさせないための印（style.css）。
+// view transition に対応しないブラウザと、動きを減らす設定の人には、一瞬で広げる。広げたあとは、続きの最初の書き込みに移る
 (function () {
   var sheet = document.querySelector('.report-sheet');
-  var dlg = document.querySelector('.report-dialog');
-  if (!sheet || !dlg) return;
-  var more = sheet.querySelector('.report-more');
-  var opener = sheet.querySelector('.report-more-btn');
-  var slot = dlg.querySelector('.report-dialog-doc');
-  sheet.classList.add('is-clipped');
-  more.hidden = false;
+  if (!sheet) return;
+  var btn = sheet.querySelector('.report-unfold .report-more-btn');
+  var next = document.getElementById('report-more-at');
+  if (!btn) return;
+  sheet.classList.add('is-folded');
+  var calm = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: true };
 
-  opener.addEventListener('click', function () {
-    if (typeof dlg.showModal !== 'function') {
-      sheet.classList.remove('is-clipped');
-      more.hidden = true;
-      return;
-    }
-    if (!slot.firstElementChild) slot.appendChild(sheet.querySelector('.report-doc').cloneNode(true));
-    dlg.showModal();
-    dlg.scrollTop = 0;
+  function unfold() {
+    sheet.classList.remove('is-folded');
+    if (next) next.focus({ preventScroll: true });
+  }
+  btn.addEventListener('click', function () {
+    if (typeof document.startViewTransition !== 'function' || calm.matches) { unfold(); return; }
+    var root = document.documentElement;
+    sheet.style.viewTransitionName = 'report-sheet';
+    root.classList.add('is-unfolding');
+    var t = document.startViewTransition(unfold);
+    t.ready.catch(function () {});
+    var done = function () { sheet.style.viewTransitionName = ''; root.classList.remove('is-unfolding'); };
+    t.finished.then(done, done);
+    // 画面が描かれない状態（裏のタブなど）で広げる処理が始まらないときは、動きを飛ばしてその場で広げ、名前と印も外す。
+    // 動きを飛ばしたあとは、遅れて広げる処理が動いても root の動き（ページの移動用）は再生されない。unfold() は2回動いても同じ
+    setTimeout(function () {
+      if (!sheet.classList.contains('is-folded')) return;
+      if (typeof t.skipTransition === 'function') t.skipTransition();
+      unfold();
+      done();
+    }, 1500);
   });
-  Array.prototype.forEach.call(dlg.querySelectorAll('.report-close'), function (b) {
-    b.addEventListener('click', function () { dlg.close(); });
+})();
+
+// 印刷：印刷の前によくある質問をすべて開き、終わったら元に戻す（見本 b4）。
+// name="faq"（1つ開くとほかが閉じる）があると1つしか開けないので、印刷の間だけ外す。もともと開いていた質問はそのままにする
+(function () {
+  window.addEventListener('beforeprint', function () {
+    document.querySelectorAll('.faq details:not([open])').forEach(function (d) {
+      d.setAttribute('data-print', d.getAttribute('name') || '');
+      d.removeAttribute('name');
+      d.open = true;
+    });
   });
-  dlg.addEventListener('click', function (e) {
-    if (e.target !== dlg) return;
-    var r = dlg.getBoundingClientRect();
-    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+  window.addEventListener('afterprint', function () {
+    document.querySelectorAll('.faq details[data-print]').forEach(function (d) {
+      d.open = false;
+      if (d.getAttribute('data-print')) d.setAttribute('name', d.getAttribute('data-print'));
+      d.removeAttribute('data-print');
+    });
   });
-  dlg.addEventListener('close', function () { opener.focus(); });
 })();

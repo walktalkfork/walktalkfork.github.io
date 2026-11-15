@@ -1,4 +1,7 @@
-"""共有画像（assets/ogp.png、1200×630）を作る。TOPと同じ歩く写真に、名前とサブタイトルを重ねる。
+"""共有画像（assets/ogp.jpg、1200×630）を作る。TOPと同じ歩く写真に、名前とサブタイトルを重ねる。
+
+LINE や SNS で URL を送ったときに相手の端末が読み込む画像なので、軽くするため JPEG（画質86、色を間引かない設定）で書き出す（2026-11-15 見本 b2。
+PNG だと約1MB、色数を減らしても写真に縞が出た）。作り直したら、4つのページの og:image と index.html の JSON-LD の image の ?v= の番号を上げる。
 
 書体は tools/fonts/ShipporiMincho-Medium.ttf（Google Fonts、OFL）。なければ
 https://github.com/google/fonts/raw/main/ofl/shipporimincho/ShipporiMincho-Medium.ttf から取ってくる。
@@ -35,5 +38,6 @@ title = ImageFont.truetype(str(FONT), 104)
 sub = ImageFont.truetype(str(FONT), 38)
 d.text((72, 360), "Walk, Talk, Fork.", font=title, fill="#FFFDF8")
 d.text((76, 500), "歩いて、話して、これからの道を選ぶ3時間", font=sub, fill="#FFFDF8")
-img.save(ROOT / "assets/ogp.png", optimize=True)
-print("wrote assets/ogp.png")
+out = ROOT / "assets/ogp.jpg"
+img.save(out, "JPEG", quality=86, subsampling=0, optimize=True, progressive=True)
+print("wrote assets/ogp.jpg", out.stat().st_size, "bytes")

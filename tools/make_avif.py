@@ -13,7 +13,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "assets"
-NAMES = ["walk.jpg", "walk-1000.jpg", "route-jimbocho.jpg", "route-marunouchi.jpg", "kuroda.jpg"]
+NAMES = ["walk.jpg", "walk-1000.jpg", "walk-portrait.jpg", "route-jimbocho.jpg", "route-marunouchi.jpg", "kuroda.jpg", "kuroda-face.jpg"]
 QUALITY = 65
 
 for name in NAMES:

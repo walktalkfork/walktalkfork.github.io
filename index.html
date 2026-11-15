@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css?v=53">
+<link rel="stylesheet" href="assets/style.css?v=56">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -53,7 +53,7 @@
 }
 </script>
 <script data-goatcounter="https://walktalkfork.goatcounter.com/count" async src="assets/count.js"></script>
-<script src="assets/site.js?v=2" defer></script>
+<script src="assets/site.js?v=4" defer></script>
 </head>
 <body>
 
@@ -92,9 +92,9 @@
   <div class="wrap hero-rest split">
     <div>
       <p class="hero-lead">これからの<wbr>キャリアや<wbr>人生に<wbr>ついて、<wbr>いつもと<wbr>違う<wbr>モードに<wbr>なる<wbr>ための<wbr>散歩対話です。<wbr>街を<wbr>一緒に<wbr>歩いたり<wbr>一休みしたりしながら<wbr>話し、<wbr>今後の<wbr>分かれ道<wbr>（fork）を<wbr>どちらに<wbr>進みたいかを<wbr>考え、<wbr>あしたから<wbr>できる<wbr>小さな<wbr>実験の<wbr>方針を<wbr>立てていきます。</p>
-      <!-- 誰と歩くのかを読み始めてすぐ分かるよう、顔の丸と名前を置き、「ともに歩くひと」へ移れるようにする（2回目の見本 c1 の「顔あり」）。
+      <!-- 誰と歩くのかを読み始めてすぐ分かるよう、顔の丸と名前を置き、「散歩対話のお相手」へ移れるようにする（2回目の見本 c1 の「顔あり」）。
            顔の画像は tools/make_face.py が assets/kuroda.jpg から切り出す。写真の上には何も足さない -->
-      <a class="hero-guide" href="#about" data-goatcounter-click="link/about-hero" data-goatcounter-title="ともに歩くひと（ファーストビュー）">
+      <a class="hero-guide" href="#about" data-goatcounter-click="link/about-hero" data-goatcounter-title="散歩対話のお相手（ファーストビュー）">
         <span class="hero-guide-face"><picture><source type="image/avif" srcset="assets/kuroda-face.avif"><img src="assets/kuroda-face.jpg" width="104" height="104" alt=""></picture></span>
         <span>一緒に<wbr>歩くのは、<wbr>キャリア研究家の<span class="hero-guide-who"><span class="hero-guide-name">黒田悠介</span>です<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" stroke-width="1.8"/></svg></span></span>
       </a>
@@ -196,7 +196,7 @@
           <ol>
             <li>丸の内オアゾ1階の<wbr>広場に<wbr>集合</li>
             <li>丸善の<wbr>1〜4階や<wbr>地下通路を<wbr>歩く</li>
-            <li>時間制ラウンジ<wbr>「丸善の<wbr>三階」で<wbr>棚卸し</li>
+            <li>ラウンジ<wbr>「丸善の三階」で<wbr>棚卸し</li>
             <li>「M&amp;C Café」で<wbr>今後の<wbr>方針を<wbr>決める</li>
           </ol>
         </div>
@@ -208,7 +208,7 @@
 <!-- 5. 黒田悠介について -->
 <section class="section about-band" id="about">
   <div class="wrap">
-    <h2>ともに<wbr>歩く<wbr>ひと</h2>
+    <h2>散歩対話の<wbr>お相手</h2>
 
     <div class="profile">
       <picture><source type="image/avif" srcset="assets/kuroda.avif"><img src="assets/kuroda.jpg" width="799" height="1000" alt="黒田悠介の写真。メガネとハンチング帽" loading="lazy"></picture>
@@ -399,70 +399,84 @@
 </section>
 
 <!-- 7. 言語化レポートの見本（2回目の見本 s2）。「料金と約束」から出して、淡い緑の地の帯にする。
-     紙の部分ごとに、何を書くのか・読む人にどう役立つのかを明朝の書き込みで添える。PCでは紙を1枚にして書き込みを右に、指す見出しと高さをそろえて置く。
-     紙の6つの項目の見出しに1〜6の番号（.doc-num）を付け、書き込みにも指す項目と同じ番号を付ける（2026-11-15 読みやすさの見本 r2 の案B「番号と見出しの列」）。
-     スマホでは紙を書き込みのところで切り分け、書き込みを部分と部分のあいだに挟み、「進みたい方向」までを見せて「続きを読む」でその場に広げる（assets/site.js。JS が動かないときは最初から全文）。
-     広げるとき、対応するブラウザでは紙が下へ伸びるように広がる（2回目の見本 s1「持ち上がる動きだけ」の動きを、窓の代わりにこの広がりに使う）。
-     中身は架空の例。黒田さんが実際に書くレポートの項目と語り口に合わせて直す。書き込みの文も、実際のレポートと合っているかを確かめる -->
+     紙は1枚の白い箱。紙の右に添えていた書き込み（「この見本では…」）は、2026-11-16 に黒田さんの指示でなくした。
+     並べ方は 2026-11-16 の見本の案B「左に説明、右に紙」：PC（900px以上）では見出しの下を2列にし、左の列に説明・6つの項目の一覧（紙の項目へのリンク）・架空の断り書きを置いて、紙を読むあいだ画面に止める。
+     スマホと 768〜899px では、説明 → 項目の一覧 → 紙 → 断り書きの順に縦に並べる。
+     紙の6つの項目の見出しに1〜6の番号（.doc-num）を付ける（2026-11-15 読みやすさの見本 r2 の案B「番号と見出しの列」）。
+     スマホでは「進みたい方向」までと5の頭を見せて「続きを読む」でその場に広げる（assets/site.js。JS が動かないときは最初から全文）。一覧の5・6を押したときも、広げてからそこへ移る。
+     広げるとき、対応するブラウザでは紙が下へ伸びるように広がる（2回目の見本 s1「持ち上がる動きだけ」の動き）。
+     中身は架空の例。黒田さんが実際に書くレポートの項目と語り口に合わせて直す -->
 <section class="section report-band" id="report-sample">
   <div class="wrap">
     <h2>言語化レポートの<wbr>見本</h2>
-    <p class="report-lead">セッションの<wbr>あと<wbr>7日以内に、<wbr>このような<wbr>言語化レポートを<wbr>お渡しします。<wbr>3時間で<wbr>話した<wbr>ことを、<wbr>あとから<wbr>読み返せるように<wbr>まとめます。</p>
-    <div class="report-sheet report-doc">
-      <div class="report-paper" aria-hidden="true"></div>
-      <header class="report-part report-head part-start part-end r1"><div class="report-head-in">
-        <p class="doc-title">言語化レポート</p>
-        <p class="doc-meta"><span lang="en">Walk, Talk, Fork.</span><span>2026年10月17日<wbr>（土）</span><span>神保町</span></p>
-        <p class="doc-to">Aさん<wbr>（30代・<wbr>メーカー勤務）<wbr>へ</p>
-      </div></header>
-      <p class="report-note r2"><b><span class="doc-num" aria-hidden="true">1</span><span>歩いた<wbr>道</span></b>この<wbr>見本では、<wbr>どこで<wbr>何を<wbr>話したかを<wbr>残しています。<wbr>その<wbr>日の<wbr>道と<wbr>一緒に<wbr>思い出せます。</p>
-      <section class="report-part part-start r2">
-        <h3><span class="doc-num" aria-hidden="true">1</span><span>当日歩いた<wbr>道</span></h3>
-        <p>神保町駅の<wbr>A7出口から<wbr>歩き<wbr>始め、<wbr>三省堂書店と<wbr>古書店街を<wbr>1時間ほど<wbr>歩きました。<wbr><ruby>古瀬戸<rt>こせと</rt></ruby>で<wbr>これまでの<wbr>仕事を<wbr>棚卸しし、<wbr>最後は<wbr><ruby>神田伯剌西爾<rt>かんだぶらじる</rt></ruby>で<wbr>進む方向を<wbr>決めました。</p>
-      </section>
-      <section class="report-part part-end r3">
-        <h3><span class="doc-num" aria-hidden="true">2</span><span>話した<wbr>こと</span></h3>
-        <ul>
-          <li>入社10年目のいま、<wbr>設計から<wbr>企画の<wbr>部署へ<wbr>移らないかと<wbr>声を<wbr>かけられている<wbr>こと</li>
-          <li>移りたい<wbr>気持ちは<wbr>ある<wbr>ものの、<wbr>「設計を<wbr>離れたら<wbr>自分には<wbr>何も<wbr>残らない」と<wbr>感じて、<wbr>返事を<wbr>12月の<wbr>面談まで<wbr>待って<wbr>もらっている<wbr>こと</li>
-          <li>楽しかった<wbr>仕事を<wbr>振り返ると、<wbr>図面を<wbr>描く<wbr>時間よりも、<wbr>現場の<wbr>人の<wbr>困りごとを<wbr>聞いて<wbr>形に<wbr>する<wbr>時間の<wbr>ほうが<wbr>多く<wbr>出てきた<wbr>こと</li>
-        </ul>
-      </section>
-      <p class="report-note r4"><b><span class="doc-num" aria-hidden="true">3</span><span>出てきた<wbr>言葉</span></b>この<wbr>見本では、<wbr>Aさんの<wbr>言葉を<wbr>言い換えずに<wbr>残しています。<wbr>その<wbr>ときの<wbr>考えを<wbr>そのまま<wbr>読み返せます。</p>
-      <section class="report-part part-start r4">
-        <h3><span class="doc-num" aria-hidden="true">3</span><span>話の<wbr>中で<wbr>出てきた<wbr>言葉</span></h3>
-        <p class="doc-lead">Aさんが<wbr>口に<wbr>した<wbr>言葉を、<wbr>そのまま<wbr>残します。</p>
-        <ul class="doc-quotes">
-          <li>「図面を<wbr>描くのが<wbr>好きなんじゃなくて、<wbr>困っている<wbr>人の<wbr>話を<wbr>聞くのが<wbr>好きだったのかもしれない」</li>
-          <li>「返事を<wbr>延ばしているのは、<wbr>怖いからと<wbr>いう<wbr>より、<wbr>比べる<wbr>材料が<wbr>ないからだと<wbr>思う」</li>
-        </ul>
-      </section>
-      <section class="report-part part-end r5">
-        <h3><span class="doc-num" aria-hidden="true">4</span><span>進みたい方向</span></h3>
-        <p class="doc-dir">設計で<wbr>身に<wbr>つけた<wbr>力を<wbr>手放さずに、<wbr>現場の<wbr>人の<wbr>困りごとを<wbr>聞いて<wbr>形に<wbr>する<wbr>側へ、<wbr>少しずつ仕事の<wbr>軸足を<wbr>移していく。</p>
-      </section>
-      <p class="report-note report-rest r6" id="report-more-at" tabindex="-1"><b><span class="doc-num" aria-hidden="true">5</span><span>実験と<wbr>期限</span></b>この<wbr>見本では、<wbr>実験ごとに<wbr>期限の<wbr>日付を<wbr>入れています。<wbr>何から<wbr>始めるかが<wbr>はっきりします。</p>
-      <section class="report-part part-start part-end report-rest r6">
-        <h3><span class="doc-num" aria-hidden="true">5</span><span>小さな<wbr>実験</span></h3>
-        <p class="doc-lead">結果の<wbr>良し悪しより、<wbr>やってみて<wbr>何を<wbr>感じたかを<wbr>確かめる<wbr>ための<wbr>実験です。</p>
-        <ol class="doc-exp">
-          <li><span class="doc-due">10月31日<wbr>（土）まで</span>企画部に<wbr>いる<wbr>同期に<wbr>30分ほど<wbr>時間を<wbr>もらい、<wbr>1週間の<wbr>仕事の<wbr>流れと、<wbr>いちばん手間の<wbr>かかる<wbr>作業を<wbr>聞く</li>
-          <li><span class="doc-due">11月13日<wbr>（金）まで</span>次の<wbr>工場訪問で、<wbr>図面の<wbr>確認とは<wbr>別に、<wbr>現場の<wbr>3人に<wbr>「いちばん<wbr>困っている<wbr>こと」を<wbr>聞いて<wbr>メモに<wbr>残す</li>
-          <li><span class="doc-due">11月27日<wbr>（金）まで</span>ここ5年で<wbr>手応えの<wbr>あった<wbr>仕事を<wbr>5つ<wbr>書き出し、<wbr>それぞれに<wbr>「何が<wbr>楽しかったか」を<wbr>1行ずつ<wbr>添える</li>
-        </ol>
-      </section>
-      <p class="report-note report-rest r7"><b><span class="doc-num" aria-hidden="true">6</span><span>次に<wbr>思い出したい<wbr>問い</span></b>次に<wbr>迷った<wbr>ときは、<wbr>この<wbr>問いから<wbr>読み返せます。</p>
-      <section class="report-part part-start report-rest r7">
-        <h3><span class="doc-num" aria-hidden="true">6</span><span>次に<wbr>迷った<wbr>ときに<wbr>思い出したい<wbr>問い</span></h3>
-        <p class="doc-q">「その<wbr>仕事で、<wbr>自分は<wbr>誰の<wbr>話を<wbr>聞いているだろう」</p>
-      </section>
-      <section class="report-part doc-note part-end part-last report-rest r8">
-        <p>3時間の<wbr>あいだに、<wbr>Aさんは<wbr>「設計」と<wbr>いう<wbr>言葉を<wbr>何度も<wbr>使っていました。<wbr>最初は<wbr>図面を<wbr>描く<wbr>ことを<wbr>指していましたが、<wbr>最後の<wbr>ほうでは、<wbr>人の<wbr>困りごとを<wbr>形に<wbr>する<wbr>こと全体を<wbr>指しているように<wbr>聞こえました。<wbr>3つの<wbr>実験を<wbr>終えて、<wbr>12月の<wbr>面談に<wbr>向かう<wbr>前に、<wbr>この<wbr>レポートを<wbr>もう<wbr>一度<wbr>読み返してみてください。</p>
-        <p class="doc-sign">黒田悠介</p>
-      </section>
-      <div class="report-unfold"><button class="report-more-btn" type="button" aria-controls="report-more-at" data-goatcounter-click="report/sample" data-goatcounter-title="レポートの見本の続きを読む">続きを<wbr>読む<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+    <div class="report-body">
+      <div class="report-side">
+        <p class="report-lead">セッションの<wbr>あと<wbr>7日以内に、<wbr>このような<wbr>言語化レポートを<wbr>お渡しします。<wbr>3時間で<wbr>話した<wbr>ことを、<wbr>あとから<wbr>読み返せるように<wbr>まとめます。</p>
+        <nav class="report-toc" aria-label="レポートの項目">
+          <p>レポートには、<wbr>次の<wbr>6つを<wbr>書きます。</p>
+          <ol>
+            <li><a href="#report-s1"><span class="toc-num" aria-hidden="true">1</span><span>当日歩いた<wbr>道</span></a></li>
+            <li><a href="#report-s2"><span class="toc-num" aria-hidden="true">2</span><span>話した<wbr>こと</span></a></li>
+            <li><a href="#report-s3"><span class="toc-num" aria-hidden="true">3</span><span>出てきた<wbr>言葉</span></a></li>
+            <li><a href="#report-s4"><span class="toc-num" aria-hidden="true">4</span><span>進みたい方向</span></a></li>
+            <li><a href="#report-s5"><span class="toc-num" aria-hidden="true">5</span><span>小さな<wbr>実験</span></a></li>
+            <li><a href="#report-s6"><span class="toc-num" aria-hidden="true">6</span><span>思い出したい<wbr>問い</span></a></li>
+          </ol>
+        </nav>
+        <p class="report-caption">Aさんは<wbr>架空の<wbr>人物で、<wbr>レポート内容も<wbr>創作です。</p>
+      </div>
+      <div class="report-main">
+        <div class="report-sheet report-doc">
+          <header class="report-head"><div class="report-head-in">
+            <p class="doc-title">言語化レポート</p>
+            <p class="doc-meta"><span lang="en">Walk, Talk, Fork.</span><span>2026年10月17日<wbr>（土）</span><span>神保町</span></p>
+            <p class="doc-to">Aさん<wbr>（30代・<wbr>メーカー勤務）<wbr>へ</p>
+          </div></header>
+          <section class="report-part" id="report-s1">
+            <h3><span class="doc-num" aria-hidden="true">1</span><span>当日歩いた<wbr>道</span></h3>
+            <p>神保町駅の<wbr>A7出口から<wbr>歩き<wbr>始め、<wbr>三省堂書店と<wbr>古書店街を<wbr>1時間ほど<wbr>歩きました。<wbr><ruby>古瀬戸<rt>こせと</rt></ruby>で<wbr>これまでの<wbr>仕事を<wbr>棚卸しし、<wbr>最後は<wbr><ruby>神田伯剌西爾<rt>かんだぶらじる</rt></ruby>で<wbr>進む方向を<wbr>決めました。</p>
+          </section>
+          <section class="report-part" id="report-s2">
+            <h3><span class="doc-num" aria-hidden="true">2</span><span>話した<wbr>こと</span></h3>
+            <ul>
+              <li>入社10年目のいま、<wbr>設計から<wbr>企画の<wbr>部署へ<wbr>移らないかと<wbr>声を<wbr>かけられている<wbr>こと</li>
+              <li>移りたい<wbr>気持ちは<wbr>ある<wbr>ものの、<wbr>「設計を<wbr>離れたら<wbr>自分には<wbr>何も<wbr>残らない」と<wbr>感じて、<wbr>返事を<wbr>12月の<wbr>面談まで<wbr>待って<wbr>もらっている<wbr>こと</li>
+              <li>楽しかった<wbr>仕事を<wbr>振り返ると、<wbr>図面を<wbr>描く<wbr>時間よりも、<wbr>現場の<wbr>人の<wbr>困りごとを<wbr>聞いて<wbr>形に<wbr>する<wbr>時間の<wbr>ほうが<wbr>多く<wbr>出てきた<wbr>こと</li>
+            </ul>
+          </section>
+          <section class="report-part" id="report-s3">
+            <h3><span class="doc-num" aria-hidden="true">3</span><span>話の<wbr>中で<wbr>出てきた<wbr>言葉</span></h3>
+            <p class="doc-lead">Aさんが<wbr>口に<wbr>した<wbr>言葉を、<wbr>そのまま<wbr>残します。</p>
+            <ul class="doc-quotes">
+              <li>「図面を<wbr>描くのが<wbr>好きなんじゃなくて、<wbr>困っている<wbr>人の<wbr>話を<wbr>聞くのが<wbr>好きだったのかもしれない」</li>
+              <li>「返事を<wbr>延ばしているのは、<wbr>怖いからと<wbr>いう<wbr>より、<wbr>比べる<wbr>材料が<wbr>ないからだと<wbr>思う」</li>
+            </ul>
+          </section>
+          <section class="report-part" id="report-s4">
+            <h3><span class="doc-num" aria-hidden="true">4</span><span>進みたい方向</span></h3>
+            <p class="doc-dir">設計で<wbr>身に<wbr>つけた<wbr>力を<wbr>手放さずに、<wbr>現場の<wbr>人の<wbr>困りごとを<wbr>聞いて<wbr>形に<wbr>する<wbr>側へ、<wbr>少しずつ仕事の<wbr>軸足を<wbr>移していく。</p>
+          </section>
+          <section class="report-part report-rest report-peek" id="report-s5" tabindex="-1">
+            <h3><span class="doc-num" aria-hidden="true">5</span><span>小さな<wbr>実験</span></h3>
+            <p class="doc-lead">結果の<wbr>良し悪しより、<wbr>やってみて<wbr>何を<wbr>感じたかを<wbr>確かめる<wbr>ための<wbr>実験です。</p>
+            <ol class="doc-exp">
+              <li><span class="doc-due">10月31日<wbr>（土）まで</span>企画部に<wbr>いる<wbr>同期に<wbr>30分ほど<wbr>時間を<wbr>もらい、<wbr>1週間の<wbr>仕事の<wbr>流れと、<wbr>いちばん手間の<wbr>かかる<wbr>作業を<wbr>聞く</li>
+              <li><span class="doc-due">11月13日<wbr>（金）まで</span>次の<wbr>工場訪問で、<wbr>図面の<wbr>確認とは<wbr>別に、<wbr>現場の<wbr>3人に<wbr>「いちばん<wbr>困っている<wbr>こと」を<wbr>聞いて<wbr>メモに<wbr>残す</li>
+              <li><span class="doc-due">11月27日<wbr>（金）まで</span>ここ5年で<wbr>手応えの<wbr>あった<wbr>仕事を<wbr>5つ<wbr>書き出し、<wbr>それぞれに<wbr>「何が<wbr>楽しかったか」を<wbr>1行ずつ<wbr>添える</li>
+            </ol>
+          </section>
+          <section class="report-part report-rest" id="report-s6">
+            <h3><span class="doc-num" aria-hidden="true">6</span><span>次に<wbr>迷った<wbr>ときに<wbr>思い出したい<wbr>問い</span></h3>
+            <p class="doc-q">「その<wbr>仕事で、<wbr>自分は<wbr>誰の<wbr>話を<wbr>聞いているだろう」</p>
+          </section>
+          <section class="report-part doc-letter report-rest">
+            <p>3時間の<wbr>あいだに、<wbr>Aさんは<wbr>「設計」と<wbr>いう<wbr>言葉を<wbr>何度も<wbr>使っていました。<wbr>最初は<wbr>図面を<wbr>描く<wbr>ことを<wbr>指していましたが、<wbr>最後の<wbr>ほうでは、<wbr>人の<wbr>困りごとを<wbr>形に<wbr>する<wbr>こと全体を<wbr>指しているように<wbr>聞こえました。<wbr>3つの<wbr>実験を<wbr>終えて、<wbr>12月の<wbr>面談に<wbr>向かう<wbr>前に、<wbr>この<wbr>レポートを<wbr>もう<wbr>一度<wbr>読み返してみてください。</p>
+            <p class="doc-sign">黒田悠介</p>
+          </section>
+          <div class="report-unfold"><button class="report-more-btn" type="button" aria-controls="report-s5" aria-expanded="false" data-goatcounter-click="report/sample" data-goatcounter-title="レポートの見本の続きを読む">続きを<wbr>読む<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8"/></svg></button></div>
+        </div>
+      </div>
     </div>
-    <p class="report-caption">Aさんは<wbr>架空の<wbr>人物で、<wbr>レポート内容も<wbr>創作です。</p>
   </div>
 </section>
 
@@ -522,22 +536,40 @@
   </div>
 </section>
 
-<!-- 9. 最後の予約ボタン -->
-<section class="section closing" id="reserve">
-  <svg class="contours" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><path style="--contour-i:0" d="M666 102C668 87 672 72 680 58C687 43 696 28 708 14C719 0 733 -14 748 -26C763 -39 780 -51 797 -63C814 -74 833 -85 852 -94C871 -104 892 -113 912 -120C933 -128 955 -135 976 -140C998 -146 1020 -150 1042 -154C1064 -158 1086 -160 1109 -162C1131 -164 1153 -165 1176 -165C1198 -165 1221 -164 1243 -161C1265 -159 1287 -155 1307 -149C1326 -143 1345 -134 1360 -124C1375 -114 1387 -102 1396 -88C1404 -75 1408 -59 1410 -44C1411 -29 1409 -13 1405 3C1402 18 1396 33 1391 47C1385 62 1379 75 1373 89C1367 102 1362 115 1356 129C1350 142 1344 156 1337 170C1329 183 1320 197 1309 211C1298 225 1285 238 1270 251C1255 264 1238 276 1220 287C1202 298 1182 308 1162 318C1141 327 1119 336 1097 343C1074 350 1051 357 1027 362C1004 367 979 371 955 373C932 374 907 374 885 371C863 368 842 363 823 356C805 349 789 339 775 329C761 318 750 306 740 294C730 282 722 270 715 258C707 246 701 233 695 221C688 209 682 197 678 184C673 171 668 158 666 145C664 131 663 116 666 102Z" pathLength="1"/><path style="--contour-i:1" d="M552 561C564 577 573 594 579 610C585 627 588 643 587 659C587 674 583 689 576 702C569 715 557 728 544 737C530 747 512 755 494 761C476 767 454 771 434 774C414 777 392 778 372 780C352 781 333 782 314 783C294 785 276 787 256 788C237 790 217 792 195 792C173 793 150 793 127 790C103 787 77 783 53 776C29 769 4 760 -19 749C-41 739 -63 726 -83 714C-104 701 -122 687 -140 673C-157 658 -173 644 -188 629C-203 614 -217 598 -228 583C-239 567 -249 551 -255 535C-261 519 -264 503 -264 489C-264 474 -259 460 -254 447C-248 434 -239 423 -229 412C-220 401 -208 391 -197 381C-186 371 -174 362 -161 353C-149 344 -135 335 -120 328C-104 321 -87 314 -68 309C-49 305 -27 302 -5 301C18 301 42 303 66 307C90 311 115 318 138 325C161 332 184 341 206 350C228 358 249 367 270 376C291 385 312 394 333 404C354 414 375 424 396 435C417 446 438 458 457 471C476 484 495 499 511 514C527 529 541 545 552 561Z" pathLength="1"/><path class="idx" style="--contour-i:2" d="M754 104C757 92 762 79 768 67C775 55 783 42 793 30C803 18 814 7 827 -4C840 -15 855 -25 870 -35C885 -44 902 -52 919 -60C937 -67 955 -73 973 -79C991 -84 1010 -88 1029 -92C1047 -95 1066 -98 1085 -100C1104 -102 1123 -104 1143 -105C1162 -105 1183 -106 1202 -104C1221 -102 1241 -100 1258 -95C1275 -89 1291 -82 1303 -73C1315 -63 1324 -51 1329 -39C1335 -27 1335 -13 1335 0C1334 14 1329 28 1326 40C1322 53 1316 65 1312 77C1308 89 1305 100 1301 111C1298 123 1295 135 1290 147C1285 159 1280 172 1272 184C1264 196 1253 209 1240 220C1227 231 1211 242 1195 251C1178 260 1160 267 1141 274C1123 280 1104 285 1085 290C1065 295 1046 299 1027 302C1007 304 987 307 968 308C948 309 928 308 910 306C892 304 873 300 858 294C842 289 828 281 816 272C804 264 794 254 786 244C778 233 772 222 766 211C761 200 758 188 755 177C752 165 751 153 750 141C750 129 751 117 754 104Z" pathLength="1"/><path class="idx" style="--contour-i:3" d="M454 557C463 570 470 584 475 597C479 610 482 624 482 637C481 649 478 662 472 672C467 683 457 693 446 701C435 710 421 716 406 721C391 726 373 730 357 732C340 735 322 736 305 737C288 738 272 739 255 740C238 740 221 741 203 740C185 740 166 739 147 737C128 734 108 731 89 725C70 720 50 713 31 705C13 697 -5 687 -22 678C-38 668 -54 657 -69 646C-85 635 -99 624 -113 612C-126 600 -140 588 -151 575C-161 562 -171 548 -177 535C-184 522 -187 508 -188 496C-188 483 -184 471 -179 460C-174 450 -165 440 -157 431C-148 422 -137 414 -126 407C-116 399 -104 392 -92 386C-80 379 -67 373 -52 368C-37 364 -21 359 -4 358C14 356 33 355 52 357C71 359 92 362 111 367C131 371 150 378 169 384C188 390 206 398 223 405C241 412 259 420 276 428C294 436 311 444 328 453C345 462 362 472 378 483C393 494 408 506 421 518C434 530 445 544 454 557Z" pathLength="1"/><path style="--contour-i:4" d="M837 107C840 97 844 87 850 77C855 67 863 57 871 47C880 38 889 29 900 20C911 12 923 3 936 -4C949 -11 963 -18 977 -23C992 -28 1007 -32 1023 -36C1038 -39 1053 -40 1068 -41C1083 -42 1098 -43 1113 -42C1128 -42 1142 -41 1157 -40C1171 -38 1186 -36 1199 -32C1212 -28 1225 -23 1235 -16C1245 -9 1253 0 1258 9C1263 18 1265 29 1265 39C1266 49 1263 60 1261 70C1258 80 1254 90 1250 99C1246 109 1243 118 1238 128C1233 138 1228 147 1222 157C1215 166 1207 176 1197 185C1187 194 1175 203 1163 211C1150 218 1136 225 1121 230C1107 236 1091 241 1076 245C1061 248 1045 251 1029 253C1013 255 997 256 982 255C967 254 952 252 939 249C925 246 913 241 902 235C891 229 882 222 874 215C866 208 859 199 853 191C848 183 843 174 840 165C837 156 835 146 834 137C834 127 835 117 837 107Z" pathLength="1"/><path style="--contour-i:5" d="M357 553C366 563 373 574 377 585C382 595 385 606 384 616C383 626 380 636 373 644C367 652 356 658 345 663C334 669 320 672 307 674C294 677 280 677 266 679C253 680 241 681 228 683C215 684 202 686 189 686C175 687 160 688 145 687C129 686 113 683 97 679C81 675 64 669 49 662C35 655 21 646 8 638C-5 629 -16 620 -27 610C-38 601 -48 591 -57 582C-66 572 -75 562 -82 551C-88 541 -94 530 -96 520C-98 510 -97 500 -95 491C-92 482 -86 474 -79 467C-73 460 -64 454 -56 448C-48 442 -39 436 -29 431C-20 426 -10 421 1 417C12 412 24 408 38 406C52 404 67 404 83 405C98 406 115 409 131 413C147 417 163 423 178 429C193 435 207 442 221 450C234 457 247 464 259 472C272 480 284 488 296 496C307 505 319 514 329 523C339 532 349 542 357 553Z" pathLength="1"/><path style="--contour-i:6" d="M924 109C925 103 928 96 931 89C935 82 940 75 945 69C951 63 958 56 966 51C974 45 983 40 992 36C1001 32 1011 28 1021 25C1031 22 1042 21 1052 19C1062 18 1072 17 1082 16C1092 16 1102 16 1112 16C1122 17 1132 18 1141 20C1151 22 1160 25 1167 29C1174 33 1180 39 1184 45C1187 51 1189 58 1189 65C1190 71 1189 78 1188 85C1187 92 1185 98 1183 105C1181 111 1180 118 1177 124C1174 131 1171 138 1166 145C1161 151 1155 158 1147 164C1140 169 1130 175 1121 179C1111 183 1101 186 1091 189C1081 192 1071 194 1060 196C1050 198 1040 199 1029 200C1019 200 1009 201 999 200C989 199 979 197 971 194C962 191 955 187 949 182C943 178 938 172 934 166C930 161 927 155 925 148C923 142 922 136 922 129C922 123 922 116 924 109Z" pathLength="1"/><path style="--contour-i:7" d="M272 548C277 555 281 563 283 570C285 577 285 584 283 590C282 596 277 602 272 607C267 612 259 615 252 618C244 621 235 622 227 624C218 626 210 627 201 628C193 629 185 630 176 631C167 631 158 632 148 632C138 632 128 631 117 629C107 627 96 623 86 619C76 615 66 610 57 604C48 599 40 593 33 587C25 581 18 574 12 568C6 561 0 554 -5 548C-9 541 -12 534 -14 527C-15 520 -14 514 -12 508C-10 502 -6 497 -1 492C3 487 9 483 14 479C20 475 26 472 33 469C40 466 48 463 56 461C65 459 74 458 84 458C94 458 105 460 115 462C126 464 136 467 146 471C156 474 166 478 175 482C184 486 193 491 202 495C211 500 220 505 229 510C237 516 246 522 253 528C260 534 267 541 272 548Z" pathLength="1"/><path style="--contour-i:8" d="M1009 112C1009 109 1010 106 1012 103C1014 100 1016 96 1019 94C1022 91 1026 88 1030 86C1034 83 1038 81 1043 80C1047 78 1052 77 1056 76C1061 75 1066 74 1070 74C1075 73 1080 73 1084 73C1089 74 1093 74 1097 75C1102 76 1106 78 1109 80C1112 82 1114 85 1115 87C1117 90 1117 93 1117 96C1117 99 1117 103 1116 106C1115 109 1114 111 1113 114C1112 117 1111 121 1109 123C1107 126 1104 129 1101 132C1098 135 1094 137 1090 140C1086 142 1082 144 1077 145C1072 147 1068 148 1063 149C1058 150 1053 150 1048 150C1043 150 1039 150 1035 149C1031 147 1027 146 1024 144C1021 142 1019 139 1017 137C1015 134 1013 132 1012 129C1011 127 1010 124 1009 121C1009 118 1008 115 1009 112Z" pathLength="1"/><path style="--contour-i:9" d="M179 544C181 547 183 550 184 553C185 556 184 559 183 562C182 564 180 567 178 569C175 570 171 571 168 572C164 573 160 574 157 574C153 575 150 575 146 576C142 576 138 577 134 577C130 576 125 576 121 575C116 574 111 573 107 571C103 569 99 567 95 564C92 562 88 559 85 556C82 554 79 551 77 548C75 545 72 542 71 539C70 536 70 533 70 531C70 528 72 526 74 524C75 521 78 520 80 518C83 516 86 515 89 514C92 512 95 511 99 510C102 510 107 509 111 509C115 510 120 510 124 511C129 512 133 514 138 516C142 518 146 520 150 522C153 524 157 526 161 528C164 531 168 533 171 536C174 538 177 541 179 544Z" pathLength="1"/></g></svg>
+<!-- 9. 最後の予約ボタン（2026-11-16 黒田さんの判断で、見本の案A「地図の終点」に案E「名前で終わる」の締めを足した。等高線はやめた）。
+     見出しとボタンの間に帯の幅いっぱいの道を1本引き、目的地（二重の丸）をボタンの真上に置く。
+     道の絵は横に長く描いてあり（viewBox の幅 3600）、高さに合わせて縮め、真ん中（x=600 の目的地）を中心に画面の幅だけ見せる。広い画面では左に出発点の丸が見える。
+     白い点が道を歩き、歩いた所が実線になる動きは assets/site.js（帯に .play が付いてから、道が画面に見えている間だけ。動きを減らす設定と JS が動かないときは、道が全部引かれた形で止まっている）。
+     このすぐ下のフッターは緑の帯につなげ、最後に「Walk, Talk, Fork.」を幅いっぱいに置く -->
+<section class="section closing" id="reserve" data-play>
   <div class="wrap">
-    <h2>これから<wbr>どこに<wbr>進んでいくか<br>散歩対話で<wbr>考える3時間</h2>
+    <h2>これから<wbr>どこに<wbr>進んでいくか<span class="closing-sub">散歩対話で<wbr>考える3時間</span></h2>
+  </div>
+  <div class="closing-map">
+    <svg viewBox="-1200 0 3600 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <defs><linearGradient id="closing-fadeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".28" stop-color="#fff"/><stop offset=".78" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="closing-fade" maskUnits="userSpaceOnUse" x="-1300" y="0" width="3900" height="200"><rect x="-1300" y="0" width="3900" height="200" fill="url(#closing-fadeg)"/></mask></defs>
+      <path class="closing-streets" d="M-1260 119.6 L2460 46.4 M-1260 181.5 L2460 102.5 M-1260 51.8 L2460 -15.8 M-960 -30 L-1010 230 M-700 -30 L-640 230 M-420 -30 L-460 230 M-150 -30 L-100 230 M168 -30 L250 230 M452 -30 L500 230 M628 -30 L594 230 M808 -30 L772 230 M1010 -30 L1060 230 M1250 -30 L1210 230 M1500 -30 L1540 230 M1760 -30 L1720 230 M2020 -30 L2070 230 M2300 -30 L2260 230" mask="url(#closing-fade)"/>
+      <path class="closing-plan" d="M-40.0 95.6 L190.1 91.1 Q206.1 90.8 210.9 106.0 L219.9 134.7 Q224.8 150.0 240.8 149.6 L468.2 144.8 Q484.2 144.5 481.3 128.7 L464.2 36.3 Q461.3 20.5 477.3 20.2 L785.9 14.6 Q801.9 14.3 799.7 30.2 L786.9 122.2 Q784.7 138.1 768.7 138.4 L621.0 141.6 Q605.0 141.9 602.9 157.8 L600.0 180.0"/>
+      <path class="closing-trail" d="M-40.0 95.6 L190.1 91.1 Q206.1 90.8 210.9 106.0 L219.9 134.7 Q224.8 150.0 240.8 149.6 L468.2 144.8 Q484.2 144.5 481.3 128.7 L464.2 36.3 Q461.3 20.5 477.3 20.2 L785.9 14.6 Q801.9 14.3 799.7 30.2 L786.9 122.2 Q784.7 138.1 768.7 138.4 L621.0 141.6 Q605.0 141.9 602.9 157.8 L600.0 180.0" pathLength="1"/>
+      <circle class="closing-start" cx="-40" cy="95.6" r="8"/>
+      <circle class="closing-ring" cx="600" cy="180" r="13"/>
+      <g class="closing-goal"><circle class="o" cx="600" cy="180" r="13"/><circle class="i" cx="600" cy="180" r="4.5"/></g>
+      <g class="closing-walker" transform="translate(600 180)"><circle class="h" r="17"/><circle class="d" r="7"/></g>
+    </svg>
+  </div>
+  <div class="wrap">
     <a class="btn" href="https://calendar.app.google/J7niy7XXtRiKJ6Gh8" target="_blank" rel="noopener" data-goatcounter-click="reserve/closing" data-goatcounter-title="予約（最後）">日時を<wbr>選んで<wbr>予約する<wbr>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8"/></svg>
     </a>
-    <p class="cta-note">日時を<wbr>選んだ<wbr>あとに、<wbr>クレジットカードで<wbr>お支払いいただきます。<br>ご予約日の<wbr>前日までに<wbr>キャンセルの<wbr>ご連絡を<wbr>いただければ<wbr>全額<wbr>返金します。</p>
-    <p class="cta-ask"><a href="https://tr.ee/GYmngvnvQG" target="_blank" rel="noopener" data-goatcounter-click="contact/closing" data-goatcounter-title="お問い合わせ（最後）">予約の<wbr>前に<wbr>質問する</a></p>
+    <p class="cta-note">日時を<wbr>選んだ<wbr>あとに、<wbr>クレジットカードで<wbr>お支払いいただきます。<br>ご予約日の<wbr>前日までに<span class="nw">キャンセルの<wbr>ご連絡を</span><span class="nw">いただければ<wbr>全額<wbr>返金します。</span></p>
   </div>
 </section>
 
 </main>
 
-<footer class="site-footer">
+<!-- フッター（index.html だけ、案E「名前で終わる」）：最後の予約欄の緑の帯に続け、細い線の下に規約とお問い合わせ、最後に名前を幅いっぱいに置く。
+     名前は飾りなので読み上げない（aria-hidden）。マウスを近づけた所の字が起き上がる動きは assets/site.js。ほかのページのフッターは今までのまま -->
+<footer class="site-footer is-band">
   <div class="wrap">
     <ul>
       <li><a href="tokushoho.html">特定商取引法に<wbr>基づく<wbr>表記</a></li>
@@ -547,6 +579,7 @@
     </ul>
     <p>© 2026 黒田悠介</p>
   </div>
+  <div class="footer-mark" lang="en" aria-hidden="true"><span class="mark-ch">W</span><span class="mark-ch">a</span><span class="mark-ch">l</span><span class="mark-ch">k</span><span class="mark-ch">,</span><span class="mark-sp"> </span><span class="mark-ch">T</span><span class="mark-ch">a</span><span class="mark-ch">l</span><span class="mark-ch">k</span><span class="mark-ch">,</span><span class="mark-sp"> </span><span class="mark-ch">F</span><span class="mark-ch">o</span><span class="mark-ch">r</span><span class="mark-ch">k</span><span class="mark-ch">.</span></div>
 </footer>
 
 <div class="sticky-cta" id="sticky-cta" aria-hidden="true">
@@ -565,10 +598,10 @@
   window.addEventListener('resize', fit);
 })();
 
-// スマホの固定ボタン：最初の予約ボタン・料金の予約ボタン・最後の予約欄が見えていないときだけ出す
+// スマホの固定ボタン：最初の予約ボタン・料金の予約ボタン・最後の予約欄・フッター（下の端に名前を置いている）が見えていないときだけ出す
 (function () {
   var bar = document.getElementById('sticky-cta');
-  var targets = [document.getElementById('hero-cta'), document.getElementById('price-cta'), document.getElementById('reserve')];
+  var targets = [document.getElementById('hero-cta'), document.getElementById('price-cta'), document.getElementById('reserve'), document.querySelector('.site-footer')];
   if (!('IntersectionObserver' in window)) { bar.classList.add('is-visible'); return; }
   var visible = new Set();
   var io = new IntersectionObserver(function (entries) {

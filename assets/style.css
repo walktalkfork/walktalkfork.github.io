@@ -14,6 +14,8 @@
   --on-photo: #FFFDF8;
   /* 緑の帯の上の小さな注意書き（生成りを少し透かす。地の緑との差は 4.5:1 以上。2回目の見本 c2） */
   --on-green-soft: rgba(255, 253, 248, .88);
+  /* 緑の帯の上の細い区切り線（index.html のフッターの上の線） */
+  --on-green-line: rgba(255, 253, 248, .22);
   /* モデルルートの絵を手帳に貼った写真のように見せる（見本 t4）：写真の白い縁、紙に置いた影、
      地図の水彩（--wash-1・--map-block）を半透明にしたマスキングテープと、その上のかすかな光沢 */
   --photo-edge: #FFFFFF;
@@ -35,7 +37,7 @@
   /* 文字の大きさ（6段。2回目の見本 t1）：注・本文・中・大・見出しの5つの名前と、役目ごとに大きさを決める「表示」。
      注＝出典・時刻・注意書き・補足・肩書き・フッター、本文＝本文・ボタン、中＝h3・h4・明朝の一覧・問いの例・ヘッダーの名前、
      大＝名前・サブタイトル・小さめの見出し、見出し＝節の h2。
-     表示（TOPの名前・数字、金額、3つの動詞、プロフィールの数字、こんなときにの吹き出し）と、数字に添える単位・判子の字は、それぞれの役目の大きさのまま */
+     表示（TOPの名前・数字、金額、3つの動詞、プロフィールの数字、こんなときにの吹き出し、最後の予約欄の見出し、フッターの名前）と、数字に添える単位・判子の字は、それぞれの役目の大きさのまま */
   --fs-note: 14px;
   --fs-body: 16px;
   --fs-sub: 19px;
@@ -451,19 +453,47 @@ rt { font-family: var(--gothic); font-weight: 400; font-size: max(10px, .6em); l
 .faq .a { padding: 0 0 var(--space-5); }
 .faq .a p { margin: 0 0 0.8em; }
 
-/* 最後の予約：深い緑の帯に生成りの文字。ボタンは白い地に深い緑の文字で浮かせる */
-.closing { text-align: center; background: var(--green); color: var(--white); }
-.closing h2 { margin-bottom: var(--space-8); color: var(--white); }
-.closing p { margin: 0 auto var(--space-8); max-width: 26em; }
+/* 最後の予約（2026-11-16 黒田さんの判断：見本の案A「地図の終点」＋案E「名前で終わる」。等高線はやめた）：
+   深い緑の帯に生成りの文字。見出しの下に帯の幅いっぱいの道を1本引き、目的地（二重の丸）をボタンの真上に置く。ボタンは白い地に深い緑の文字で浮かせる。
+   下の端はフッター（.site-footer.is-band）につながる */
+.section.closing { position: relative; overflow: clip; text-align: center; background: var(--green); color: var(--white); padding-bottom: var(--space-16); }
+/* 見出しは「表示」の大きさ（この欄だけ）。2行目は1行目の0.62倍 */
+.closing h2 { margin: 0; font-size: clamp(28px, 6.2vw, 50px); line-height: 1.45; letter-spacing: .08em; color: var(--white); }
+.closing-sub { display: block; margin-top: var(--space-2); font-size: .62em; letter-spacing: .1em; }
+/* 道の帯：高さで縮める（絵は横に長いので、どの幅でも上下は切れず、左右だけが画面の幅で切れる）。目的地はいつも真ん中 */
+.closing-map { height: clamp(120px, 17vw, 176px); margin: var(--space-6) 0 var(--space-2); }
+.closing-map svg { display: block; width: 100%; height: 100%; }
+.closing-streets { fill: none; stroke: var(--white); stroke-opacity: .075; stroke-width: 18; }
+.closing-plan { fill: none; stroke: var(--white); stroke-opacity: .6; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 0 11; }
+/* 歩いた所（実線）。動かないときは全部引かれている */
+.closing-trail { fill: none; stroke: var(--white); stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 2; stroke-dashoffset: 0; }
+.closing-start { fill: var(--green); stroke: var(--white); stroke-width: 3; }
+.closing-goal .o { fill: var(--green); stroke: var(--white); stroke-width: 4; }
+.closing-goal .i { fill: var(--white); }
+.closing-ring { fill: none; stroke: var(--white); stroke-width: 2.5; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.closing-walker { opacity: 0; }
+.closing-walker .h { fill: var(--white); fill-opacity: .2; }
+.closing-walker .d { fill: var(--white); }
 .closing .btn { background: #FFFFFF; color: var(--green-dark); min-height: 56px; padding: 0 var(--space-8); font-size: var(--fs-body); box-shadow: 0 6px 18px rgba(16, 32, 24, .28); }
 .closing .btn:hover { background: var(--paper); color: var(--green-dark); }
 .closing .btn:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; box-shadow: 0 6px 18px rgba(16, 32, 24, .28), 0 0 0 7px var(--focus-halo); }
-.section.closing .cta-note { margin: var(--space-6) auto 0; max-width: 32em; line-height: 1.8; color: var(--on-green-soft); }
-.section.closing .cta-ask { margin: var(--space-3) auto 0; }
-.closing .cta-ask a { color: var(--white); }
-.closing .cta-ask a:focus-visible { outline-color: var(--white); }
+/* 注意書き：2つの文の間で改行し、「キャンセルのご連絡を」と「いただければ全額返金します。」はそれぞれ割らない（狭い画面ではこの2つの間で折り返す） */
+.section.closing .cta-note { margin: var(--space-6) auto 0; max-width: 36em; font-size: var(--fs-note); line-height: 1.8; color: var(--on-green-soft); text-wrap: balance; }
+.closing .nw { display: inline-block; white-space: nowrap; }
+.closing .nw wbr { display: none; }
+/* 白い点が道を歩く（assets/site.js が .closing-map に is-walking・is-arrived・is-fading を付ける）。
+   帯に .play が付く前は、歩いた所の実線を隠しておく（.js-play は site.js が付ける。JS が動かないときは実線が全部見えている） */
+@media (prefers-reduced-motion: no-preference) {
+  .js-play .closing:not(.play) .closing-trail { opacity: 0; }
+  .closing-trail, .closing-walker { transition: opacity .9s ease; }
+  .closing-map.is-walking .closing-walker { opacity: 1; }
+  .closing-map.is-walking.is-fading .closing-walker,
+  .closing-map.is-walking.is-fading .closing-trail { opacity: 0; transition-duration: 1.3s; }
+  .closing-map.is-arrived .closing-ring { animation: closing-ring 2.8s cubic-bezier(.2, .6, .3, 1) both; }
+}
+@keyframes closing-ring { from { opacity: .7; transform: scale(1); } to { opacity: 0; transform: scale(3.4); } }
 
-/* フッター */
+/* フッター（規約のページと 404.html） */
 .site-footer { padding: var(--space-10) 0 120px; font-size: var(--fs-note); color: var(--ink-soft); }
 @media (min-width: 768px) { .site-footer { padding-bottom: var(--space-12); } }
 .site-footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3) var(--space-6); }
@@ -471,6 +501,35 @@ rt { font-family: var(--gothic); font-weight: 400; font-size: max(10px, .6em); l
 .site-footer p { margin: 0; white-space: nowrap; }
 .site-footer li { white-space: nowrap; }
 .site-footer a { color: var(--ink-soft); }
+
+/* index.html のフッター（案E「名前で終わる」）：最後の予約欄の緑の帯に続け、細い線の下に規約とお問い合わせを置き、
+   下の端に「Walk, Talk, Fork.」を幅いっぱいに立たせる。字の下を切るとコンマとピリオドが消えるので、コンマの先まで見せる
+   （Shippori Mincho は行の高さ1だと字の足もとから下に0.065em しか残らず、コンマは0.113em 下がるので、下に0.06em 足す）。
+   スマホの固定ボタンはフッターが見えている間は隠れるので、下の余白は取らない */
+.site-footer.is-band { container-type: inline-size; overflow: clip; padding: 0; background: var(--green); color: var(--on-green-soft); }
+.site-footer.is-band .wrap { position: relative; padding-top: var(--space-5); }
+.site-footer.is-band .wrap::before { content: ""; position: absolute; top: 0; left: var(--space-4); right: var(--space-4); border-top: 1px solid var(--on-green-line); }
+@media (min-width: 640px) { .site-footer.is-band .wrap::before { left: var(--space-8); right: var(--space-8); } }
+.site-footer.is-band a { color: var(--on-green-soft); }
+.site-footer.is-band a:hover { color: var(--white); }
+.site-footer.is-band a:focus-visible { outline-color: var(--white); }
+.footer-mark {
+  display: flex; justify-content: center; margin: var(--space-8) 0 0; padding: 0 1.5vw .06em;
+  font-family: var(--mincho); font-weight: 500; font-size: 11.6vw; line-height: 1; letter-spacing: -.01em; white-space: nowrap;
+  color: var(--wash-1); user-select: none; -webkit-user-select: none;
+}
+@supports (width: 1cqi) { .footer-mark { padding-inline: 1.5cqi; font-size: 12cqi; } }
+.mark-ch { display: inline-block; }
+.mark-sp { display: inline-block; width: .3em; }
+/* マウスを近づけた所の字が起き上がる（assets/site.js が字ごとに --lift を 0〜1 で付ける。マウスのある端末だけ）。
+   帯が画面に入るにつれて名前が下からせり上がる（スクロールに合わせて動くブラウザだけ） */
+@media (prefers-reduced-motion: no-preference) {
+  .mark-ch { transform: translate3d(0, calc(var(--lift, 0) * -.34em), 0); }
+  @supports (animation-timeline: view()) {
+    .footer-mark { animation: mark-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+  }
+}
+@keyframes mark-rise { from { transform: translateY(.42em); } to { transform: none; } }
 
 /* スマホの固定ボタン */
 .sticky-cta {
@@ -766,66 +825,79 @@ details.stations p { margin: var(--space-1) 0 0; }
 
 .promise a.mincho { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
 
-/* 言語化レポートの見本（2回目の見本 s2。紙面は 2026-11-15 読みやすさの見本 r2 の案B「番号と見出しの列」）：
+/* 言語化レポートの見本（2回目の見本 s2。紙面は 2026-11-15 読みやすさの見本 r2 の案B「番号と見出しの列」、並べ方は 2026-11-16 の見本の案B「左に説明、右に紙」）：
    「料金と約束」のすぐ後ろの、淡い緑（--wash-3）の地の帯。
    前後の帯（料金と約束の生成り・よくある質問の濃い生成り）と地の色が違うので、料金の話と見本の話の区切りが分かる。
-   紙の6つの項目に1〜6の番号を付け、右の書き込みにも同じ番号を付けて、どの項目の話かを番号で示す。
-   スマホ：紙を書き込みのところで切り分け、白い紙の部分（.report-part）のあいだに書き込み（.report-note）を挟む。番号と見出しは1行に並べ、中身はその下。
-     同じ紙の中の項目のあいだには細い線（紙の余白の内側だけ）を引く。
-     assets/site.js が .is-folded を付けると「進みたい方向」までを見せ、「続きを読む」でその場に広げる。JS が動かないときは最初から全文。
-   PC（768px以上）：紙を1枚に戻し（白い地は .report-paper が受け持つ）、書き込みを紙の右に、指している項目の見出しと高さをそろえて置く。いつも全文を見せる。
-     書き込みは、指している項目と次の項目の2段分の高さを使う（書き込みが長くても、紙の項目のあいだが広がらない）。項目のあいだに紙の文章の幅いっぱいの細い線。
-   900px以上：項目ごとに紙の中を2列にし、左の列（9文字分）に緑の番号と見出し、右の列に中身を置く（中身の列は1行22〜24文字）。
-     768〜899px で2列にすると中身の列が狭くなりすぎる（768pxで1行13文字ほど）ので、番号と見出しはスマホと同じく1行に並べる
-   --part-top：項目の上の空き（線より上を含む） */
+   紙の右の書き込みは 2026-11-16 になくした。紙はどの幅でも1枚の白い箱（.report-sheet）。
+   PC（900px以上）：見出しの下を2列にし、左の列（15文字分、.report-side）に説明・6つの項目の一覧・架空の断り書き、右の列に紙。
+     左の列は紙を読むあいだヘッダーの下に止まる（画面の高さが720px以上のときだけ。左の列は約600pxの高さがあり、ヘッダーの下80pxから止めると下の端が約680pxに来る。それより低い画面では断り書きが隠れたままになるので止めない）。
+     止めるために、帯から左の列までの箱には overflow: hidden を付けない。
+   900px未満：左の列の箱をなくし（display: contents）、説明 → 項目の一覧 → 紙 → 断り書きの順に縦に並べる。一覧はスマホで2列、640px以上で3列。
+   スマホ（767px以下）：assets/site.js が .is-folded を付けると「進みたい方向」までと5の頭（薄くして切る）を見せ、紙の中の「続きを読む」でその場に広げる。
+     JS が動かないときは最初から全文。.is-folded はどの幅でも付くが、畳む指定は767px以下の画面（@media screen）だけなので、PCと印刷ではいつも全文 */
 .report-band { background: var(--wash-3); }
 .report-band h2 { margin-bottom: var(--space-4); }
-.section .report-lead { max-width: 34em; margin: 0 0 var(--space-10); }
-.report-sheet { --sheet-pad: var(--space-5); --part-top: var(--space-8); position: relative; max-width: 880px; }
-.report-paper { display: none; }
-.report-sheet .report-part { position: relative; margin: 0; padding: var(--part-top) var(--sheet-pad) 0; background: var(--white); }
-.report-sheet .report-head { padding-top: var(--space-8); }
-.report-head-in { padding-bottom: var(--space-4); border-bottom: 1px solid var(--ink); }
-.report-sheet .part-start { border-top-left-radius: var(--radius-sm); border-top-right-radius: var(--radius-sm); }
-.report-sheet .part-end { padding-bottom: var(--space-8); border-bottom-left-radius: var(--radius-sm); border-bottom-right-radius: var(--radius-sm); }
-/* 項目のあいだの線と、黒田からの結びの段の上の線：紙の余白の内側だけに引く（紙を切り分けたときも端まで伸びないように）。
-   書き込みのすぐ後ろで紙が始まるところ（白い紙の頭）には線を引かない */
-.report-sheet section.report-part::before { content: ""; position: absolute; top: var(--space-6); left: var(--sheet-pad); right: var(--sheet-pad); border-top: 1px solid var(--line); }
-.report-sheet section.report-part:not(.part-start) { --part-top: var(--space-12); }
-.report-sheet section.part-start::before { display: none; }
-.report-sheet .doc-note { padding-top: calc(var(--space-8) + var(--space-6)); }
-.report-sheet section.doc-note::before { top: var(--space-8); }
-/* 書き込み：紙の見出しと張り合わないよう一段小さく（見出し16px・本文15px）、本文は薄い墨。紙の横に添えたメモとして読めるように */
-.section .report-note { margin: 0; padding: var(--space-6) var(--space-1) var(--space-3); font-family: var(--mincho); font-weight: 500; font-size: 15px; line-height: 1.85; color: var(--ink-soft); }
-.report-note b { display: flex; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-1); font-weight: 500; font-size: var(--fs-body); line-height: 1.6; color: var(--green-dark); letter-spacing: .06em; }
-.report-note:focus { outline: none; }
-.report-unfold { display: none; margin-top: var(--space-5); text-align: center; }
-@media (max-width: 767px) {
-  .report-sheet.is-folded .report-rest { display: none; }
-  .report-sheet.is-folded .report-unfold { display: block; }
-}
-@media (min-width: 768px) {
-  .report-sheet { --sheet-pad: 0px; --note-top: 34px; display: grid; grid-template-columns: minmax(0, 1fr) 13em; column-gap: var(--space-10); }
-  .report-paper { display: block; grid-column: 1; grid-row: 1 / 9; background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-sheet); }
-  .report-sheet .report-part { grid-column: 1; margin: 0 var(--space-8) 0 var(--space-10); padding: var(--space-8) 0 var(--space-8); background: none; border-radius: 0; }
-  .report-sheet .report-head { padding: var(--space-10) 0 0; }
-  .report-sheet section.report-part::before { top: 0; }
-  .report-sheet section.r2::before { display: none; }
-  .report-sheet section.part-start:not(.r2)::before { display: block; }
-  .report-sheet .doc-note { padding-top: var(--space-8); }
-  .report-sheet .part-last { padding-bottom: var(--space-10); }
-  .section .report-note { grid-column: 2; align-self: start; padding: var(--note-top) 0 0; }
-  .report-sheet .r1 { grid-row: 1; } .report-sheet .r2 { grid-row: 2; } .report-sheet .r3 { grid-row: 3; } .report-sheet .r4 { grid-row: 4; }
-  .report-sheet .r5 { grid-row: 5; } .report-sheet .r6 { grid-row: 6; } .report-sheet .r7 { grid-row: 7; } .report-sheet .r8 { grid-row: 8; }
-  .report-sheet .report-note.r2 { grid-row: 2 / 4; } .report-sheet .report-note.r4 { grid-row: 4 / 6; }
-  .report-sheet .report-note.r6 { grid-row: 6 / 7; } .report-sheet .report-note.r7 { grid-row: 7 / 9; }
+.report-body { display: flex; flex-direction: column; }
+.report-side { display: contents; }
+.section .report-lead { order: 1; max-width: 34em; margin: 0 0 var(--space-6); }
+.report-toc { order: 2; margin-bottom: var(--space-10); }
+.report-main { order: 3; min-width: 0; }
+.section .report-caption { order: 4; margin: var(--space-6) 0 0; font-size: var(--fs-note); color: var(--ink-soft); }
+
+/* 項目の一覧：番号と項目名。押すと紙のその項目へ移る（たたんだ紙の5・6なら、assets/site.js が先に広げる） */
+.section .report-toc p { margin: 0 0 var(--space-2); font-size: var(--fs-note); line-height: 1.75; color: var(--ink-soft); }
+.report-toc ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); grid-auto-flow: column; column-gap: var(--space-4); }
+.report-toc li { border-top: 1px solid var(--line); }
+.report-toc a { display: flex; align-items: baseline; gap: var(--space-2); min-height: 44px; padding: var(--space-2) 0; color: var(--ink); text-decoration: none; font-family: var(--mincho-palt); font-feature-settings: "palt"; font-weight: 500; font-size: var(--fs-body); line-height: 1.6; letter-spacing: .04em; white-space: nowrap; }
+.report-toc a:hover span:last-child { color: var(--green-dark); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
+.report-toc .toc-num { flex: none; min-width: .8em; font-family: var(--mincho); font-size: var(--fs-sub); line-height: 1; color: var(--green); font-variant-numeric: tabular-nums; font-feature-settings: "palt" 0; }
+@media (min-width: 640px) {
+  .report-toc ol { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, auto); grid-auto-flow: row; column-gap: var(--space-6); }
 }
 @media (min-width: 900px) {
-  .report-sheet { --note-top: 33px; }
-  .report-sheet section.report-part { display: grid; grid-template-columns: 9em minmax(0, 1fr); column-gap: var(--space-6); align-content: start; }
-  .report-sheet section.report-part > * { grid-column: 2; }
-  .report-sheet section.report-part > h3 { grid-column: 1; grid-row: 1 / span 4; display: block; margin: 0; padding-top: 3px; font-size: 17px; line-height: 1.6; letter-spacing: .04em; }
-  .report-sheet section.report-part > h3 .doc-num { display: block; margin-bottom: var(--space-2); font-size: 30px; }
+  .report-body { display: grid; grid-template-columns: 15em minmax(0, 1fr); column-gap: var(--space-10); align-items: start; }
+  .report-side { display: block; }
+  .section .report-lead { margin-bottom: var(--space-8); }
+  .report-toc { margin-bottom: 0; }
+  .report-toc ol { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; grid-auto-flow: row; }
+  .report-toc li:last-child { border-bottom: 1px solid var(--line); }
+  .report-toc a { min-height: 0; padding: var(--space-3) 0; }
+  .report-sheet { --head-col: 8em; --head-gap: var(--space-5); }
+}
+@media (min-width: 900px) and (min-height: 720px) {
+  .report-side { position: sticky; top: calc(var(--header-h) + var(--space-6)); }
+}
+
+/* 紙：1枚の白い紙。--sheet-px は紙の左右の余白、--part-gap は項目のあいだの線の上と下の空き。
+   紙の文字の幅が480px以上のときは、項目ごとに紙の中を2列にし、左の列（9文字分。PCの左の列があるときは8文字分）に緑の番号と見出し、右の列に中身を置く。
+   それより狭いとき（画面の幅が552px未満と900〜903px）は、番号と見出しを1行に並べ、中身はその下。552〜899pxと904px以上は2列。紙の幅は入れ物の問い合わせ（container）で見る */
+.report-sheet { --sheet-px: var(--space-5); container: paper / inline-size; position: relative; padding: 0 var(--sheet-px) var(--space-8); background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-sheet); }
+@media (min-width: 640px) { .report-sheet { --sheet-px: var(--space-10); padding-bottom: var(--space-10); } }
+.report-sheet > * { --part-gap: var(--space-6); }
+.report-head { padding-top: var(--space-8); }
+.report-head-in { padding-bottom: var(--space-4); border-bottom: 1px solid var(--ink); }
+.report-part { position: relative; padding-top: calc(var(--part-gap) * 2); scroll-margin-top: var(--space-4); }
+.report-part::before { content: ""; position: absolute; top: var(--part-gap); left: 0; right: 0; border-top: 1px solid var(--line); }
+.report-head + .report-part { padding-top: var(--space-8); }
+.report-head + .report-part::before { display: none; }
+.report-part:focus { outline: none; }
+@container paper (min-width: 480px) {
+  .report-sheet > * { --part-gap: var(--space-8); }
+  .report-head { padding-top: var(--space-10); }
+  .report-part { display: grid; grid-template-columns: var(--head-col, 9em) minmax(0, 1fr); column-gap: var(--head-gap, var(--space-6)); align-content: start; }
+  .report-part > * { grid-column: 2; }
+  .report-sheet .report-part > h3 { grid-column: 1; grid-row: 1 / span 4; display: block; margin: 0; padding-top: 3px; font-size: 17px; line-height: 1.6; letter-spacing: .04em; }
+  .report-sheet .report-part > h3 .doc-num { display: block; margin-bottom: var(--space-2); font-size: 30px; }
+}
+/* 紙より下に見えているもの（「続きを読む」と、900px未満で紙の下に並べた断り書き。断り書きは HTML では紙より前にある）は、
+   画面の位置を保つ目印（スクロールの固定）に使わせない。使うと、広げたときに続きが入ったぶんページが下へ飛ぶ */
+.report-unfold { display: none; padding-top: var(--space-2); text-align: center; overflow-anchor: none; }
+.report-band .report-caption { overflow-anchor: none; }
+@media screen and (max-width: 767px) {
+  .report-sheet.is-folded .report-rest:not(.report-peek) { display: none; }
+  .report-sheet.is-folded .report-peek { max-height: 150px; overflow: hidden; pointer-events: none; user-select: none;
+    -webkit-mask-image: linear-gradient(#000 35%, transparent); mask-image: linear-gradient(#000 35%, transparent); }
+  .report-sheet.is-folded .report-unfold { display: block; }
 }
 .report-more-btn {
   appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
@@ -835,7 +907,6 @@ details.stations p { margin: var(--space-1) 0 0; }
 }
 .report-more-btn:hover { background: var(--wash-1); }
 .report-more-btn svg { flex: none; }
-.section .report-caption { margin: var(--space-6) 0 0; font-size: var(--fs-note); color: var(--ink-soft); }
 
 /* 「続きを読む」で広げるとき（2回目の見本 s1「持ち上がる動きだけ」）：紙がそのまま下へ伸びて、続きが現れる。
    同じページの中の view transition（assets/site.js が紙に名前 report-sheet を付けて広げる）。紙の箱の高さをブラウザが前後の姿のあいだで埋め、
@@ -852,7 +923,7 @@ details.stations p { margin: var(--space-1) 0 0; }
 @keyframes sheet-out { 0%, 32% { opacity: 1; } 55%, 100% { opacity: 0; } }
 @keyframes sheet-in { 0%, 30% { opacity: 0; } 55%, 100% { opacity: 1; } }
 
-/* レポートの紙面（紙の部分の余白と、見出しの下の墨の線・項目のあいだの線は、上の .report-sheet で決める）。
+/* レポートの紙面（紙の余白と、見出しの下の墨の線・項目のあいだの線は、上の .report-sheet・.report-part で決める）。
    見出しは墨の明朝で、緑の番号を添える。引用・進みたい方向・問いの文は17pxの明朝にして見出しと大きさを分ける。
    箇条書きは、項目と項目のあいだを、1つの項目の中の行のあいだの約2倍にする。黒丸と番号は深い緑 */
 .report-doc { font-size: var(--fs-body); line-height: 1.9; }
@@ -865,7 +936,6 @@ details.stations p { margin: var(--space-1) 0 0; }
 /* 番号：見出しの字詰め（palt）は数字には効かせず、幅をそろえる */
 .report-doc .doc-num { flex: none; font-family: var(--mincho); font-weight: 500; line-height: 1; color: var(--green); letter-spacing: 0; font-variant-numeric: tabular-nums; font-feature-settings: "palt" 0; }
 .report-doc h3 .doc-num { font-size: 24px; }
-.report-note .doc-num { font-size: 18px; }
 .report-doc .doc-lead { margin-bottom: var(--space-3); font-size: var(--fs-note); line-height: 1.75; color: var(--ink-soft); }
 .report-doc ul, .report-doc ol { margin: 0; padding-left: 1.25em; }
 .report-doc li { padding: 0; line-height: 1.8; }
@@ -911,45 +981,20 @@ details.stations p { margin: var(--space-1) 0 0; }
 .testimonial blockquote p { margin: 0; font-family: var(--mincho); font-weight: 500; font-size: var(--fs-sub); line-height: 1.85; }
 .testimonial figcaption { margin-top: var(--space-4); font-size: var(--fs-note); line-height: 1.7; color: var(--ink-soft); }
 
-/* 最後の予約欄：緑の帯の地に、地図の等高線のような細い線を薄く敷く（見本 m5）。線は tools/make_contours.py が作る。
-   線は帯の右上と左下に寄せ、中央の文字の後ろではマスクで消す。白い見出しと地の差は、いちばん濃い線の真上でも 4.5:1 以上。
-   帯が画面に入るにつれて外側の線から順に描き、帯が全部見えたときに描き終わって止まる。
-   スクロールに合わせて動く（Chrome 115+、Safari・iOS 26+、Firefox 159+）。ほかのブラウザと動きを減らす設定の人には、最初から線が全部見えている */
-.closing { position: relative; overflow: clip; }
-.closing .wrap { position: relative; }
-.contours {
-  position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none;
-  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 38%, rgba(0, 0, 0, .55) 68%, #000 100%);
-  mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 38%, rgba(0, 0, 0, .55) 68%, #000 100%);
-}
-/* 線の色：生成り（--white）を薄く重ね、地の緑より少し明るい緑に見せる。各山の内から4本目は、地図の計曲線のように少し濃く太くする */
-.contours path { stroke: var(--white); stroke-opacity: .13; stroke-width: 1.3; }
-.contours path.idx { stroke-opacity: .2; stroke-width: 2; }
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .closing { view-timeline: --closing-band block; }
-    .contours path {
-      stroke-dasharray: 1; stroke-dashoffset: 0;
-      animation: contour-draw linear both; animation-timeline: --closing-band;
-      animation-range: entry calc(var(--contour-i) * 6.67%) entry calc(var(--contour-i) * 6.67% + 40%);
-    }
-  }
-}
-@keyframes contour-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 
 /* 印刷：よくある質問の答えまで読める形にする（見本 b4）。閉じている質問は開き（::details-content が使えるブラウザは CSS で、
-   ほかは assets/site.js が印刷の前に開いて後で戻す）、言語化レポートの見本はスマホの幅でも続きまで全部出し、最後の予約欄は緑の地をやめて墨の文字にし、予約ページの URL を添える。
-   固定の予約ボタン・目次・地図・等高線・判子などの飾りは印刷しない。動きは止めて、最後の姿で印刷する */
+   ほかは assets/site.js が印刷の前に開いて後で戻す）、言語化レポートの見本は続きまで全部出し（畳む指定を画面だけにしているので、印刷では何もしなくても全文。紙の中の2列も画面と同じ決まり）、最後の予約欄は緑の地をやめて墨の文字にし、予約ページの URL を添える。
+   固定の予約ボタン・目次・地図・最後の予約欄の道・フッターの名前・判子などの飾りは印刷しない。動きは止めて、最後の姿で印刷する */
 @media print {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .sticky-cta, .header-nav, .header-cta, .bgmap, .map-credit, .contours, .seal, .report-unfold { display: none !important; }
+  .sticky-cta, .header-nav, .header-cta, .bgmap, .map-credit, .closing-map, .footer-mark, .seal, .report-unfold { display: none !important; }
   body { background: none; }
-  .site-header { position: static; }
+  .site-header, .report-side { position: static; }
   .closing, .closing h2 { background: none; color: var(--ink); }
   .closing .btn { background: none; box-shadow: none; color: var(--green-dark); white-space: normal; }
   .closing .btn::after { content: "（" attr(href) "）"; }
-  .section.closing .cta-note, .closing .cta-ask a { color: var(--ink); }
-  /* 畳むのはスマホの幅だけなので、広げるのもその幅だけ（900px以上で印刷するとき、紙の項目の2列を崩さないように） */
-  @media (max-width: 767px) { .report-sheet.is-folded .report-rest { display: block !important; } }
+  .section.closing .cta-note { color: var(--ink); }
+  .site-footer.is-band { background: none; color: var(--ink-soft); padding-top: var(--space-6); }
+  .site-footer.is-band a { color: var(--ink-soft); }
   .faq details::details-content { content-visibility: visible; block-size: auto; opacity: 1; }
 }

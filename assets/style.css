@@ -157,9 +157,10 @@ a:hover { color: var(--green-dark); }
   margin: 0; font-family: var(--mincho); font-weight: 500;
   font-size: clamp(44px, 11vw, 88px); line-height: 1.1; letter-spacing: 0.01em;
 }
-/* 名前の3語は1つずつ動かせるよう inline-block にしておく（止まっているときの見た目は同じ。見本 m3） */
-.hero h1 span { display: inline-block; }
-.hero-sub { margin: var(--space-4) 0 0; font-family: var(--mincho); font-size: clamp(20px, 4.8vw, var(--fs-large)); line-height: 1.6; font-weight: 500; }
+/* 名前の3語は1つずつ動かせるよう inline-block にしておく（止まっているときの見た目は同じ。見本 m3）。
+   h1 にはサブタイトル（.hero-sub）も入っているので、名前の動きと形は .hero-name の中の3語だけにかける（2026-11-15 散歩対話の見本 k14） */
+.hero-name > span { display: inline-block; }
+.hero-sub { display: block; margin: var(--space-4) 0 0; font-family: var(--mincho); font-size: clamp(20px, 4.8vw, var(--fs-large)); line-height: 1.6; font-weight: 500; text-wrap: pretty; }
 .hero-lead { margin: 0; max-width: 30em; font-size: var(--fs-body); }
 .hero-facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; align-self: center; }
 .hero-facts > div { padding: 0 var(--space-6); border-left: 1px solid var(--line); white-space: nowrap; }
@@ -573,7 +574,7 @@ details.stations p { margin: var(--space-1) 0 0; }
 
 /* スマホでは、写真の上の名前を Walk, / Talk, / Fork. の3行に分けて大きく置く */
 @media (max-width: 639px) {
-  .hero h1 span { display: block; width: fit-content; }
+  .hero-name > span { display: block; width: fit-content; }
   .hero h1 { font-size: clamp(64px, 21vw, 96px); line-height: 1.02; }
   .hero-photo { min-height: 82vh; }
   /* この幅では index.html の <picture> が縦長に切り出した写真（assets/walk-portrait.jpg）を出すので、真ん中を基準に敷く（2回目の見本 t3 の案1） */
@@ -629,10 +630,10 @@ details.stations p { margin: var(--space-1) 0 0; }
    動きを減らす設定の人と、アニメーションに対応しないブラウザでは、最初からすべて見えている */
 @media (prefers-reduced-motion: no-preference) {
   .hero-photo img { animation: hero-settle 2.4s cubic-bezier(.22, .61, .36, 1) both; }
-  .hero h1 span, .hero-sub, .hero-over .btn { animation: hero-rise .5s cubic-bezier(.2, .7, .2, 1) both; }
-  .hero h1 span:nth-child(1) { animation-delay: .25s; }
-  .hero h1 span:nth-child(2) { animation-delay: .55s; }
-  .hero h1 span:nth-child(3) { animation-delay: .85s; }
+  .hero-name > span, .hero-sub, .hero-over .btn { animation: hero-rise .5s cubic-bezier(.2, .7, .2, 1) both; }
+  .hero-name > span:nth-child(1) { animation-delay: .25s; }
+  .hero-name > span:nth-child(2) { animation-delay: .55s; }
+  .hero-name > span:nth-child(3) { animation-delay: .85s; }
   .hero-sub { animation-delay: 1.2s; }
   .hero-over .btn { animation-delay: 1.5s; }
 }

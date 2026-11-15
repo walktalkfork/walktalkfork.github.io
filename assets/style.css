@@ -765,26 +765,38 @@ details.stations p { margin: var(--space-1) 0 0; }
 
 .promise a.mincho { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
 
-/* 言語化レポートの見本（2回目の見本 s2）：「料金と約束」のすぐ後ろの、淡い緑（--wash-3）の地の帯。
+/* 言語化レポートの見本（2回目の見本 s2。紙面は 2026-11-15 読みやすさの見本 r2 の案B「番号と見出しの列」）：
+   「料金と約束」のすぐ後ろの、淡い緑（--wash-3）の地の帯。
    前後の帯（料金と約束の生成り・よくある質問の濃い生成り）と地の色が違うので、料金の話と見本の話の区切りが分かる。
-   スマホ：紙を書き込みのところで切り分け、白い紙の部分（.report-part）のあいだに書き込み（.report-note）を挟む。
+   紙の6つの項目に1〜6の番号を付け、右の書き込みにも同じ番号を付けて、どの項目の話かを番号で示す。
+   スマホ：紙を書き込みのところで切り分け、白い紙の部分（.report-part）のあいだに書き込み（.report-note）を挟む。番号と見出しは1行に並べ、中身はその下。
+     同じ紙の中の項目のあいだには細い線（紙の余白の内側だけ）を引く。
      assets/site.js が .is-folded を付けると「進みたい方向」までを見せ、「続きを読む」でその場に広げる。JS が動かないときは最初から全文。
-   PC（768px以上）：紙を1枚に戻し（白い地は .report-paper が受け持つ）、書き込みを紙の右に、指している部分の見出しと高さをそろえて置く。いつも全文を見せる */
+   PC（768px以上）：紙を1枚に戻し（白い地は .report-paper が受け持つ）、書き込みを紙の右に、指している項目の見出しと高さをそろえて置く。いつも全文を見せる。
+     書き込みは、指している項目と次の項目の2段分の高さを使う（書き込みが長くても、紙の項目のあいだが広がらない）。項目のあいだに紙の文章の幅いっぱいの細い線。
+   900px以上：項目ごとに紙の中を2列にし、左の列（9文字分）に緑の番号と見出し、右の列に中身を置く（中身の列は1行22〜24文字）。
+     768〜899px で2列にすると中身の列が狭くなりすぎる（768pxで1行13文字ほど）ので、番号と見出しはスマホと同じく1行に並べる
+   --part-top：項目の上の空き（線より上を含む） */
 .report-band { background: var(--wash-3); }
 .report-band h2 { margin-bottom: var(--space-4); }
 .section .report-lead { max-width: 34em; margin: 0 0 var(--space-10); }
-.report-sheet { --sheet-pad: var(--space-5); position: relative; max-width: 880px; }
+.report-sheet { --sheet-pad: var(--space-5); --part-top: var(--space-8); position: relative; max-width: 880px; }
 .report-paper { display: none; }
-.report-sheet .report-part { margin: 0; padding: var(--space-6) var(--sheet-pad) 0; background: var(--white); }
+.report-sheet .report-part { position: relative; margin: 0; padding: var(--part-top) var(--sheet-pad) 0; background: var(--white); }
 .report-sheet .report-head { padding-top: var(--space-8); }
 .report-head-in { padding-bottom: var(--space-4); border-bottom: 1px solid var(--ink); }
 .report-sheet .part-start { border-top-left-radius: var(--radius-sm); border-top-right-radius: var(--radius-sm); }
-.report-sheet .part-end { padding-bottom: var(--space-6); border-bottom-left-radius: var(--radius-sm); border-bottom-right-radius: var(--radius-sm); }
-/* 黒田からの結びの段：上の線を、紙の余白の内側だけに引く（紙を切り分けたときも端まで伸びないように） */
-.report-sheet .doc-note { position: relative; padding-top: calc(var(--space-6) + var(--space-5)); }
-.report-sheet .doc-note::before { content: ""; position: absolute; top: var(--space-6); left: var(--sheet-pad); right: var(--sheet-pad); border-top: 1px solid var(--line); }
-.section .report-note { margin: 0; padding: var(--space-6) var(--space-1) var(--space-3); font-family: var(--mincho); font-weight: 500; font-size: var(--fs-body); line-height: 1.8; color: var(--ink); }
-.report-note b { display: block; font-weight: 500; font-size: var(--fs-sub); color: var(--green-dark); letter-spacing: .04em; }
+.report-sheet .part-end { padding-bottom: var(--space-8); border-bottom-left-radius: var(--radius-sm); border-bottom-right-radius: var(--radius-sm); }
+/* 項目のあいだの線と、黒田からの結びの段の上の線：紙の余白の内側だけに引く（紙を切り分けたときも端まで伸びないように）。
+   書き込みのすぐ後ろで紙が始まるところ（白い紙の頭）には線を引かない */
+.report-sheet section.report-part::before { content: ""; position: absolute; top: var(--space-6); left: var(--sheet-pad); right: var(--sheet-pad); border-top: 1px solid var(--line); }
+.report-sheet section.report-part:not(.part-start) { --part-top: var(--space-12); }
+.report-sheet section.part-start::before { display: none; }
+.report-sheet .doc-note { padding-top: calc(var(--space-8) + var(--space-6)); }
+.report-sheet section.doc-note::before { top: var(--space-8); }
+/* 書き込み：紙の見出しと張り合わないよう一段小さく（見出し16px・本文15px）、本文は薄い墨。紙の横に添えたメモとして読めるように */
+.section .report-note { margin: 0; padding: var(--space-6) var(--space-1) var(--space-3); font-family: var(--mincho); font-weight: 500; font-size: 15px; line-height: 1.85; color: var(--ink-soft); }
+.report-note b { display: flex; align-items: baseline; gap: var(--space-2); margin-bottom: var(--space-1); font-weight: 500; font-size: var(--fs-body); line-height: 1.6; color: var(--green-dark); letter-spacing: .06em; }
 .report-note:focus { outline: none; }
 .report-unfold { display: none; margin-top: var(--space-5); text-align: center; }
 @media (max-width: 767px) {
@@ -792,15 +804,27 @@ details.stations p { margin: var(--space-1) 0 0; }
   .report-sheet.is-folded .report-unfold { display: block; }
 }
 @media (min-width: 768px) {
-  .report-sheet { --sheet-pad: 0px; display: grid; grid-template-columns: minmax(0, 1fr) 13em; column-gap: var(--space-10); }
+  .report-sheet { --sheet-pad: 0px; --note-top: 34px; display: grid; grid-template-columns: minmax(0, 1fr) 13em; column-gap: var(--space-10); }
   .report-paper { display: block; grid-column: 1; grid-row: 1 / 9; background: var(--white); border-radius: var(--radius-sm); box-shadow: var(--shadow-sheet); }
-  .report-sheet .report-part { grid-column: 1; margin: 0 var(--space-8) 0 var(--space-10); padding: var(--space-6) 0 0; background: none; border-radius: 0; }
-  .report-sheet .report-head { padding-top: var(--space-10); }
-  .report-sheet .part-end { padding-bottom: 0; }
-  .report-sheet .part-last { padding-bottom: var(--space-8); }
-  .section .report-note { grid-column: 2; align-self: start; padding: calc(var(--space-6) + 1px) 0 0; }
+  .report-sheet .report-part { grid-column: 1; margin: 0 var(--space-8) 0 var(--space-10); padding: var(--space-8) 0 var(--space-8); background: none; border-radius: 0; }
+  .report-sheet .report-head { padding: var(--space-10) 0 0; }
+  .report-sheet section.report-part::before { top: 0; }
+  .report-sheet section.r2::before { display: none; }
+  .report-sheet section.part-start:not(.r2)::before { display: block; }
+  .report-sheet .doc-note { padding-top: var(--space-8); }
+  .report-sheet .part-last { padding-bottom: var(--space-10); }
+  .section .report-note { grid-column: 2; align-self: start; padding: var(--note-top) 0 0; }
   .report-sheet .r1 { grid-row: 1; } .report-sheet .r2 { grid-row: 2; } .report-sheet .r3 { grid-row: 3; } .report-sheet .r4 { grid-row: 4; }
   .report-sheet .r5 { grid-row: 5; } .report-sheet .r6 { grid-row: 6; } .report-sheet .r7 { grid-row: 7; } .report-sheet .r8 { grid-row: 8; }
+  .report-sheet .report-note.r2 { grid-row: 2 / 4; } .report-sheet .report-note.r4 { grid-row: 4 / 6; }
+  .report-sheet .report-note.r6 { grid-row: 6 / 7; } .report-sheet .report-note.r7 { grid-row: 7 / 9; }
+}
+@media (min-width: 900px) {
+  .report-sheet { --note-top: 33px; }
+  .report-sheet section.report-part { display: grid; grid-template-columns: 9em minmax(0, 1fr); column-gap: var(--space-6); align-content: start; }
+  .report-sheet section.report-part > * { grid-column: 2; }
+  .report-sheet section.report-part > h3 { grid-column: 1; grid-row: 1 / span 4; display: block; margin: 0; padding-top: 3px; font-size: 17px; line-height: 1.6; letter-spacing: .04em; }
+  .report-sheet section.report-part > h3 .doc-num { display: block; margin-bottom: var(--space-2); font-size: 30px; }
 }
 .report-more-btn {
   appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
@@ -827,24 +851,41 @@ details.stations p { margin: var(--space-1) 0 0; }
 @keyframes sheet-out { 0%, 32% { opacity: 1; } 55%, 100% { opacity: 0; } }
 @keyframes sheet-in { 0%, 30% { opacity: 0; } 55%, 100% { opacity: 1; } }
 
-/* レポートの紙面（紙の部分の余白と、見出しの下の墨の線・結びの段の上の線は、上の .report-sheet で決める） */
+/* レポートの紙面（紙の部分の余白と、見出しの下の墨の線・項目のあいだの線は、上の .report-sheet で決める）。
+   見出しは墨の明朝で、緑の番号を添える。引用・進みたい方向・問いの文は17pxの明朝にして見出しと大きさを分ける。
+   箇条書きは、項目と項目のあいだを、1つの項目の中の行のあいだの約2倍にする。黒丸と番号は深い緑 */
 .report-doc { font-size: var(--fs-body); line-height: 1.9; }
 .report-doc p { margin: 0; }
 .report-doc .doc-title { font-family: var(--mincho); font-weight: 500; font-size: var(--fs-large); line-height: 1.4; letter-spacing: .08em; }
 .report-doc .doc-meta { display: flex; flex-wrap: wrap; gap: 0 var(--space-4); margin: var(--space-2) 0 0; font-size: var(--fs-note); color: var(--ink-soft); letter-spacing: .04em; }
 .report-doc .doc-meta span { white-space: nowrap; }
 .report-doc .doc-to { margin: var(--space-3) 0 0; font-family: var(--mincho); font-weight: 500; font-size: var(--fs-body); }
-.report-doc h3 { margin: 0 0 var(--space-2); font-family: var(--mincho); font-weight: 500; font-size: var(--fs-sub); line-height: 1.6; color: var(--green-dark); }
-.report-doc .doc-lead { color: var(--ink-soft); font-size: var(--fs-note); margin-bottom: var(--space-2); }
-.report-doc ul, .report-doc ol { margin: 0; padding-left: 1.2em; }
-.report-doc li { padding: 2px 0; }
+.report-doc h3 { display: flex; align-items: baseline; gap: var(--space-3); margin: 0 0 var(--space-3); font-family: var(--mincho-palt); font-feature-settings: "palt"; font-weight: 500; font-size: var(--fs-sub); line-height: 1.55; letter-spacing: .05em; color: var(--ink); text-wrap: balance; }
+/* 番号：見出しの字詰め（palt）は数字には効かせず、幅をそろえる */
+.report-doc .doc-num { flex: none; font-family: var(--mincho); font-weight: 500; line-height: 1; color: var(--green); letter-spacing: 0; font-variant-numeric: tabular-nums; font-feature-settings: "palt" 0; }
+.report-doc h3 .doc-num { font-size: 24px; }
+.report-note .doc-num { font-size: 18px; }
+.report-doc .doc-lead { margin-bottom: var(--space-3); font-size: var(--fs-note); line-height: 1.75; color: var(--ink-soft); }
+.report-doc ul, .report-doc ol { margin: 0; padding-left: 1.25em; }
+.report-doc li { padding: 0; line-height: 1.8; }
+.report-doc li + li { margin-top: var(--space-3); }
+.report-doc li::marker { color: var(--green); }
 .report-doc .doc-quotes { list-style: none; padding: 0; }
-.report-doc .doc-quotes li { padding: var(--space-1) 0 var(--space-1) 1em; text-indent: -.6em; font-family: var(--mincho); font-weight: 500; font-size: var(--fs-sub); line-height: 1.8; }
-.report-doc .doc-dir { font-family: var(--mincho); font-weight: 500; font-size: var(--fs-sub); line-height: 1.8; }
-.report-doc .doc-exp { padding-left: 1.4em; }
-.report-doc .doc-exp li { padding: var(--space-2) 0; }
-.report-doc .doc-due { display: block; font-size: var(--fs-note); color: var(--green-dark); font-weight: 500; letter-spacing: .04em; }
-.report-doc .doc-q { font-family: var(--mincho); font-weight: 500; font-size: var(--fs-sub); line-height: 1.7; }
+.report-doc .doc-quotes li { padding-left: 1em; text-indent: -1em; font-family: var(--mincho); font-weight: 500; font-size: 17px; line-height: 1.8; }
+.report-doc .doc-quotes li + li { margin-top: var(--space-4); }
+.report-doc .doc-dir, .report-doc .doc-q { font-family: var(--mincho); font-weight: 500; font-size: 17px; line-height: 1.85; }
+.report-doc .doc-exp { padding-left: 1.5em; }
+.report-doc .doc-exp li + li { margin-top: var(--space-4); }
+.report-doc .doc-exp li::marker { font-variant-numeric: tabular-nums; }
+.report-doc .doc-due { display: block; margin-bottom: 2px; font-size: var(--fs-note); line-height: 1.6; color: var(--green-dark); font-weight: 500; letter-spacing: .04em; }
+/* ルビ：読みを字の真上に詰めて置き（字の幅いっぱいに散らさない）、行の間を広げない。読みは上の行とのあいだの空きに収める。
+   ruby を inline-block にして rt を外に出すやり方は、ルビを CSS の display: ruby で組むブラウザ（Chrome 121+・Firefox・Safari 18.2+）でだけ使う。
+   それより古いブラウザでは、ふつうのルビ（上の ruby・rt の指定）のまま、読みを真ん中に寄せるだけにする */
+.report-doc ruby { ruby-align: center; }
+@supports (display: ruby) {
+  .report-doc ruby { display: inline-block; position: relative; text-indent: 0; }
+  .report-doc rt { display: block; position: absolute; left: -1em; right: -1em; bottom: calc(100% - .42em); text-align: center; white-space: nowrap; font-size: 10px; }
+}
 .report-doc .doc-sign { margin-top: var(--space-3); text-align: right; font-family: var(--mincho); font-weight: 500; }
 
 /* 歩いた人の声（見本 c2）：受けた人の短い言葉を、紙のメモのように少しずらして並べる。
@@ -907,6 +948,7 @@ details.stations p { margin: var(--space-1) 0 0; }
   .closing .btn { background: none; box-shadow: none; color: var(--green-dark); white-space: normal; }
   .closing .btn::after { content: "（" attr(href) "）"; }
   .section.closing .cta-note, .closing .cta-ask a { color: var(--ink); }
-  .report-sheet.is-folded .report-rest { display: block !important; }
+  /* 畳むのはスマホの幅だけなので、広げるのもその幅だけ（900px以上で印刷するとき、紙の項目の2列を崩さないように） */
+  @media (max-width: 767px) { .report-sheet.is-folded .report-rest { display: block !important; } }
   .faq details::details-content { content-visibility: visible; block-size: auto; opacity: 1; }
 }
